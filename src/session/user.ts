@@ -11,3 +11,7 @@ export async function getUser() {
 
   return user;
 }
+
+export function getSessionId() {
+  return cookies().get('session')?.value ?? null;
+}

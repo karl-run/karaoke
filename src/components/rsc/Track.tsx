@@ -5,10 +5,11 @@ import { TrackResult } from '@/spotify/types';
 import AddTrack from '@/components/AddTrack';
 import RemoveTrack from '@/components/RemoveTrack';
 import { Skeleton } from '@/components/ui/skeleton';
+import { cn } from '@/lib/utils';
 
 type Props = {
   track: TrackResult;
-  action: 'addable' | 'removable';
+  action: 'addable' | 'removable' | 'already-added';
 };
 
 function Track({ track, action }: Props): ReactElement {
@@ -17,7 +18,9 @@ function Track({ track, action }: Props): ReactElement {
       {action === 'addable' && <AddTrack id={track.id} shortname={`${track.name} - ${track.artist}`} />}
       {action === 'removable' && <RemoveTrack id={track.id} shortname={`${track.name} - ${track.artist}`} />}
       <Image
-        className="h-12 w-12 xs:w-full xs:h-auto aspect-square rounded-xl"
+        className={cn('h-12 w-12 xs:w-full xs:h-auto aspect-square rounded-xl', {
+          'opacity-30': action === 'already-added',
+        })}
         src={track.image.url}
         alt={track.name}
         width={200}

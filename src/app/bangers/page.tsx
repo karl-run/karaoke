@@ -2,7 +2,7 @@ import React, { ReactElement, Suspense } from 'react';
 import UserBar from '@/components/rsc/UserBar';
 import { getActiveSession } from '@/db/sessions';
 import { cookies } from 'next/headers';
-import { getCache } from '@/db/song-cache';
+import { getUserSongs } from '@/db/song-cache';
 import { TrackResult } from '@/spotify/types';
 import { TrackGrid } from '@/components/track/TrackGrid';
 import Track, { TrackSkeleton } from '@/components/rsc/Track';
@@ -41,7 +41,7 @@ async function BangersList(): Promise<ReactElement> {
     );
   }
 
-  const bangs = await getCache(session.user_id);
+  const bangs = await getUserSongs(session.user_id);
 
   if (bangs.length === 0) {
     return (

@@ -13,6 +13,8 @@ export async function addBangerAction(trackId: string) {
   }
 
   await addBanger(user.userId, trackId);
+
+  revalidatePath('/');
 }
 
 export async function removeBangerAction(trackId: string) {

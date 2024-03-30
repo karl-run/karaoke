@@ -1,6 +1,6 @@
 import { spotifyFetch } from '@/spotify/auth';
 import { SpotifyTrack, SpotifyTracksResponse, TrackResult } from '@/spotify/types';
-import { addToCache, getCache } from '@/db/song-cache';
+import { addToCache, getUserSongs } from '@/db/song-cache';
 
 export async function getTrack(trackId: string, alsoCache: true): Promise<TrackResult> {
   const track = await spotifyFetch<SpotifyTrack>(`/v1/tracks/${trackId}`);

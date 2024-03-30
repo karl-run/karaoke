@@ -4,6 +4,10 @@ import Landing from '@/components/Landing';
 import Track, { TrackSkeleton } from '@/components/rsc/Track';
 import { searchTracks } from '@/spotify/track';
 import { TrackGrid } from '@/components/track/TrackGrid';
+import { getUserSongMap, getUserSongs } from '@/db/song-cache';
+import { getActiveSession } from '@/db/sessions';
+import { getSessionId } from '@/session/user';
+import { TrackResult } from '@/spotify/types';
 
 interface Props {
   searchParams: {
@@ -34,7 +38,12 @@ async function TrackSearch({ query }: { query: string }) {
       </div>
     );
 
-  const result = await searchTracks(query);
+  const session = await getActiveSession(getSessionId());
+  const cachePromise: Promise<Record<string, TrackResult | null>> = session
+    ? getUserSongMap(session.user_id)
+    : Promise.resolve({});
+  const searchPromise = searchTracks(query);
+  const [result, cache] = await Promise.all([searchPromise, cachePromise]);
 
   if (result.length === 0) {
     return (
@@ -47,7 +56,7 @@ async function TrackSearch({ query }: { query: string }) {
   return (
     <TrackGrid>
       {result.map((track) => (
-        <Track key={track.id} track={track} action="addable" />
+        <Track key={track.id} track={track} action={cache[track.id] != null ? 'already-added' : 'addable'} />
       ))}
     </TrackGrid>
   );
