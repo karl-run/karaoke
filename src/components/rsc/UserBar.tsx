@@ -9,6 +9,7 @@ import styles from "./UserBar.module.css";
 import Link from "next/link";
 import { getUserDetails } from "@/db/users";
 import { cookies } from "next/headers";
+import { Skeleton } from "@/components/ui/skeleton";
 
 function UserBar(): ReactElement {
   return (
@@ -21,6 +22,7 @@ function UserBar(): ReactElement {
             alt=""
             height="48"
             width="48"
+            priority
           />
         </Link>
       </div>
@@ -64,9 +66,9 @@ async function UserDetails() {
 
 function UserDetailsSkeleton() {
   return (
-    <div className="flex gap-3">
-      <div className="bg-gray-200 w-20 h-4"></div>
-      <div className="bg-gray-200 w-20 h-4"></div>
+    <div className="flex gap-6 items-center justify-between sm:justify-end h-full p-3">
+      <Skeleton className="h-4 w-10" />
+      <Skeleton className="h-4 w-16" />
     </div>
   );
 }

@@ -3,10 +3,12 @@
 import { useRef, ReactElement, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { useQueryState } from "nuqs";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 function SearchBar(): React.ReactElement | null {
   const path = usePathname();
+  const router = useRouter();
+  const query = useSearchParams();
   const searchRef = useRef<HTMLInputElement>(null);
   const [search, setSearch] = useQueryState("q", {
     shallow: false,
@@ -28,13 +30,15 @@ function SearchBar(): React.ReactElement | null {
     };
   }, []);
 
-  if (path !== "/") {
-    return null;
-  }
-
   return (
     <div className="p-3">
       <Input
+        onFocus={() => {
+          if (path !== "/") {
+            router.push("/?focus=true&q=");
+          }
+        }}
+        autoFocus={path === "/" && query.has("focus")}
         ref={searchRef}
         placeholder="Search for a song"
         onChange={(e) => setSearch(e.target.value)}

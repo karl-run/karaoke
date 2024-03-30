@@ -1,10 +1,9 @@
-import Image from "next/image";
 import { search } from "@/spotify/search";
-import PlaySong from "@/components/PlaySong";
 import React, { PropsWithChildren, Suspense } from "react";
 import UserBar from "@/components/rsc/UserBar";
 import { Skeleton } from "@/components/ui/skeleton";
 import Landing from "@/components/Landing";
+import Track from "@/components/rsc/Track";
 
 interface Props {
   searchParams: {
@@ -50,30 +49,7 @@ async function TrackSearch({ query }: { query: string }) {
   return (
     <TrackSearchGrid>
       {result.map((track) => (
-        <div key={track.id} className="flex flex-row xs:flex-col relative">
-          <Image
-            className="h-12 w-12 xs:w-full xs:h-auto aspect-square rounded-xl"
-            src={track.image.url}
-            alt={track.name}
-            width={200}
-            height={200}
-          />
-          <div className="flex items-center p-1 grow">
-            <div className="grow text-sm">
-              <div className="max-w-[200px] truncate" title={track.name}>
-                {track.name}
-              </div>
-              <div className="max-w-[200px] truncate" title={track.artist}>
-                {track.artist}
-              </div>
-            </div>
-            {track.preview_url && (
-              <div className="h-10 w-10 absolute left-1 top-1 xs:relative xs:left-0 xs:top-0">
-                <PlaySong songId={track.id} previewUrl={track.preview_url} />
-              </div>
-            )}
-          </div>
-        </div>
+        <Track key={track.id} track={track} />
       ))}
     </TrackSearchGrid>
   );

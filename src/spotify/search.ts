@@ -1,7 +1,7 @@
 import { getSpotifyToken } from "@/spotify/auth";
 import { Image, SpotifyTracksResponse } from "@/spotify/types";
 
-type TrackResult = {
+export type TrackResult = {
   id: string;
   name: string;
   artist: string;

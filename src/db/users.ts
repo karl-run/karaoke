@@ -90,6 +90,7 @@ export async function getUserDetails(sessionId: string) {
 
   return {
     name: user.name,
+    userId: user.email,
     groups: [],
   };
 }

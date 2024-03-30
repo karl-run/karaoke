@@ -48,8 +48,9 @@ await client.execute(`
 await client.execute(`
     CREATE TABLE IF NOT EXISTS bangers
     (
-        song_id TEXT PRIMARY KEY,
-        user_id UUID,
+        song_id TEXT,
+        user_id TEXT,
+        PRIMARY KEY (song_id, user_id),
         FOREIGN KEY (user_id) REFERENCES users (email)
     );
 `);

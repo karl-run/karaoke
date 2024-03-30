@@ -20,8 +20,10 @@ export function createUserSession(id: string, email: string, ua: string) {
 }
 
 export async function getActiveSession(
-  sessionId: string,
+  sessionId: string | null,
 ): Promise<UserSession | null> {
+  if (sessionId == null) return null;
+
   const result = await client.execute({
     sql: `
       SELECT *

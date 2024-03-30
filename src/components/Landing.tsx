@@ -2,7 +2,6 @@ import React, { ReactElement } from "react";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
