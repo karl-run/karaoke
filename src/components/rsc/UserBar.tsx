@@ -1,15 +1,15 @@
 import { ReactElement, Suspense } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 import logo from "@/images/logo.png";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import SearchBar from "@/components/SearchBar";
-
-import styles from "./UserBar.module.css";
-import Link from "next/link";
 import { getUserDetails } from "@/db/users";
 import { cookies } from "next/headers";
 import { Skeleton } from "@/components/ui/skeleton";
+
+import styles from "./UserBar.module.css";
+import UserDropdownAvatar from "@/components/UserDropdownAvatar";
 
 function UserBar(): ReactElement {
   return (
@@ -55,11 +55,7 @@ async function UserDetails() {
         <div className="text-xs">Logged in</div>
         <div className="truncate">{user.name}</div>
       </div>
-      <Avatar>
-        <AvatarFallback>
-          {user.name.slice(0, 2).toLocaleUpperCase()}
-        </AvatarFallback>
-      </Avatar>
+      <UserDropdownAvatar name={user.name} />
     </div>
   );
 }
@@ -77,7 +73,7 @@ function NotLoggedIn() {
   return (
     <div className="flex gap-6 items-center justify-between sm:justify-end h-full p-3">
       <Link className="underline" href="/login">
-        Login
+        Log in
       </Link>
       <Link className="underline" href="/register">
         Register

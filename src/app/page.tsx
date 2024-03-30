@@ -1,9 +1,9 @@
-import { search } from "@/spotify/search";
-import React, { PropsWithChildren, Suspense } from "react";
+import React, { Suspense } from "react";
 import UserBar from "@/components/rsc/UserBar";
-import { Skeleton } from "@/components/ui/skeleton";
 import Landing from "@/components/Landing";
-import Track from "@/components/rsc/Track";
+import Track, { TrackSkeleton } from "@/components/rsc/Track";
+import { searchTracks } from "@/spotify/track";
+import { TrackGrid } from "@/components/track/TrackGrid";
 
 interface Props {
   searchParams: {
@@ -34,7 +34,7 @@ async function TrackSearch({ query }: { query: string }) {
       </div>
     );
 
-  const result = await search(query, "track");
+  const result = await searchTracks(query);
 
   if (result.length === 0) {
     return (
@@ -47,37 +47,20 @@ async function TrackSearch({ query }: { query: string }) {
   }
 
   return (
-    <TrackSearchGrid>
+    <TrackGrid>
       {result.map((track) => (
-        <Track key={track.id} track={track} />
+        <Track key={track.id} track={track} action="addable" />
       ))}
-    </TrackSearchGrid>
+    </TrackGrid>
   );
 }
 
 function TrackSearchSkeleton() {
   return (
-    <TrackSearchGrid>
+    <TrackGrid>
       {[...Array(20)].map((_, index) => (
-        <div key={index} className="flex flex-col">
-          <Skeleton className="aspect-square max-w-full" />
-          <div className="flex items-center p-1 gap-1">
-            <div className="grow flex flex-col gap-1">
-              <Skeleton className="h-4" />
-              <Skeleton className="h-4" />
-            </div>
-            <Skeleton className="h-10 w-10" />
-          </div>
-        </div>
+        <TrackSkeleton key={index} />
       ))}
-    </TrackSearchGrid>
-  );
-}
-
-function TrackSearchGrid({ children }: PropsWithChildren) {
-  return (
-    <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 gap-2 p-2">
-      {children}
-    </div>
+    </TrackGrid>
   );
 }

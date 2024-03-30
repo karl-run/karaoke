@@ -54,3 +54,11 @@ await client.execute(`
         FOREIGN KEY (user_id) REFERENCES users (email)
     );
 `);
+
+await client.execute(`
+    CREATE TABLE IF NOT EXISTS song_cache
+    (
+        song_id TEXT PRIMARY KEY,
+        data    JSONB
+    );
+`);

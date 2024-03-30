@@ -1,0 +1,38 @@
+import { TrackResult } from "@/spotify/types";
+import { client } from "@/db/client";
+
+export function addToCache(song: TrackResult) {
+  client.execute({
+    sql: `
+        INSERT INTO song_cache (song_id, data)
+        VALUES (?, ?)
+    `,
+    args: [song.id, JSON.stringify(song)],
+  });
+}
+
+export async function getCache(
+  user_id: string,
+): Promise<[string, TrackResult | null][]> {
+  const result = await client.execute({
+    sql: `
+        SELECT *
+        FROM bangers
+            LEFT JOIN song_cache ON bangers.song_id = song_cache.song_id
+        WHERE bangers.user_id = ?
+    `,
+    args: [user_id],
+  });
+
+  if (result.rows == null) {
+    return [];
+  }
+
+  return result.rows.map(
+    (row) =>
+      [
+        row.song_id as string,
+        row.data ? JSON.parse(row.data as string) : null,
+      ] satisfies [string, TrackResult | null],
+  );
+}

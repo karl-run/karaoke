@@ -46,6 +46,16 @@ export async function getActiveSession(
   };
 }
 
+export function clearUserSession(sessionId: string) {
+  return client.execute({
+    sql: `
+      DELETE FROM sessions
+      WHERE id = ?
+    `,
+    args: [sessionId],
+  });
+}
+
 export function setUserVerified(email: string) {
   return client.execute({
     sql: `

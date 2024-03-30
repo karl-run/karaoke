@@ -2,14 +2,24 @@ import React, { ReactElement, Suspense } from "react";
 import UserBar from "@/components/rsc/UserBar";
 import { getActiveSession } from "@/db/sessions";
 import { cookies } from "next/headers";
-import { getUserBangers } from "@/db/bangers";
+import { getCache } from "@/db/song-cache";
+import { TrackResult } from "@/spotify/types";
+import { TrackGrid } from "@/components/track/TrackGrid";
+import Track, { TrackSkeleton } from "@/components/rsc/Track";
+import { getTrack } from "@/spotify/track";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 function Page(): ReactElement {
   return (
     <div className="container">
       <UserBar />
-      <div className="p-8 max-w-prose flex flex-col gap-8">
-        <h1 className="text-xl">My bangers</h1>
+      <div className="p-8 flex flex-col">
+        <h1 className="text-xl mb-2">My bangers</h1>
+        <Link href="/?focus=true&q=" className="flex items-center gap-1 mb-4">
+          <ArrowLeft className="h-4 w-4" />
+          Back to search
+        </Link>
         <Suspense fallback={<BangersSkeleton />}>
           <BangersList />
         </Suspense>
@@ -31,7 +41,7 @@ async function BangersList(): Promise<ReactElement> {
     );
   }
 
-  const bangs = await getUserBangers(session.user_id);
+  const bangs = await getCache(session.user_id);
 
   if (bangs.length === 0) {
     return (
@@ -46,12 +56,38 @@ async function BangersList(): Promise<ReactElement> {
   }
 
   return (
-    <div>
-      {bangs.map((banger) => (
-        <div key={banger.song_id}>{banger.song_id ?? 'what'}</div>
+    <TrackGrid>
+      {bangs.map(([song_id, track]) => (
+        <div key={song_id}>
+          {track != null ? (
+            <KnownTrack track={track} />
+          ) : (
+            <Suspense fallback={<TrackSkeleton />}>
+              <LazyTrack trackId={song_id} />
+            </Suspense>
+          )}
+        </div>
       ))}
-    </div>
+    </TrackGrid>
   );
+}
+
+async function KnownTrack({
+  track,
+}: {
+  track: TrackResult;
+}): Promise<ReactElement> {
+  return <Track track={track} action="removeable" />;
+}
+
+async function LazyTrack({
+  trackId,
+}: {
+  trackId: string;
+}): Promise<ReactElement> {
+  const track = await getTrack(trackId, true);
+
+  return <Track track={track} action="removeable" />;
 }
 
 function BangersSkeleton() {

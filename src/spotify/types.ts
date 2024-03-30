@@ -1,10 +1,10 @@
 export interface SpotifyTracksResponse {
-  tracks: Tracks;
+  tracks: SpotifyTracksPagination;
 }
 
-export interface Tracks {
+export interface SpotifyTracksPagination {
   href: string;
-  items: Item[];
+  items: SpotifyTrack[];
   limit: number;
   next: string;
   offset: number;
@@ -12,15 +12,15 @@ export interface Tracks {
   total: number;
 }
 
-export interface Item {
-  album: Album;
-  artists: Artist[];
+export interface SpotifyTrack {
+  album: SpotifyAlbum;
+  artists: SpotifyArtist[];
   available_markets: string[];
   disc_number: number;
   duration_ms: number;
   explicit: boolean;
-  external_ids: ExternalIds;
-  external_urls: ExternalUrls;
+  external_ids: SpotifyExternalIds;
+  external_urls: SpotifyExternalUrls;
   href: string;
   id: string;
   is_local: boolean;
@@ -32,11 +32,11 @@ export interface Item {
   uri: string;
 }
 
-export interface Album {
+export interface SpotifyAlbum {
   album_type: string;
   artists: AlbumArtist[];
   available_markets: string[];
-  external_urls: AlbumExternalUrls;
+  external_urls: SpotifyExternalUrls;
   href: string;
   id: string;
   images: Image[];
@@ -49,7 +49,7 @@ export interface Album {
 }
 
 export interface AlbumArtist {
-  external_urls: ExternalUrls;
+  external_urls: SpotifyExternalUrls;
   href: string;
   id: string;
   name: string;
@@ -57,8 +57,21 @@ export interface AlbumArtist {
   uri: string;
 }
 
-export interface AlbumExternalUrls {
+export interface SpotifyArtist {
+  external_urls: SpotifyExternalUrls;
+  href: string;
+  id: string;
+  name: string;
+  type: string;
+  uri: string;
+}
+
+export interface SpotifyExternalUrls {
   spotify: string;
+}
+
+export interface SpotifyExternalIds {
+  isrc: string;
 }
 
 export interface Image {
@@ -67,19 +80,11 @@ export interface Image {
   width: number;
 }
 
-export interface Artist {
-  external_urls: ExternalUrls;
-  href: string;
+export type TrackResult = {
   id: string;
   name: string;
-  type: string;
-  uri: string;
-}
-
-export interface ExternalUrls {
-  spotify: string;
-}
-
-export interface ExternalIds {
-  isrc: string;
-}
+  artist: string;
+  spotify_url: string;
+  preview_url?: string;
+  image: Image;
+};
