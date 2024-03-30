@@ -2,7 +2,7 @@
 
 import { ReactElement, useState, useTransition } from 'react';
 import { Button } from '@/components/ui/button';
-import { CardStackPlusIcon } from '@radix-ui/react-icons';
+import { CardStackPlusIcon, CheckboxIcon } from '@radix-ui/react-icons';
 import { addBangerAction } from '@/components/AddTrackActions';
 import { toast } from 'sonner';
 
@@ -29,6 +29,7 @@ function AddTrack({ id, shortname }: Props): ReactElement {
       }}
     >
       {!justAdded && <CardStackPlusIcon className="h-6 w-6 xs:h-16 xs:w-16" />}
+      {justAdded && <CheckboxIcon className="h-6 w-6 xs:h-16 xs:w-16" />}
     </Button>
   );
 }

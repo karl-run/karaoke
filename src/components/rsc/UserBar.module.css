@@ -1,15 +1,20 @@
 .gridContainer {
   display: grid;
   grid-template-rows: 1fr 1fr;
-  grid-template-columns: 1fr;
+  grid-template-columns: 3rem 1fr;
 }
 
 .logo {
-  display: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 0.5rem;
 }
 
 .search {
   order: 2;
+  grid-column-start: 1;
+  grid-column-end: span 2;
 }
 
 .userDetails {
@@ -17,12 +22,6 @@
 }
 
 @media screen(sm) {
-  .logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
   .gridContainer {
     grid-template-columns: 3rem 2fr 1fr;
     grid-template-rows: 1fr;
@@ -30,6 +29,8 @@
 
   .search {
     order: 1;
+    grid-column-start: unset;
+    grid-column-end: unset;
     @apply max-w-96;
   }
 

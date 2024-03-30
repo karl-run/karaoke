@@ -43,7 +43,7 @@ async function UserDetails() {
   if (!user) return <NotLoggedIn />;
 
   return (
-    <div className="flex gap-3 items-center justify-between sm:justify-end h-full p-3">
+    <div className="flex gap-3 items-center justify-end h-full p-3">
       <div>
         <div className="text-xs">Logged in</div>
         <div className="truncate">{user.name}</div>
