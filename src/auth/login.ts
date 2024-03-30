@@ -3,26 +3,28 @@ import { sendLoginLink } from "@/email/login";
 import { createUser, getUserByEmail, updateUserLoginState } from "@/db/users";
 
 export async function createMagicLinkForUser(email: string) {
-  const existingUser = await getUserByEmail(email);
+  const cleanEmail = email.trim().toLowerCase();
+  const existingUser = await getUserByEmail(cleanEmail);
 
   if (!existingUser) {
-    console.warn(`User with ${email} not found, ignoring.`);
+    console.warn(`User with ${cleanEmail} not found, ignoring.`);
     return;
   }
 
   const token = generateToken();
   const salt = generateSalt();
 
-  await sendLoginLink(email, token);
-  await updateUserLoginState(email, hashToken(token, salt), salt);
+  await sendLoginLink(cleanEmail, token);
+  await updateUserLoginState(cleanEmail, hashToken(token, salt), salt);
 }
 
 export async function signup(email: string, displayName: string) {
-  const existingUser = await getUserByEmail(email);
+  const cleanEmail = email.trim().toLowerCase();
+  const existingUser = await getUserByEmail(cleanEmail);
 
   if (existingUser != null) {
     // Treat it as a normal login
-    await createMagicLinkForUser(email);
+    await createMagicLinkForUser(cleanEmail);
     return;
   }
 
@@ -30,6 +32,6 @@ export async function signup(email: string, displayName: string) {
   const token = generateToken();
   const salt = generateSalt();
 
-  await sendLoginLink(email, token);
-  await createUser(email, displayName, hashToken(token, salt), salt);
+  await sendLoginLink(cleanEmail, token);
+  await createUser(cleanEmail, displayName, hashToken(token, salt), salt);
 }
