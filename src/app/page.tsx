@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { search } from "@/spotify/search";
 import PlaySong from "@/components/PlaySong";
-import SearchBar from "@/components/SearchBar";
 import React, { PropsWithChildren, Suspense } from "react";
 import UserBar from "@/components/rsc/UserBar";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -15,7 +14,7 @@ interface Props {
 export default async function Home({ searchParams }: Props) {
   return (
     <div className="container mx-auto">
-      <UserBar/>
+      <UserBar />
       <Suspense key={searchParams.q} fallback={<TrackSearchSkeleton />}>
         <TrackSearch query={searchParams.q} />
       </Suspense>

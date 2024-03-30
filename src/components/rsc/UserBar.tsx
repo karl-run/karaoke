@@ -6,15 +6,26 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import SearchBar from "@/components/SearchBar";
 
 import styles from "./UserBar.module.css";
+import Link from "next/link";
 
 function UserBar(): ReactElement {
   return (
     <div className={styles.gridContainer}>
       <div className={styles.logo}>
-        <Image className="h-10 w-10" src={logo} alt="" height="48" width="48" />
+        <Link href="/">
+          <Image
+            className="h-10 w-10"
+            src={logo}
+            alt=""
+            height="48"
+            width="48"
+          />
+        </Link>
       </div>
       <div className={styles.search}>
-        <SearchBar />
+        <Suspense fallback={null}>
+          <SearchBar />
+        </Suspense>
       </div>
       <div className={styles.userDetails}>
         <Suspense fallback={<UserDetailsSkeleton />}>
