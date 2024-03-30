@@ -9,3 +9,13 @@ export async function addBanger(user_id: string, track_id: string) {
     args: [user_id, track_id],
   });
 }
+
+export async function removeBanger(user_id: string, track_id: string) {
+  return client.execute({
+    sql: `
+        DELETE FROM bangers
+        WHERE user_id = ? AND song_id = ?
+    `,
+    args: [user_id, track_id],
+  });
+}

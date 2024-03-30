@@ -16,10 +16,12 @@ function Page(): ReactElement {
       <UserBar />
       <div className="p-8 flex flex-col">
         <h1 className="text-xl mb-2">My bangers</h1>
-        <Link href="/?focus=true&q=" className="flex items-center gap-1 mb-4">
-          <ArrowLeft className="h-4 w-4" />
-          Back to search
-        </Link>
+        <div>
+          <Link href="/?focus=true&q=" className="flex items-center gap-1 mb-4 max-w-fit">
+            <ArrowLeft className="h-4 w-4" />
+            Back to search
+          </Link>
+        </div>
         <Suspense fallback={<BangersSkeleton />}>
           <BangersList />
         </Suspense>
@@ -68,13 +70,13 @@ async function BangersList(): Promise<ReactElement> {
 }
 
 async function KnownTrack({ track }: { track: TrackResult }): Promise<ReactElement> {
-  return <Track track={track} action="removeable" />;
+  return <Track track={track} action="removable" />;
 }
 
 async function LazyTrack({ trackId }: { trackId: string }): Promise<ReactElement> {
   const track = await getTrack(trackId, true);
 
-  return <Track track={track} action="removeable" />;
+  return <Track track={track} action="removable" />;
 }
 
 function BangersSkeleton() {
