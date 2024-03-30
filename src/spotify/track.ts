@@ -1,15 +1,8 @@
-import { spotifyFetch } from "@/spotify/auth";
-import {
-  SpotifyTrack,
-  SpotifyTracksResponse,
-  TrackResult,
-} from "@/spotify/types";
-import { addToCache, getCache } from "@/db/song-cache";
+import { spotifyFetch } from '@/spotify/auth';
+import { SpotifyTrack, SpotifyTracksResponse, TrackResult } from '@/spotify/types';
+import { addToCache, getCache } from '@/db/song-cache';
 
-export async function getTrack(
-  trackId: string,
-  alsoCache: true,
-): Promise<TrackResult> {
+export async function getTrack(trackId: string, alsoCache: true): Promise<TrackResult> {
   const track = await spotifyFetch<SpotifyTrack>(`/v1/tracks/${trackId}`);
 
   const mapped = {
@@ -29,9 +22,7 @@ export async function getTrack(
 }
 
 export async function searchTracks(search: string) {
-  const result = await spotifyFetch<SpotifyTracksResponse>(
-    `/v1/search?q=${buildSearchQuery(search)}&type=track`,
-  );
+  const result = await spotifyFetch<SpotifyTracksResponse>(`/v1/search?q=${buildSearchQuery(search)}&type=track`);
 
   return result.tracks.items.map(
     (track) =>

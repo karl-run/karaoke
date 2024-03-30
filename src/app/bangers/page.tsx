@@ -1,14 +1,14 @@
-import React, { ReactElement, Suspense } from "react";
-import UserBar from "@/components/rsc/UserBar";
-import { getActiveSession } from "@/db/sessions";
-import { cookies } from "next/headers";
-import { getCache } from "@/db/song-cache";
-import { TrackResult } from "@/spotify/types";
-import { TrackGrid } from "@/components/track/TrackGrid";
-import Track, { TrackSkeleton } from "@/components/rsc/Track";
-import { getTrack } from "@/spotify/track";
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import React, { ReactElement, Suspense } from 'react';
+import UserBar from '@/components/rsc/UserBar';
+import { getActiveSession } from '@/db/sessions';
+import { cookies } from 'next/headers';
+import { getCache } from '@/db/song-cache';
+import { TrackResult } from '@/spotify/types';
+import { TrackGrid } from '@/components/track/TrackGrid';
+import Track, { TrackSkeleton } from '@/components/rsc/Track';
+import { getTrack } from '@/spotify/track';
+import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 
 function Page(): ReactElement {
   return (
@@ -29,9 +29,7 @@ function Page(): ReactElement {
 }
 
 async function BangersList(): Promise<ReactElement> {
-  const session = await getActiveSession(
-    cookies().get("session")?.value ?? null,
-  );
+  const session = await getActiveSession(cookies().get('session')?.value ?? null);
 
   if (!session) {
     return (
@@ -47,10 +45,7 @@ async function BangersList(): Promise<ReactElement> {
     return (
       <div>
         <div className="text-lg opacity-70">No songs found</div>
-        <p className="mt-8">
-          Start adding bangers by searching for songs and adding them to your
-          list.
-        </p>
+        <p className="mt-8">Start adding bangers by searching for songs and adding them to your list.</p>
       </div>
     );
   }
@@ -72,19 +67,11 @@ async function BangersList(): Promise<ReactElement> {
   );
 }
 
-async function KnownTrack({
-  track,
-}: {
-  track: TrackResult;
-}): Promise<ReactElement> {
+async function KnownTrack({ track }: { track: TrackResult }): Promise<ReactElement> {
   return <Track track={track} action="removeable" />;
 }
 
-async function LazyTrack({
-  trackId,
-}: {
-  trackId: string;
-}): Promise<ReactElement> {
+async function LazyTrack({ trackId }: { trackId: string }): Promise<ReactElement> {
   const track = await getTrack(trackId, true);
 
   return <Track track={track} action="removeable" />;

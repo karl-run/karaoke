@@ -1,15 +1,15 @@
-import { client } from "@/db/client.ts";
+import { client } from '@/db/client.ts';
 
 if (process.env.FULL_RESET) {
-  console.warn("FULL_RESET is set, dropping all tables in 3 seconds");
+  console.warn('FULL_RESET is set, dropping all tables in 3 seconds');
 
-  console.warn("3...");
+  console.warn('3...');
   await new Promise((resolve) => setTimeout(resolve, 1000));
-  console.warn("2...");
+  console.warn('2...');
   await new Promise((resolve) => setTimeout(resolve, 1000));
-  console.warn("1...");
+  console.warn('1...');
   await new Promise((resolve) => setTimeout(resolve, 1000));
-  console.warn("Dropping tables");
+  console.warn('Dropping tables');
 
   await client.execute(`
         DROP TABLE IF EXISTS bangers;
@@ -17,10 +17,10 @@ if (process.env.FULL_RESET) {
         DROP TABLE IF EXISTS sessions;
     `);
 
-  console.warn("Tables dropped");
+  console.warn('Tables dropped');
 }
 
-console.info("Creating tables");
+console.info('Creating tables');
 await client.execute(`
     CREATE TABLE IF NOT EXISTS users
     (

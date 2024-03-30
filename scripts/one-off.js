@@ -1,4 +1,4 @@
-import { client } from "@/db/client.ts";
+import { client } from '@/db/client.ts';
 
 /**
  * Script used to do one-off stuff when developing

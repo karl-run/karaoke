@@ -1,6 +1,6 @@
-import { generateSalt, generateToken, hashToken } from "@/utils/token";
-import { sendLoginLink } from "@/email/login";
-import { createUser, getUserByEmail, updateUserLoginState } from "@/db/users";
+import { generateSalt, generateToken, hashToken } from '@/utils/token';
+import { sendLoginLink } from '@/email/login';
+import { createUser, getUserByEmail, updateUserLoginState } from '@/db/users';
 
 export async function createMagicLinkForUser(email: string) {
   const cleanEmail = email.trim().toLowerCase();

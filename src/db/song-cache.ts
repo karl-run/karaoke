@@ -1,5 +1,5 @@
-import { TrackResult } from "@/spotify/types";
-import { client } from "@/db/client";
+import { TrackResult } from '@/spotify/types';
+import { client } from '@/db/client';
 
 export function addToCache(song: TrackResult) {
   client.execute({
@@ -11,9 +11,7 @@ export function addToCache(song: TrackResult) {
   });
 }
 
-export async function getCache(
-  user_id: string,
-): Promise<[string, TrackResult | null][]> {
+export async function getCache(user_id: string): Promise<[string, TrackResult | null][]> {
   const result = await client.execute({
     sql: `
         SELECT *
@@ -30,9 +28,6 @@ export async function getCache(
 
   return result.rows.map(
     (row) =>
-      [
-        row.song_id as string,
-        row.data ? JSON.parse(row.data as string) : null,
-      ] satisfies [string, TrackResult | null],
+      [row.song_id as string, row.data ? JSON.parse(row.data as string) : null] satisfies [string, TrackResult | null],
   );
 }

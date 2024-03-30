@@ -1,4 +1,4 @@
-import { client } from "@/db/client";
+import { client } from '@/db/client';
 
 export async function addBanger(user_id: string, track_id: string) {
   return client.execute({

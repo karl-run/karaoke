@@ -1,13 +1,7 @@
-import React, { ReactElement } from "react";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import Link from "next/link";
+import React, { ReactElement } from 'react';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
+import Link from 'next/link';
 
 function Landing(): ReactElement {
   return (
@@ -26,8 +20,8 @@ function Landing(): ReactElement {
           </CardContent>
           <CardFooter>
             <p>
-              Use shortcut <code className="inline mx-2">CMD+K</code> (
-              <code className="inline mx-2">CTRL+K</code>) to search
+              Use shortcut <code className="inline mx-2">CMD+K</code> (<code className="inline mx-2">CTRL+K</code>) to
+              search
             </p>
           </CardFooter>
         </Card>
@@ -36,10 +30,7 @@ function Landing(): ReactElement {
             <CardTitle>Join groups</CardTitle>
           </CardHeader>
           <CardContent>
-            <p>
-              Be a part of multiple groups, your bangers will apply across all
-              groups.
-            </p>
+            <p>Be a part of multiple groups, your bangers will apply across all groups.</p>
           </CardContent>
         </Card>
         <Card className="col-span-1 sm:col-span-2 md:col-span-1">

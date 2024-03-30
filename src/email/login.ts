@@ -1,4 +1,4 @@
-import { Resend } from "resend";
+import { Resend } from 'resend';
 
 let resend: Resend | null;
 function getResend() {
@@ -8,14 +8,14 @@ function getResend() {
 }
 
 export async function sendLoginLink(email: string, token: string) {
-  const base64Email = Buffer.from(email).toString("base64");
+  const base64Email = Buffer.from(email).toString('base64');
   const comboToken = `${token}.${base64Email}`;
   const loginUrl = `https://karaoke.karl.run/login/magic-link?token=${comboToken}`;
 
   const resend = await getResend().emails.send({
-    from: "login@badstu.karl.run",
+    from: 'login@badstu.karl.run',
     to: email,
-    subject: "Login to Karaoke Match",
+    subject: 'Login to Karaoke Match',
     html: `
           <h3>Your login link to Karaoke Match</h3>
           <br/>
@@ -26,8 +26,6 @@ export async function sendLoginLink(email: string, token: string) {
   });
 
   if (resend.error) {
-    throw new Error(
-      `Resend errored: ${resend.error.name}, ${resend.error.message}`,
-    );
+    throw new Error(`Resend errored: ${resend.error.name}, ${resend.error.message}`);
   }
 }

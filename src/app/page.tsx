@@ -1,9 +1,9 @@
-import React, { Suspense } from "react";
-import UserBar from "@/components/rsc/UserBar";
-import Landing from "@/components/Landing";
-import Track, { TrackSkeleton } from "@/components/rsc/Track";
-import { searchTracks } from "@/spotify/track";
-import { TrackGrid } from "@/components/track/TrackGrid";
+import React, { Suspense } from 'react';
+import UserBar from '@/components/rsc/UserBar';
+import Landing from '@/components/Landing';
+import Track, { TrackSkeleton } from '@/components/rsc/Track';
+import { searchTracks } from '@/spotify/track';
+import { TrackGrid } from '@/components/track/TrackGrid';
 
 interface Props {
   searchParams: {
@@ -39,9 +39,7 @@ async function TrackSearch({ query }: { query: string }) {
   if (result.length === 0) {
     return (
       <div className="p-20 flex justify-center items-center">
-        <div className="text-xl opacity-70">
-          No songs found matching &quot;{query}&quot;
-        </div>
+        <div className="text-xl opacity-70">No songs found matching &quot;{query}&quot;</div>
       </div>
     );
   }

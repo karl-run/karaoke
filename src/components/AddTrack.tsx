@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { ReactElement, useState, useTransition } from "react";
-import { Button } from "@/components/ui/button";
-import { CardStackPlusIcon } from "@radix-ui/react-icons";
-import { addBangerAction } from "@/components/AddTrackActions";
-import { toast } from "sonner";
+import { ReactElement, useState, useTransition } from 'react';
+import { Button } from '@/components/ui/button';
+import { CardStackPlusIcon } from '@radix-ui/react-icons';
+import { addBangerAction } from '@/components/AddTrackActions';
+import { toast } from 'sonner';
 
 type Props = {
   id: string;

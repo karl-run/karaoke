@@ -1,29 +1,22 @@
-import { ReactElement, Suspense } from "react";
-import Image from "next/image";
-import Link from "next/link";
+import { ReactElement, Suspense } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 
-import logo from "@/images/logo.png";
-import SearchBar from "@/components/SearchBar";
-import { getUserDetails } from "@/db/users";
-import { cookies } from "next/headers";
-import { Skeleton } from "@/components/ui/skeleton";
+import logo from '@/images/logo.png';
+import SearchBar from '@/components/SearchBar';
+import { getUserDetails } from '@/db/users';
+import { cookies } from 'next/headers';
+import { Skeleton } from '@/components/ui/skeleton';
 
-import styles from "./UserBar.module.css";
-import UserDropdownAvatar from "@/components/UserDropdownAvatar";
+import styles from './UserBar.module.css';
+import UserDropdownAvatar from '@/components/UserDropdownAvatar';
 
 function UserBar(): ReactElement {
   return (
     <div className={styles.gridContainer}>
       <div className={styles.logo}>
         <Link href="/">
-          <Image
-            className="h-10 w-10"
-            src={logo}
-            alt=""
-            height="48"
-            width="48"
-            priority
-          />
+          <Image className="h-10 w-10" src={logo} alt="" height="48" width="48" priority />
         </Link>
       </div>
       <div className={styles.search}>
@@ -41,7 +34,7 @@ function UserBar(): ReactElement {
 }
 
 async function UserDetails() {
-  const session = cookies().get("session")?.value;
+  const session = cookies().get('session')?.value;
 
   if (!session) return <NotLoggedIn />;
 

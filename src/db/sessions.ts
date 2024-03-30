@@ -1,4 +1,4 @@
-import { client } from "@/db/client";
+import { client } from '@/db/client';
 
 type UserSession = {
   id: string;
@@ -19,9 +19,7 @@ export function createUserSession(id: string, email: string, ua: string) {
   });
 }
 
-export async function getActiveSession(
-  sessionId: string | null,
-): Promise<UserSession | null> {
+export async function getActiveSession(sessionId: string | null): Promise<UserSession | null> {
   if (sessionId == null) return null;
 
   const result = await client.execute({

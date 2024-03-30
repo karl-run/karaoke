@@ -5,10 +5,10 @@ export async function getSpotifyToken(): Promise<string> {
     return process.env.SPOTIFY_DEV_TOKEN;
   }
 
-  const response = await fetch("https://accounts.spotify.com/api/token", {
-    method: "POST",
+  const response = await fetch('https://accounts.spotify.com/api/token', {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
+      'Content-Type': 'application/x-www-form-urlencoded',
     },
     body: `grant_type=client_credentials&client_id=${process.env.SPOTIFY_CLIENT_ID}&client_secret=${process.env.SPOTIFY_CLIENT_SECRET}`,
   });
@@ -30,7 +30,7 @@ export async function getSpotifyToken(): Promise<string> {
 export async function spotifyFetch<Response>(path: string): Promise<Response> {
   const token = await getSpotifyToken();
 
-  console.info("Fetching Spotify API: ", `${SPOTIFY_BASE_URL}/${path}`);
+  console.info('Fetching Spotify API: ', `${SPOTIFY_BASE_URL}/${path}`);
 
   const response = await fetch(`${SPOTIFY_BASE_URL}${path}`, {
     headers: {

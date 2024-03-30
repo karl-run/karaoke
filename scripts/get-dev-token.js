@@ -1,4 +1,4 @@
-import { getSpotifyToken } from "@/spotify/auth";
+import { getSpotifyToken } from '@/spotify/auth';
 
 delete process.env.SPOTIFY_DEV_TOKEN;
 

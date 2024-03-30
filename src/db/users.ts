@@ -1,6 +1,6 @@
-import { client } from "@/db/client";
-import { raise } from "@/utils/ts";
-import { getActiveSession } from "@/db/sessions";
+import { client } from '@/db/client';
+import { raise } from '@/utils/ts';
+import { getActiveSession } from '@/db/sessions';
 
 type UserDb = {
   email: string;
@@ -29,17 +29,11 @@ export async function getUserByEmail(email: string): Promise<UserDb | null> {
     verified: user.verified === 1,
     login_hash: user.login_hash as string | null,
     login_salt: user.login_salt as string | null,
-    login_timestamp: user.login_timestamp
-      ? new Date(user.login_timestamp as number)
-      : null,
+    login_timestamp: user.login_timestamp ? new Date(user.login_timestamp as number) : null,
   };
 }
 
-export async function updateUserLoginState(
-  email: string,
-  hash: string,
-  salt: string,
-) {
+export async function updateUserLoginState(email: string, hash: string, salt: string) {
   await client.execute({
     sql: `UPDATE users
           SET login_hash      = ?,
@@ -61,12 +55,7 @@ export async function clearUserLoginState(email: string) {
   });
 }
 
-export async function createUser(
-  email: string,
-  displayName: string,
-  hash: string,
-  salt: string,
-) {
+export async function createUser(email: string, displayName: string, hash: string, salt: string) {
   await client.execute({
     sql: `INSERT INTO users (email, name, login_hash, login_salt, login_timestamp)
           VALUES (?, ?, ?, ?, ?)`,
@@ -84,7 +73,7 @@ export async function getUserDetails(sessionId: string) {
   const user = await getUserByEmail(activeSession.user_id);
 
   if (user == null) {
-    console.warn("Active session but no user found, something is weird.");
+    console.warn('Active session but no user found, something is weird.');
     return null;
   }
 
