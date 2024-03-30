@@ -4,6 +4,7 @@ import PlaySong from "@/components/PlaySong";
 import React, { PropsWithChildren, Suspense } from "react";
 import UserBar from "@/components/rsc/UserBar";
 import { Skeleton } from "@/components/ui/skeleton";
+import Landing from "@/components/Landing";
 
 interface Props {
   searchParams: {
@@ -15,9 +16,13 @@ export default async function Home({ searchParams }: Props) {
   return (
     <div className="container mx-auto">
       <UserBar />
-      <Suspense key={searchParams.q} fallback={<TrackSearchSkeleton />}>
-        <TrackSearch query={searchParams.q} />
-      </Suspense>
+      {searchParams.q == null ? (
+        <Landing />
+      ) : (
+        <Suspense key={searchParams.q} fallback={<TrackSearchSkeleton />}>
+          <TrackSearch query={searchParams.q} />
+        </Suspense>
+      )}
     </div>
   );
 }

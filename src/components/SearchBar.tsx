@@ -3,8 +3,10 @@
 import { useRef, ReactElement, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { useQueryState } from "nuqs";
+import { usePathname } from "next/navigation";
 
-function SearchBar(): ReactElement {
+function SearchBar(): React.ReactElement | null {
+  const path = usePathname();
   const searchRef = useRef<HTMLInputElement>(null);
   const [search, setSearch] = useQueryState("q", {
     shallow: false,
@@ -25,6 +27,10 @@ function SearchBar(): ReactElement {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
+
+  if (path !== "/") {
+    return null;
+  }
 
   return (
     <div className="p-3">
