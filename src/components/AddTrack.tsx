@@ -17,7 +17,7 @@ function AddTrack({ id, shortname }: Props): ReactElement {
   return (
     <Button
       variant="ghost"
-      className="absolute h-auto top-0 left-0 right-0 bottom-12 hover:bg-green-800/40 flex justify-center items-center"
+      className="absolute w-10 h-10 p-0 xs:w-auto xs:h-auto xs:top-0 xs:left-0 right-0 xs:bottom-12 hover:bg-green-800/40 flex justify-center items-center"
       disabled={justAdded || transitioning}
       onClick={() => {
         startTransition(async () => {
@@ -28,7 +28,7 @@ function AddTrack({ id, shortname }: Props): ReactElement {
         });
       }}
     >
-      {!justAdded && <CardStackPlusIcon className="h-16 w-16" />}
+      {!justAdded && <CardStackPlusIcon className="h-6 w-6 xs:h-16 xs:w-16" />}
     </Button>
   );
 }
