@@ -7,6 +7,8 @@ import SearchBar from "@/components/SearchBar";
 
 import styles from "./UserBar.module.css";
 import Link from "next/link";
+import { getUserDetails } from "@/db/users";
+import { cookies } from "next/headers";
 
 function UserBar(): ReactElement {
   return (
@@ -36,20 +38,21 @@ function UserBar(): ReactElement {
   );
 }
 
-function UserDetails() {
-  const user = {
-    name: "John Doe",
-    groups: [{ id: "abc", name: "The Karaoke Bois" }],
-  };
+async function UserDetails() {
+  const session = cookies().get("session")?.value;
+
+  if (!session) return <NotLoggedIn />;
+
+  const user = await getUserDetails(session);
+
+  if (!user) return <NotLoggedIn />;
 
   return (
     <div className="flex gap-3 items-center justify-between sm:justify-end h-full p-3">
-      {user.groups.length === 1 && (
-        <div>
-          <div className="text-xs">Active group</div>
-          <div className="truncate">{user.groups[0].name}</div>
-        </div>
-      )}
+      <div>
+        <div className="text-xs">Logged in</div>
+        <div className="truncate">{user.name}</div>
+      </div>
       <Avatar>
         <AvatarFallback>
           {user.name.slice(0, 2).toLocaleUpperCase()}
@@ -64,6 +67,19 @@ function UserDetailsSkeleton() {
     <div className="flex gap-3">
       <div className="bg-gray-200 w-20 h-4"></div>
       <div className="bg-gray-200 w-20 h-4"></div>
+    </div>
+  );
+}
+
+function NotLoggedIn() {
+  return (
+    <div className="flex gap-6 items-center justify-between sm:justify-end h-full p-3">
+      <Link className="underline" href="/login">
+        Login
+      </Link>
+      <Link className="underline" href="/register">
+        Register
+      </Link>
     </div>
   );
 }

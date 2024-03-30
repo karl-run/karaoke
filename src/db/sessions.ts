@@ -1,5 +1,13 @@
 import { client } from "@/db/client";
 
+type UserSession = {
+  id: string;
+  user_id: string;
+  ua: string;
+  created_at: Date;
+  last_seen: Date;
+};
+
 export function createUserSession(id: string, email: string, ua: string) {
   return client.execute({
     sql: `
@@ -9,6 +17,31 @@ export function createUserSession(id: string, email: string, ua: string) {
     `,
     args: [id, email, ua, new Date(), new Date()],
   });
+}
+
+export async function getActiveSession(
+  sessionId: string,
+): Promise<UserSession | null> {
+  const result = await client.execute({
+    sql: `
+      SELECT *
+      FROM sessions
+      WHERE id = ?
+    `,
+    args: [sessionId],
+  });
+
+  const row = result.rows?.[0] ?? null;
+
+  if (row == null) return null;
+
+  return {
+    id: row.id as string,
+    user_id: row.user_id as string,
+    ua: row.ua as string,
+    created_at: new Date(row.created_at as number),
+    last_seen: new Date(row.last_seen as number),
+  };
 }
 
 export function setUserVerified(email: string) {

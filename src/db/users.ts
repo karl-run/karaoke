@@ -1,5 +1,6 @@
 import { client } from "@/db/client";
 import { raise } from "@/utils/ts";
+import { getActiveSession } from "@/db/sessions";
 
 type UserDb = {
   email: string;
@@ -49,6 +50,17 @@ export async function updateUserLoginState(
   });
 }
 
+export async function clearUserLoginState(email: string) {
+  await client.execute({
+    sql: `UPDATE users
+            SET login_hash      = NULL,
+                login_salt      = NULL,
+                login_timestamp = NULL
+            WHERE email = ?`,
+    args: [email],
+  });
+}
+
 export async function createUser(
   email: string,
   displayName: string,
@@ -60,4 +72,24 @@ export async function createUser(
           VALUES (?, ?, ?, ?, ?)`,
     args: [email, displayName, hash, salt, new Date()],
   });
+}
+
+export async function getUserDetails(sessionId: string) {
+  const activeSession = await getActiveSession(sessionId);
+
+  if (activeSession == null) {
+    return null;
+  }
+
+  const user = await getUserByEmail(activeSession.user_id);
+
+  if (user == null) {
+    console.warn("Active session but no user found, something is weird.");
+    return null;
+  }
+
+  return {
+    name: user.name,
+    groups: [],
+  };
 }

@@ -27,7 +27,7 @@ function Page(): ReactElement {
             await signup(email, name);
             redirect("/login/success?new=true");
           }}
-          className="flex gap-3"
+          className="flex flex-col xs:flex-row gap-3"
         >
           <Input name="email" placeholder="Email" required type="email" />
           <Input

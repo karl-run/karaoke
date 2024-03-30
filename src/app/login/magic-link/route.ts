@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUserByEmail } from "@/db/users";
+import { clearUserLoginState, getUserByEmail } from "@/db/users";
 import { cookies } from "next/headers";
 import { addDays, differenceInMinutes, isBefore, subMinutes } from "date-fns";
 import { generateSessionId, hashToken } from "@/utils/token";
@@ -49,6 +49,8 @@ export async function GET(request: NextRequest) {
     httpOnly: true,
     expires: addDays(new Date(), 30),
   });
+
+  await clearUserLoginState(user.email);
 
   return backToRoot(request);
 }
