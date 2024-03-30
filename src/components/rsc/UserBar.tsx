@@ -1,20 +1,26 @@
-import React, { PropsWithChildren, ReactElement, Suspense } from "react";
+import { ReactElement, Suspense } from "react";
 import Image from "next/image";
 
 import logo from "@/images/logo.png";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import SearchBar from "@/components/SearchBar";
 
-function UserBar({ children }: PropsWithChildren): ReactElement {
+import styles from "./UserBar.module.css";
+
+function UserBar(): ReactElement {
   return (
-    <div className="flex gap-3 px-3">
-      <div className="flex items-center">
+    <div className={styles.gridContainer}>
+      <div className={styles.logo}>
         <Image className="h-10 w-10" src={logo} alt="" height="48" width="48" />
       </div>
-      <div>{children}</div>
-      <div className="grow" />
-      <Suspense fallback={<UserDetailsSkeleton />}>
-        <UserDetails />
-      </Suspense>
+      <div className={styles.search}>
+        <SearchBar />
+      </div>
+      <div className={styles.userDetails}>
+        <Suspense fallback={<UserDetailsSkeleton />}>
+          <UserDetails />
+        </Suspense>
+      </div>
     </div>
   );
 }
@@ -26,11 +32,11 @@ function UserDetails() {
   };
 
   return (
-    <div className="flex gap-3 items-center">
+    <div className="flex gap-3 items-center justify-between sm:justify-end h-full p-3">
       {user.groups.length === 1 && (
         <div>
           <div className="text-xs">Active group</div>
-          <div>{user.groups[0].name}</div>
+          <div className="truncate">{user.groups[0].name}</div>
         </div>
       )}
       <Avatar>

@@ -14,10 +14,8 @@ interface Props {
 
 export default async function Home({ searchParams }: Props) {
   return (
-    <div className="container">
-      <UserBar>
-        <SearchBar />
-      </UserBar>
+    <div className="container mx-auto">
+      <UserBar/>
       <Suspense key={searchParams.q} fallback={<TrackSearchSkeleton />}>
         <TrackSearch query={searchParams.q} />
       </Suspense>
@@ -48,9 +46,9 @@ async function TrackSearch({ query }: { query: string }) {
   return (
     <TrackSearchGrid>
       {result.map((track) => (
-        <div key={track.id} className="flex flex-row xs:flex-col">
+        <div key={track.id} className="flex flex-row xs:flex-col relative">
           <Image
-            className="h-16 w-16 xs:w-full xs:h-auto aspect-square rounded-xl"
+            className="h-12 w-12 xs:w-full xs:h-auto aspect-square rounded-xl"
             src={track.image.url}
             alt={track.name}
             width={200}
@@ -61,12 +59,12 @@ async function TrackSearch({ query }: { query: string }) {
               <div className="max-w-[200px] truncate" title={track.name}>
                 {track.name}
               </div>
-              <div className="truncate" title={track.artist}>
+              <div className="max-w-[200px] truncate" title={track.artist}>
                 {track.artist}
               </div>
             </div>
             {track.preview_url && (
-              <div className="h-10 w-10">
+              <div className="h-10 w-10 absolute left-1 top-1 xs:relative xs:left-0 xs:top-0">
                 <PlaySong songId={track.id} previewUrl={track.preview_url} />
               </div>
             )}

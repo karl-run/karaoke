@@ -30,7 +30,7 @@ function PlaySong({ songId, previewUrl }: Props): ReactElement {
     <>
       <Button
         size="icon"
-        variant="outline"
+        variant="ghost"
         onClick={() => {
           const newPlay = !play;
           if (newPlay) {

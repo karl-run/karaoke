@@ -1,0 +1,39 @@
+.gridContainer {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr;
+}
+
+.logo {
+  display: none;
+}
+
+.search {
+  order: 2;
+}
+
+.userDetails {
+  order: 1;
+}
+
+@media screen(sm) {
+  .logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .gridContainer {
+    grid-template-columns: 3rem 2fr 1fr;
+    grid-template-rows: 1fr;
+  }
+
+  .search {
+    order: 1;
+    @apply max-w-96;
+  }
+
+  .userDetails {
+    order: 1;
+  }
+}
