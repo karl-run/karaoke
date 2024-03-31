@@ -52,15 +52,15 @@ async function UserGroups() {
 
 function GroupListItem(props: { group: any }) {
   return (
-    <div className="flex gap-3">
-      <GroupAvatar iconIndex={props.group.iconIndex} />
-      <div>
-        <div>{props.group.name}</div>
-        <Link href={`/groups/${props.group.id}/bangers`} className="underline">
-          View group
-        </Link>
+    <Link href={`/groups/${props.group.id}/bangers`} className="rounded hover:outline">
+      <div className="flex gap-3">
+        <GroupAvatar iconIndex={props.group.iconIndex} />
+        <div>
+          <div>{props.group.name}</div>
+          <div className="text-sm">{props.group.memberCount} members</div>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }
 

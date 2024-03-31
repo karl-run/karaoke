@@ -30,11 +30,14 @@ export async function createGroup(userId: string, groupName: string, iconIndex: 
 export async function getUserGroups(userId: string) {
   const groups = await client.execute({
     sql: `
-            SELECT *
-            FROM user_group
-                     LEFT JOIN user_to_group ON user_group.id = user_to_group.group_id
-            WHERE user_to_group.user_id = ?
-        `,
+        SELECT user_group.*,
+               (SELECT COUNT(*)
+                FROM user_to_group AS utg2
+                WHERE utg2.group_id = user_group.id) AS member_count
+        FROM user_group
+                 LEFT JOIN user_to_group ON user_group.id = user_to_group.group_id
+        WHERE user_to_group.user_id = ?
+    `,
     args: [userId],
   });
 
@@ -43,6 +46,7 @@ export async function getUserGroups(userId: string) {
     name: group.name as string,
     joinKey: group.join_key as string,
     iconIndex: group.icon_index as number,
+    memberCount: group.member_count as number,
   }));
 }
 
