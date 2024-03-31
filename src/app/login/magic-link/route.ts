@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { clearUserLoginState, getUserByEmail } from '@/db/users';
 import { cookies } from 'next/headers';
 import { addDays, differenceInMinutes, isBefore, subMinutes } from 'date-fns';
-import { generateSessionId, hashToken } from '@/utils/token';
+import { generate16ByteHex, hashWithSalt } from '@/utils/token';
 import { createUserSession, setUserVerified } from '@/db/sessions';
 
 export async function GET(request: NextRequest) {
@@ -27,12 +27,12 @@ export async function GET(request: NextRequest) {
     return toLoginFail(request);
   }
 
-  if (hashToken(actualToken, user.login_salt) !== user.login_hash) {
+  if (hashWithSalt(actualToken, user.login_salt) !== user.login_hash) {
     console.warn('Login link tampered with');
     return toLoginFail(request);
   }
 
-  const sessionId = generateSessionId();
+  const sessionId = generate16ByteHex();
   await createUserSession(sessionId, user.email, request.headers.get('user-agent') ?? 'unknown');
 
   if (!user.verified) {

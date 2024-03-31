@@ -68,6 +68,7 @@ await client.execute(`
     (
         id TEXT PRIMARY KEY,
         join_key TEXT NOT NULL UNIQUE,
+        icon_index INT NOT NULL,
         name TEXT NOT NULL,
         description TEXT
     )

@@ -1,4 +1,4 @@
-import { generateSalt, generateToken, hashToken } from '@/utils/token';
+import { generate16ByteHex, generate64ByteHex, hashWithSalt } from '@/utils/token';
 import { sendLoginLink } from '@/email/login';
 import { createUser, getUserByEmail, updateUserLoginState } from '@/db/users';
 
@@ -11,11 +11,11 @@ export async function createMagicLinkForUser(email: string) {
     return;
   }
 
-  const token = generateToken();
-  const salt = generateSalt();
+  const token = generate64ByteHex();
+  const salt = generate16ByteHex();
 
   await sendLoginLink(cleanEmail, token);
-  await updateUserLoginState(cleanEmail, hashToken(token, salt), salt);
+  await updateUserLoginState(cleanEmail, hashWithSalt(token, salt), salt);
 }
 
 export async function signup(email: string, displayName: string) {
@@ -29,9 +29,9 @@ export async function signup(email: string, displayName: string) {
   }
 
   // Create a new user
-  const token = generateToken();
-  const salt = generateSalt();
+  const token = generate64ByteHex();
+  const salt = generate16ByteHex();
 
   await sendLoginLink(cleanEmail, token);
-  await createUser(cleanEmail, displayName, hashToken(token, salt), salt);
+  await createUser(cleanEmail, displayName, hashWithSalt(token, salt), salt);
 }
