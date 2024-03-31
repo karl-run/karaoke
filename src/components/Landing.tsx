@@ -4,6 +4,7 @@ import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { getActiveSession } from '@/db/sessions';
 import { getSessionId } from '@/session/user';
+import GroupAvatar from '@/components/avatar/GroupAvatar';
 
 function Landing(): ReactElement {
   return (
@@ -56,7 +57,29 @@ async function LogInNowCard() {
   const activeSession = await getActiveSession(getSessionId());
 
   if (activeSession != null) {
-    return null;
+    return (
+      <Card className="col-span-1 sm:col-span-2 lg:col-span-1">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-3">
+            <GroupAvatar iconIndex={0} size="small" />
+            Find your groups
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p>You are signed in and ready to go!</p>
+          <div className="flex flex-col sm:flex-row lg:flex-col gap-2 mt-2">
+            <Link className="underline" href="/groups">
+              Go to your groups
+            </Link>
+            <p>or</p>
+            <Link className="underline" href="/bangers">
+              take a look at your bangers list.
+            </Link>
+          </div>
+          <p className="mt-4">You can always find these in the top right corner menu.</p>
+        </CardContent>
+      </Card>
+    );
   }
 
   return (
