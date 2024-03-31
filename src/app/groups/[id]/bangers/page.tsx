@@ -10,6 +10,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { GearIcon } from '@radix-ui/react-icons';
 import { MessageCircleWarningIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import GroupAvatar from '@/components/avatar/GroupAvatar';
 
 type Props = {
   params: {
@@ -46,7 +47,11 @@ async function GroupBangers({ id }: { id: string }) {
 
   return (
     <div>
-      <h1 className="text-lg">Certified bangers for {group.name}</h1>
+      <div className="flex gap-3 items-center">
+        <GroupAvatar iconIndex={group.iconIndex} />
+        <h1 className="text-lg">Certified bangers for {group.name}</h1>
+      </div>
+
       {bangers.length === 0 && (
         <Alert className="mt-4">
           <MessageCircleWarningIcon className="h-4 w-4" />

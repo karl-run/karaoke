@@ -4,6 +4,7 @@ import sheet from './sheet.png';
 
 type Props = {
   iconIndex: number;
+  size?: 'small' | 'normal';
 };
 
 const ROW_PADDING = 10.7;
@@ -12,7 +13,7 @@ const ROW_SIZE = 48.2;
 const COL_SIZE = 48;
 const ROWS = 6;
 
-function GroupAvatar({ iconIndex }: Props): ReactElement {
+function GroupAvatar({ iconIndex, size = 'normal' }: Props): ReactElement {
   const rowIndex = iconIndex % ROWS;
   const colIndex = Math.floor(iconIndex / ROWS);
 
@@ -23,6 +24,7 @@ function GroupAvatar({ iconIndex }: Props): ReactElement {
         backgroundImage: `url(${sheet.src})`,
         backgroundPosition: `${-10 - ROW_PADDING * rowIndex - rowIndex * ROW_SIZE}px ${-10 - COL_PADDING * colIndex - colIndex * COL_SIZE}px`,
         backgroundSize: '360px 346px',
+        transform: size === 'small' ? 'scale(0.75)' : 'scale(1)',
       }}
       aria-hidden
     />

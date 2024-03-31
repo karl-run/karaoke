@@ -3,7 +3,7 @@
 import { getUser } from '@/session/user';
 import { createGroup, joinGroup } from '@/db/groups';
 
-export async function createGroupAction(groupName: string): Promise<{ id: string } | null> {
+export async function createGroupAction(groupName: string, groupIcon: number): Promise<{ id: string } | null> {
   const user = await getUser();
 
   if (!user) {

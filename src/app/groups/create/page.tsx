@@ -6,6 +6,8 @@ import { SmallPage } from '@/components/layout/Layouts';
 import { createGroupAction } from '@/app/groups/_group-actions';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import GroupAvatar from '@/components/avatar/GroupAvatar';
 
 function Page(): ReactElement {
   return (
@@ -22,12 +24,13 @@ function Page(): ReactElement {
           'use server';
 
           const groupName = data.get('group-name')?.toString();
+          const groupIcon = data.get('group-icon')?.toString();
 
-          if (!groupName) {
-            throw new Error('Group name is required');
+          if (!groupName || !groupIcon) {
+            throw new Error('Group name and icon is required');
           }
 
-          const newGroup = await createGroupAction(groupName);
+          const newGroup = await createGroupAction(groupName, +groupIcon);
           if (newGroup?.id) {
             redirect(`/groups/${newGroup.id}/details`);
           }
@@ -37,16 +40,19 @@ function Page(): ReactElement {
         className="flex gap-3"
       >
         <Input name="group-name" placeholder="Group name" required type="text" maxLength={26} />
-        <Input
-          name="group-icon"
-          placeholder="Group avatar"
-          required
-          defaultValue={1}
-          type="number"
-          maxLength={1}
-          disabled
-          className="max-w-12"
-        />
+        <Select name="group-icon" required defaultValue="0">
+          <SelectTrigger className="w-[96px] pl-0">
+            <SelectValue placeholder="Icon" defaultValue="0" />
+          </SelectTrigger>
+          <SelectContent>
+            {Array.from({ length: 26 }, (_, i) => (
+              <SelectItem key={i} value={`${i}`}>
+                <GroupAvatar iconIndex={i} size="small" />
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
         <Button>Create group</Button>
       </form>
       <Alert>

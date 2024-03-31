@@ -7,6 +7,7 @@ import CopyToClipboard from '@/components/CopyToClipboard';
 import Link from 'next/link';
 import { GearIcon } from '@radix-ui/react-icons';
 import { Button } from '@/components/ui/button';
+import GroupAvatar from '@/components/avatar/GroupAvatar';
 
 type Props = {
   params: {
@@ -40,7 +41,10 @@ async function Group({ id }: { id: string }) {
 
   return (
     <div>
-      <h1 className="text-lg">{group.name}</h1>
+      <div className="flex gap-3 items-center">
+        <GroupAvatar iconIndex={group.iconIndex} />
+        <h1 className="text-lg">{group.name}</h1>
+      </div>
       <div className="mt-4">{group.users.length} members:</div>
       <ul>
         {group.users.map((user) => (
