@@ -17,7 +17,7 @@ interface Props {
 
 export default async function Home({ searchParams }: Props) {
   return (
-    <FullPage title="Add songs">
+    <FullPage title={searchParams.q != null ? 'Add songs' : undefined}>
       {searchParams.q == null ? (
         <Landing />
       ) : (

@@ -37,8 +37,12 @@ function Track({ track, action }: Props): ReactElement {
           <PlaySong songId={track.id} previewUrl={track.preview_url} />
         </div>
       )}
-      {action === 'addable' && <AddTrack className={styles.interactive} id={track.id} shortname={`${track.name} - ${track.artist}`} />}
-      {action === 'removable' && <RemoveTrack className={styles.interactive} id={track.id} shortname={`${track.name} - ${track.artist}`} />}
+      {action === 'addable' && (
+        <AddTrack className={styles.interactive} id={track.id} shortname={`${track.name} - ${track.artist}`} />
+      )}
+      {action === 'removable' && (
+        <RemoveTrack className={styles.interactive} id={track.id} shortname={`${track.name} - ${track.artist}`} />
+      )}
     </div>
   );
 }

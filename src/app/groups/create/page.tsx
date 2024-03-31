@@ -6,7 +6,13 @@ import { SmallPage } from '@/components/layout/Layouts';
 
 function Page(): ReactElement {
   return (
-    <SmallPage title="Create a group" className="">
+    <SmallPage
+      title="Create a group"
+      back={{
+        to: '/groups',
+        text: 'Back to groups',
+      }}
+    >
       <form
         action={async (data) => {
           'use server';

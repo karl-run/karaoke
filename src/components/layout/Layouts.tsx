@@ -5,7 +5,7 @@ import { ArrowLeft } from 'lucide-react';
 import { BackLink, BackToSearch } from '@/components/layout/BackLinks';
 
 type FullPageProps = {
-  title: string;
+  title?: string;
   className?: string;
   back?:
     | {
@@ -18,16 +18,18 @@ type FullPageProps = {
 export function FullPage({ title, back, children }: PropsWithChildren<FullPageProps>): ReactElement {
   return (
     <div className="container">
-      <div className="my-4 ml-8 mt-10 relative">
-        {back && (
-          <div className="text-xs underline absolute -top-5">
-            {back === 'search' && <BackToSearch />}
-            {back && typeof back !== 'string' && <BackLink href={back.to} text={back.text} />}
-          </div>
-        )}
+      {title && (
+        <div className="mt-6 my-4 ml-4 sm:ml-8 sm:mt-10 relative">
+          {back && (
+            <div className="text-xs underline absolute -top-5">
+              {back === 'search' && <BackToSearch />}
+              {back && typeof back !== 'string' && <BackLink href={back.to} text={back.text} />}
+            </div>
+          )}
 
-        <h1 className="text-xl">{title}</h1>
-      </div>
+          <h1 className="text-xl">{title}</h1>
+        </div>
+      )}
       {children}
     </div>
   );
