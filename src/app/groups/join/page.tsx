@@ -1,12 +1,11 @@
 import React, { ReactElement } from 'react';
+import {SmallPage} from "@/components/layout/Layouts";
 
 function Page(): ReactElement {
   return (
-    <div className="container">
-      <div className="p-2 xs:p-4 sm:p-8 flex flex-col">
-        <h1 className="text-xl mb-2">Join a group</h1>
-      </div>
-    </div>
+      <SmallPage title="Join a group" className="">
+          TODO
+      </SmallPage>
   );
 }
 

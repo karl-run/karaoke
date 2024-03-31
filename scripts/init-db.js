@@ -62,3 +62,25 @@ await client.execute(`
         data    JSONB
     );
 `);
+
+await client.execute(`
+    CREATE TABLE IF NOT EXISTS user_group
+    (
+        id TEXT PRIMARY KEY,
+        join_key TEXT NOT NULL UNIQUE,
+        name TEXT NOT NULL,
+        description TEXT
+    )
+`);
+
+await client.execute(`
+    CREATE TABLE IF NOT EXISTS user_to_group
+    (
+        user_id TEXT,
+        group_id TEXT,
+        role TEXT CHECK ( role IN ('admin', 'member') ) DEFAULT 'member',
+        PRIMARY KEY (user_id, group_id),
+        FOREIGN KEY (user_id) REFERENCES users (email),
+        FOREIGN KEY (group_id) REFERENCES user_group (id)
+    )
+`);

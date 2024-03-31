@@ -1,12 +1,32 @@
 import React, { ReactElement } from 'react';
+import { redirect } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { SmallPage } from '@/components/layout/Layouts';
 
 function Page(): ReactElement {
   return (
-    <div className="container">
-      <div className="p-2 xs:p-4 sm:p-8 flex flex-col">
-        <h1 className="text-xl mb-2">Create groups</h1>
-      </div>
-    </div>
+    <SmallPage title="Create a group" className="">
+      <form
+        action={async (data) => {
+          'use server';
+
+          const groupName = data.get('group-name')?.toString();
+
+          if (!groupName) {
+            throw new Error('Group name is required');
+          }
+
+          const newGroup = await createGroup(groupName);
+
+          redirect(`/groups/${newGroup.id}`);
+        }}
+        className="flex gap-3"
+      >
+        <Input name="group-name" placeholder="Group name" required type="text" />
+        <Button>Create group</Button>
+      </form>
+    </SmallPage>
   );
 }
 

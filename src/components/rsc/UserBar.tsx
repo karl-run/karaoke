@@ -10,10 +10,11 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 import styles from './UserBar.module.css';
 import UserDropdownAvatar from '@/components/UserDropdownAvatar';
+import { cn } from '@/lib/utils';
 
 function UserBar(): ReactElement {
   return (
-    <div className={styles.gridContainer}>
+    <div className={cn(styles.gridContainer, 'container')}>
       <div className={styles.logo}>
         <Link href="/">
           <Image className="h-10 w-10" src={logo} alt="" height="48" width="48" priority />

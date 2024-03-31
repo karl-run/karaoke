@@ -7,6 +7,7 @@ import { getUserSongMap } from '@/db/song-cache';
 import { getActiveSession } from '@/db/sessions';
 import { getSessionId } from '@/session/user';
 import { TrackResult } from '@/spotify/types';
+import { FullPage } from '@/components/layout/Layouts';
 
 interface Props {
   searchParams: {
@@ -16,7 +17,7 @@ interface Props {
 
 export default async function Home({ searchParams }: Props) {
   return (
-    <div className="container mx-auto">
+    <FullPage title="Add songs">
       {searchParams.q == null ? (
         <Landing />
       ) : (
@@ -24,7 +25,7 @@ export default async function Home({ searchParams }: Props) {
           <TrackSearch query={searchParams.q} />
         </Suspense>
       )}
-    </div>
+    </FullPage>
   );
 }
 

@@ -8,23 +8,15 @@ import Track, { TrackSkeleton } from '@/components/rsc/Track';
 import { getTrack } from '@/spotify/track';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
+import { FullPage, SmallPage } from '@/components/layout/Layouts';
 
 function Page(): ReactElement {
   return (
-    <div className="container">
-      <div className="p-2 xs:p-4 sm:p-8 flex flex-col">
-        <h1 className="text-xl mb-2">My bangers</h1>
-        <div>
-          <Link href="/?focus=true&q=" className="flex items-center gap-1 mb-4 max-w-fit">
-            <ArrowLeft className="h-4 w-4" />
-            Back to search
-          </Link>
-        </div>
-        <Suspense fallback={<BangersSkeleton />}>
-          <BangersList />
-        </Suspense>
-      </div>
-    </div>
+    <FullPage title="My bangers" back="search">
+      <Suspense fallback={<BangersSkeleton />}>
+        <BangersList />
+      </Suspense>
+    </FullPage>
   );
 }
 

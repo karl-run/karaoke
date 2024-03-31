@@ -1,4 +1,5 @@
 import React, { ReactElement } from 'react';
+import { SmallPage } from '@/components/layout/Layouts';
 
 interface Props {
   searchParams: {
@@ -8,17 +9,13 @@ interface Props {
 
 function Page({ searchParams }: Props): ReactElement {
   return (
-    <div className="container">
-      <div className="p-8 max-w-prose flex flex-col gap-8">
-        {searchParams.new ? (
-          <h1 className="text-xl">Account created!</h1>
-        ) : (
-          <h1 className="text-xl">Magic link sent... If you have an account.</h1>
-        )}
-        <p>Check your email on the device you want to log in to.</p>
-        <p>The link is single use, so use it on the device you want to log in to!</p>
-      </div>
-    </div>
+    <SmallPage
+      title={searchParams.new ? 'Account created!' : 'Magic link sent... If you have an account.'}
+      className="flex flex-col gap-8"
+    >
+      <p>Check your email on the device you want to log in to.</p>
+      <p>The link is single use, so use it on the device you want to log in to!</p>
+    </SmallPage>
   );
 }
 
