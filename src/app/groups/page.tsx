@@ -3,6 +3,7 @@ import { SmallPage } from '@/components/layout/Layouts';
 import { getUserGroups } from '@/db/groups';
 import { getUser } from '@/session/user';
 import Link from 'next/link';
+import GroupAvatar from '@/components/avatar/GroupAvatar';
 
 function Page(): ReactElement {
   return (
@@ -41,15 +42,24 @@ async function UserGroups() {
   const groups = await getUserGroups(user.userId);
 
   return (
-    <div>
+    <div className="flex flex-col gap-3">
       {groups.map((group) => (
-        <div key={group.id}>
-          <div>{group.name}</div>
-          <Link href={`/groups/${group.id}/bangers`} className="underline">
-            View group
-          </Link>
-        </div>
+        <GroupListItem key={group.id} group={group} />
       ))}
+    </div>
+  );
+}
+
+function GroupListItem(props: { group: any }) {
+  return (
+    <div className="flex gap-3">
+      <GroupAvatar iconIndex={props.group.iconIndex} />
+      <div>
+        <div>{props.group.name}</div>
+        <Link href={`/groups/${props.group.id}/bangers`} className="underline">
+          View group
+        </Link>
+      </div>
     </div>
   );
 }

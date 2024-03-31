@@ -11,6 +11,7 @@ import { getGroupByJoinCode, isUserInGroup } from '@/db/groups';
 import { joinGroupAction } from '@/app/groups/_group-actions';
 import { redirect } from 'next/navigation';
 import { getUser } from '@/session/user';
+import GroupAvatar from '@/components/avatar/GroupAvatar';
 
 type Props = {
   searchParams: {
@@ -142,9 +143,13 @@ async function JoinInvite({ code }: { code: string }): Promise<ReactElement> {
 
   return (
     <>
-      <h2>
-        You have been invited to join <span className="font-bold">{group.name}</span>
-      </h2>
+      <div>
+        <h2>You have been invited to join:</h2>
+        <div className="font-bold flex items-center gap-3 mt-4">
+          <GroupAvatar iconIndex={group.iconIndex} />
+          {group.name}
+        </div>
+      </div>
       <form
         action={async () => {
           'use server';
