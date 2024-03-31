@@ -1,6 +1,5 @@
 import React, { ReactElement } from 'react';
-import UserBar from '@/components/rsc/UserBar';
-import { createMagicLinkForUser, signup } from '@/auth/login';
+import { signup } from '@/auth/login';
 import { redirect } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -10,7 +9,6 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 function Page(): ReactElement {
   return (
     <div className="container">
-      <UserBar />
       <div className="p-8 max-w-prose flex flex-col gap-8">
         <h1 className="text-xl">Create new account</h1>
         <form

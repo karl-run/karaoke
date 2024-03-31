@@ -1,5 +1,4 @@
 import React, { ReactElement } from 'react';
-import UserBar from '@/components/rsc/UserBar';
 
 interface Props {
   searchParams: {
@@ -10,7 +9,6 @@ interface Props {
 function Page({ searchParams }: Props): ReactElement {
   return (
     <div className="container">
-      <UserBar />
       <div className="p-8 max-w-prose flex flex-col gap-8">
         {searchParams.new ? (
           <h1 className="text-xl">Account created!</h1>

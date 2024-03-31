@@ -31,6 +31,15 @@ function Landing(): ReactElement {
           </CardHeader>
           <CardContent>
             <p>Be a part of multiple groups, your bangers will apply across all groups.</p>
+            <div className="flex gap-2 mt-2">
+              <Link className="underline" href="/groups/join">
+                Join group
+              </Link>
+              <p>or</p>
+              <Link className="underline" href="/groups/create">
+                create group
+              </Link>
+            </div>
           </CardContent>
         </Card>
         <Card className="col-span-1 sm:col-span-2 md:col-span-1">

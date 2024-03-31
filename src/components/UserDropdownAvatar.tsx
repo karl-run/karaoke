@@ -26,6 +26,9 @@ function UserDropdownAvatar({ name }: Props): ReactElement {
         <DropdownMenuItem>
           <Link href="/bangers">My bangers</Link>
         </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link href="/groups">My groups</Link>
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <Link href="/logout">Log out</Link>

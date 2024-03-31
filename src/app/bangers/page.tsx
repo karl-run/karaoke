@@ -1,5 +1,4 @@
 import React, { ReactElement, Suspense } from 'react';
-import UserBar from '@/components/rsc/UserBar';
 import { getActiveSession } from '@/db/sessions';
 import { cookies } from 'next/headers';
 import { getUserSongs } from '@/db/song-cache';
@@ -13,7 +12,6 @@ import { ArrowLeft } from 'lucide-react';
 function Page(): ReactElement {
   return (
     <div className="container">
-      <UserBar />
       <div className="p-2 xs:p-4 sm:p-8 flex flex-col">
         <h1 className="text-xl mb-2">My bangers</h1>
         <div>

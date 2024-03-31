@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import UserBar from '@/components/rsc/UserBar';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { redirect } from 'next/navigation';
@@ -11,7 +10,6 @@ import Link from 'next/link';
 function Page(): ReactElement {
   return (
     <div className="container">
-      <UserBar />
       <div className="p-8 max-w-prose flex flex-col gap-8">
         <h1 className="text-xl">Log in</h1>
         <form

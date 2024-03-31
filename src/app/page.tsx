@@ -1,10 +1,9 @@
 import React, { Suspense } from 'react';
-import UserBar from '@/components/rsc/UserBar';
 import Landing from '@/components/Landing';
 import Track, { TrackSkeleton } from '@/components/rsc/Track';
 import { searchTracks } from '@/spotify/track';
 import { TrackGrid } from '@/components/track/TrackGrid';
-import { getUserSongMap, getUserSongs } from '@/db/song-cache';
+import { getUserSongMap } from '@/db/song-cache';
 import { getActiveSession } from '@/db/sessions';
 import { getSessionId } from '@/session/user';
 import { TrackResult } from '@/spotify/types';
@@ -18,7 +17,6 @@ interface Props {
 export default async function Home({ searchParams }: Props) {
   return (
     <div className="container mx-auto">
-      <UserBar />
       {searchParams.q == null ? (
         <Landing />
       ) : (
