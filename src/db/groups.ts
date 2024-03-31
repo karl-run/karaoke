@@ -48,7 +48,7 @@ export async function getUserGroups(userId: string) {
 
 export async function getGroup(id: string) {
   const group = await client.execute({
-    sql: `SELECT users.name as display_name, users.email, user_to_group.role, user_group.name, user_group.icon_index
+    sql: `SELECT users.name as display_name, users.email, user_to_group.role, user_group.name, user_group.icon_index, user_group.join_key
           FROM user_group
                  LEFT JOIN user_to_group ON user_group.id = user_to_group.group_id
                  LEFT JOIN users ON user_to_group.user_id = users.email
@@ -60,9 +60,54 @@ export async function getGroup(id: string) {
   return {
     name: group.rows[0].name as string,
     iconIndex: group.rows[0].icon_index as number,
+    joinCode: group.rows[0].join_key as string,
     users: group.rows.map((user) => ({
       displayName: user.display_name as string,
       role: user.role as string,
     })),
+  };
+}
+
+export async function getGroupByJoinCode(code: string) {
+  const group = await client.execute({
+    sql: `
+      SELECT * FROM user_group
+      WHERE join_key = ?
+    `,
+    args: [code],
+  });
+
+  if (group.rows.length === 0) {
+    return null;
+  }
+
+  return {
+    name: group.rows[0].name as string,
+    iconIndex: group.rows[0].icon_index as number,
+  };
+}
+
+export async function joinGroup(code: string, userId: string) {
+  const group = await getGroupByJoinCode(code);
+
+  if (!group) {
+    return null;
+  }
+
+  const result = await client.execute({
+    sql: `
+        INSERT INTO user_to_group (user_id, group_id)
+        SELECT ?, id
+        FROM user_group
+        WHERE join_key = ?
+        RETURNING group_id
+      `,
+    args: [userId, code],
+  });
+
+  console.log(result);
+
+  return {
+    id: result.rows[0].group_id as string,
   };
 }
