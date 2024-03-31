@@ -111,7 +111,15 @@ async function JoinInvite({ code }: { code: string }): Promise<ReactElement> {
       <Alert>
         <AlertTitle>Log in to join</AlertTitle>
         <AlertDescription>
-          You must be logged in to join a group. Please log in or create an account to join this group.
+          You must be logged in to join a group. Please{' '}
+          <Link href="/login" className="underline">
+            log in
+          </Link>{' '}
+          or{' '}
+          <Link href="/register" className="underline">
+            create an account
+          </Link>{' '}
+          to join this group.
         </AlertDescription>
       </Alert>
     );
@@ -148,7 +156,7 @@ async function JoinInvite({ code }: { code: string }): Promise<ReactElement> {
             return;
           }
 
-          redirect(`/groups/${result.id}`);
+          redirect(`/groups/${result.id}/details`);
         }}
       >
         <Button>Join {group.name}</Button>

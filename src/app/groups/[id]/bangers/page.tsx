@@ -6,6 +6,10 @@ import { getGroupBangers } from '@/db/bangers';
 import { TrackGrid } from '@/components/track/TrackGrid';
 import Track, { TrackSkeleton } from '@/components/rsc/Track';
 import { getTrack } from '@/spotify/track';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { InfoCircledIcon } from '@radix-ui/react-icons';
+import { MessageCircleWarningIcon } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 type Props = {
   params: {
@@ -38,23 +42,36 @@ async function GroupBangers({ id }: { id: string }) {
   return (
     <div>
       <h1 className="text-lg">Certified bangers for {group.name}</h1>
-      <TrackGrid>
-        {bangers.map((banger) => (
-          <div key={banger.songId} className="relative">
-            <div className="text-xs mb-1 truncate">{banger.users.join(', ')}</div>
-            {banger.track != null ? (
-              <Track track={banger.track} action="none" />
-            ) : (
-              <Suspense fallback={<TrackSkeleton />}>
-                <LazyTrack trackId={banger.songId} />
-              </Suspense>
-            )}
-            <div className="absolute right-0 top-5 xs:top-4 xs:left-0 bg-green-800/80 rounded-full w-6 h-6 flex items-center justify-center m-2 border border-gray-800/70">
-              {banger.userCount}
+      {bangers.length === 0 && (
+        <Alert className="mt-4">
+          <MessageCircleWarningIcon className="h-4 w-4" />
+          <AlertTitle>No bangers found?!</AlertTitle>
+          <AlertDescription>
+            Invite your friends, have them add their karaoke bangers! There has got to be at least one song you all
+            share. :-)
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {bangers.length > 0 && (
+        <TrackGrid>
+          {bangers.map((banger) => (
+            <div key={banger.songId} className="relative">
+              <div className="text-xs mb-1 truncate">{banger.users.join(', ')}</div>
+              {banger.track != null ? (
+                <Track track={banger.track} action="none" />
+              ) : (
+                <Suspense fallback={<TrackSkeleton />}>
+                  <LazyTrack trackId={banger.songId} />
+                </Suspense>
+              )}
+              <div className="absolute right-0 top-5 xs:top-4 xs:left-0 bg-green-800/80 rounded-full w-6 h-6 flex items-center justify-center m-2 border border-gray-800/70">
+                {banger.userCount}
+              </div>
             </div>
-          </div>
-        ))}
-      </TrackGrid>
+          ))}
+        </TrackGrid>
+      )}
     </div>
   );
 }

@@ -29,7 +29,7 @@ function Page(): ReactElement {
 
           const newGroup = await createGroupAction(groupName);
           if (newGroup?.id) {
-            redirect(`/groups/${newGroup.id}`);
+            redirect(`/groups/${newGroup.id}/details`);
           }
 
           console.error('Unable to create group');
