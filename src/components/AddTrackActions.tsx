@@ -18,6 +18,7 @@ export async function addBangerAction(trackId: string) {
 }
 
 export async function removeBangerAction(trackId: string) {
+  await new Promise((resolve) => setTimeout(resolve, 3000));
   const user = await getUser();
 
   if (!user) {
