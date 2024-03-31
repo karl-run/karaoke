@@ -8,6 +8,8 @@ import Link from 'next/link';
 import { GearIcon } from '@radix-ui/react-icons';
 import { Button } from '@/components/ui/button';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
+import DeleteGroupButton from '@/components/DeleteGroupButton';
+import { getUser } from '@/session/user';
 
 type Props = {
   params: {
@@ -37,7 +39,9 @@ function Page({ params: { id } }: Props): ReactElement {
 }
 
 async function Group({ id }: { id: string }) {
-  const group = await getGroup(id);
+  const [group, user] = await Promise.all([getGroup(id), getUser()]);
+
+  const userIsAdmin = group.users.find((it) => it.role === 'admin')?.userId === user?.userId;
 
   return (
     <div>
@@ -65,6 +69,19 @@ async function Group({ id }: { id: string }) {
         </div>
         <CopyToClipboard value={`https://karaoke.karl.run/groups/join?code=${group.joinCode}`} />
       </div>
+
+      {userIsAdmin && (
+        <div className="mt-8">
+          <h2>Danger zone</h2>
+          <p className="mb-4">
+            Permanently delete group. This will not delete any of your bangers, only the group and remove any members
+            from it.
+          </p>
+          <Suspense>
+            <DeleteGroupButton groupId={id} />
+          </Suspense>
+        </div>
+      )}
     </div>
   );
 }

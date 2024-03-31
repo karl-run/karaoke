@@ -64,6 +64,7 @@ export async function getGroup(id: string) {
     users: group.rows.map((user) => ({
       displayName: user.display_name as string,
       role: user.role as string,
+      userId: user.email as string,
     })),
   };
 }
@@ -131,4 +132,23 @@ export async function isUserInGroup(userId: string, code: string) {
   return {
     id: result.rows[0].group_id as string,
   };
+}
+
+export async function deleteGroup(groupId: string) {
+  const transaction = await client.transaction('write');
+  await client.execute({
+    sql: `
+        DELETE FROM user_to_group
+        WHERE group_id = ?
+        `,
+    args: [groupId],
+  });
+  await client.execute({
+    sql: `
+      DELETE FROM user_group
+      WHERE id = ?
+    `,
+    args: [groupId],
+  });
+  await transaction.commit();
 }
