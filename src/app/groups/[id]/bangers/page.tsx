@@ -7,7 +7,7 @@ import { TrackGrid } from '@/components/track/TrackGrid';
 import Track, { TrackSkeleton } from '@/components/rsc/Track';
 import { getTrack } from '@/spotify/track';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { InfoCircledIcon } from '@radix-ui/react-icons';
+import { GearIcon } from '@radix-ui/react-icons';
 import { MessageCircleWarningIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -25,10 +25,15 @@ function Page({ params: { id } }: Props): ReactElement {
         to: '/groups',
         text: 'Back to groups',
       }}
+      actions={
+        <Button variant="outline" asChild>
+          <Link href={`/groups/${id}/details`}>
+            <GearIcon className="h-4 w-4 mr-2" />
+            Group details
+          </Link>
+        </Button>
+      }
     >
-      <div className="flex gap-4 -mt-6 underline">
-        <Link href={`/groups/${id}/details`}>Group details</Link>
-      </div>
       <Suspense>
         <GroupBangers id={id} />
       </Suspense>

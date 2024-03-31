@@ -5,6 +5,8 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import CopyToClipboard from '@/components/CopyToClipboard';
 import Link from 'next/link';
+import { GearIcon } from '@radix-ui/react-icons';
+import { Button } from '@/components/ui/button';
 
 type Props = {
   params: {
@@ -20,10 +22,12 @@ function Page({ params: { id } }: Props): ReactElement {
         to: '/groups',
         text: 'Back to groups',
       }}
+      actions={
+        <Button variant="outline" asChild>
+          <Link href={`/groups/${id}/bangers`}>Group bangers</Link>
+        </Button>
+      }
     >
-      <div className="flex gap-4 -mt-6 underline">
-        <Link href={`/groups/${id}/bangers`}>Group details</Link>
-      </div>
       <Suspense>
         <Group id={id} />
       </Suspense>
