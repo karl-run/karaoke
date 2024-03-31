@@ -13,9 +13,10 @@ type FullPageProps = {
         to: string;
       }
     | 'search';
+  actions?: ReactNode;
 };
 
-export function FullPage({ title, back, children }: PropsWithChildren<FullPageProps>): ReactElement {
+export function FullPage({ title, back, children, actions }: PropsWithChildren<FullPageProps>): ReactElement {
   return (
     <div className="container">
       {title && (
@@ -28,6 +29,7 @@ export function FullPage({ title, back, children }: PropsWithChildren<FullPagePr
           )}
 
           <h1 className="text-xl">{title}</h1>
+          <div className="absolute -top-4 right-0">{actions}</div>
         </div>
       )}
       {children}

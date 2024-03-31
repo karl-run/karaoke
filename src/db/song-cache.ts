@@ -2,11 +2,12 @@ import * as R from 'remeda';
 import { TrackResult } from '@/spotify/types';
 import { client } from '@/db/client';
 
-export function addToCache(song: TrackResult) {
-  client.execute({
+export async function addToCache(song: TrackResult) {
+  await client.execute({
     sql: `
         INSERT INTO song_cache (song_id, data)
         VALUES (?, ?)
+        ON CONFLICT (song_id) DO NOTHING
     `,
     args: [song.id, JSON.stringify(song)],
   });

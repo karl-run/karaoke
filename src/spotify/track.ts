@@ -1,6 +1,7 @@
 import { spotifyFetch } from '@/spotify/auth';
 import { SpotifyTrack, SpotifyTracksResponse, TrackResult } from '@/spotify/types';
 import { addToCache, getUserSongs } from '@/db/song-cache';
+import { spotifyTrackToTrackResult } from '@/spotify/mapper';
 
 export async function getTrack(trackId: string, alsoCache: true): Promise<TrackResult> {
   const track = await spotifyFetch<SpotifyTrack>(`/v1/tracks/${trackId}`);
@@ -24,17 +25,7 @@ export async function getTrack(trackId: string, alsoCache: true): Promise<TrackR
 export async function searchTracks(search: string) {
   const result = await spotifyFetch<SpotifyTracksResponse>(`/v1/search?q=${buildSearchQuery(search)}&type=track`);
 
-  return result.tracks.items.map(
-    (track) =>
-      ({
-        id: track.id,
-        name: track.name,
-        artist: track.artists[0].name,
-        spotify_url: track.external_urls.spotify,
-        preview_url: track.preview_url,
-        image: track.album.images[0],
-      }) satisfies TrackResult,
-  );
+  return result.tracks.items.map(spotifyTrackToTrackResult);
 }
 
 function buildSearchQuery(search: string): string {

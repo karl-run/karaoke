@@ -15,6 +15,10 @@ type Props = {
 };
 
 function Track({ track, action }: Props): ReactElement {
+  if (track.image?.url == undefined) {
+    console.log(track);
+  }
+
   return (
     <div className={styles.trackGrid}>
       <Image

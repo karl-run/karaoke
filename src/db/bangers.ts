@@ -11,6 +11,21 @@ export async function addBanger(user_id: string, track_id: string) {
   });
 }
 
+export async function addBangers(user_id: string, track_ids: string[]) {
+  const transaction = await client.transaction('write');
+  for (const track_id of track_ids) {
+    await transaction.execute({
+      sql: `
+            INSERT INTO bangers (user_id, song_id)
+            VALUES (?, ?)
+            ON CONFLICT (user_id, song_id) DO NOTHING 
+        `,
+      args: [user_id, track_id],
+    });
+  }
+  transaction.commit();
+}
+
 export async function removeBanger(user_id: string, track_id: string) {
   return client.execute({
     sql: `

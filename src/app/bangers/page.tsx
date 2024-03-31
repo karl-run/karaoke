@@ -7,10 +7,11 @@ import { TrackGrid } from '@/components/track/TrackGrid';
 import Track, { TrackSkeleton } from '@/components/rsc/Track';
 import { getTrack } from '@/spotify/track';
 import { FullPage } from '@/components/layout/Layouts';
+import ImportFromSpotify from '@/components/import-from-spotify/ImportFromSpotify';
 
 function Page(): ReactElement {
   return (
-    <FullPage title="My bangers" back="search">
+    <FullPage title="My bangers" back="search" actions={<ImportFromSpotify />}>
       <Suspense fallback={<BangersSkeleton />}>
         <BangersList />
       </Suspense>

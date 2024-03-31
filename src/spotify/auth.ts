@@ -30,7 +30,7 @@ export async function getSpotifyToken(): Promise<string> {
 export async function spotifyFetch<Response>(path: string): Promise<Response> {
   const token = await getSpotifyToken();
 
-  console.info('Fetching Spotify API: ', `${SPOTIFY_BASE_URL}/${path}`);
+  console.info('Fetching Spotify API: ', `${SPOTIFY_BASE_URL}${path}`);
 
   const response = await fetch(`${SPOTIFY_BASE_URL}${path}`, {
     headers: {
@@ -43,7 +43,9 @@ export async function spotifyFetch<Response>(path: string): Promise<Response> {
 
   if (!response.ok) {
     const text = await response.text();
-    throw new Error(`Spotify HTTP error! status: ${response.status}, ${text}`);
+    throw new Error(`Spotify HTTP error! Status: ${response.status} ${response.statusText}`, {
+      cause: new Error(text),
+    });
   }
 
   return response.json();
