@@ -45,7 +45,7 @@ async function UserGroups() {
       {groups.map((group) => (
         <div key={group.id}>
           <div>{group.name}</div>
-          <Link href={`/groups/${group.id}`} className="underline">
+          <Link href={`/groups/${group.id}/bangers`} className="underline">
             View group
           </Link>
         </div>

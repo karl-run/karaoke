@@ -11,7 +11,7 @@ import styles from './Track.module.css';
 
 type Props = {
   track: TrackResult;
-  action: 'addable' | 'removable' | 'already-added';
+  action: 'addable' | 'removable' | 'already-added' | 'none';
 };
 
 function Track({ track, action }: Props): ReactElement {

@@ -6,9 +6,7 @@ import { TrackResult } from '@/spotify/types';
 import { TrackGrid } from '@/components/track/TrackGrid';
 import Track, { TrackSkeleton } from '@/components/rsc/Track';
 import { getTrack } from '@/spotify/track';
-import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
-import { FullPage, SmallPage } from '@/components/layout/Layouts';
+import { FullPage } from '@/components/layout/Layouts';
 
 function Page(): ReactElement {
   return (

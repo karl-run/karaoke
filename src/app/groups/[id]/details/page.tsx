@@ -1,11 +1,10 @@
 import React, { ReactElement, Suspense } from 'react';
 import { SmallPage } from '@/components/layout/Layouts';
 import { getGroup } from '@/db/groups';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
-import { toast } from 'sonner';
+import { Input } from '@/components/ui/input';
 import CopyToClipboard from '@/components/CopyToClipboard';
+import Link from 'next/link';
 
 type Props = {
   params: {
@@ -16,12 +15,15 @@ type Props = {
 function Page({ params: { id } }: Props): ReactElement {
   return (
     <SmallPage
-      title="Group Details"
+      title="Details"
       back={{
         to: '/groups',
         text: 'Back to groups',
       }}
     >
+      <div className="flex gap-4 -mt-6 underline">
+        <Link href={`/groups/${id}/bangers`}>Group details</Link>
+      </div>
       <Suspense>
         <Group id={id} />
       </Suspense>
