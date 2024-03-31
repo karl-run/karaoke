@@ -4,6 +4,7 @@ import { getUserGroups } from '@/db/groups';
 import { getUser } from '@/session/user';
 import Link from 'next/link';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
+import { Skeleton } from '@/components/ui/skeleton';
 
 function Page(): ReactElement {
   return (
@@ -14,7 +15,14 @@ function Page(): ReactElement {
         text: 'Back to home',
       }}
     >
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense
+        fallback={
+          <div className="flex flex-col gap-3">
+            <GroupListItemSkeleton />
+            <GroupListItemSkeleton />
+          </div>
+        }
+      >
         <UserGroups />
       </Suspense>
 
@@ -50,17 +58,40 @@ async function UserGroups() {
   );
 }
 
-function GroupListItem(props: { group: any }) {
+function GroupListItem({
+  group,
+}: {
+  group: {
+    id: string;
+    name: string;
+    iconIndex: number;
+    memberCount: number;
+  };
+}) {
   return (
-    <Link href={`/groups/${props.group.id}/bangers`} className="rounded hover:outline">
+    <Link href={`/groups/${group.id}/bangers`} className="rounded hover:outline">
       <div className="flex gap-3">
-        <GroupAvatar iconIndex={props.group.iconIndex} />
+        <GroupAvatar iconIndex={group.iconIndex} />
         <div>
-          <div>{props.group.name}</div>
-          <div className="text-sm">{props.group.memberCount} members</div>
+          <div>{group.name}</div>
+          <div className="text-sm">{group.memberCount} members</div>
         </div>
       </div>
     </Link>
+  );
+}
+
+function GroupListItemSkeleton() {
+  return (
+    <div>
+      <div className="flex gap-3">
+        <GroupAvatar iconIndex={1} className="grayscale" />
+        <div className="flex flex-col gap-2 mt-1">
+          <Skeleton className="w-20 h-4" />
+          <Skeleton className="w-20 h-4" />
+        </div>
+      </div>
+    </div>
   );
 }
 
