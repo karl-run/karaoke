@@ -17,7 +17,7 @@ function Page(): ReactElement {
         <UserGroups />
       </Suspense>
 
-      <div className="flex gap-1 mt-8">
+      <div className="flex flex-col sm:flex-row gap-1 mt-8">
         <h2>Got more friends?</h2>
         <Link className="underline" href="/groups/join">
           Join a group

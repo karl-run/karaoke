@@ -111,3 +111,24 @@ export async function joinGroup(code: string, userId: string) {
     id: result.rows[0].group_id as string,
   };
 }
+
+export async function isUserInGroup(userId: string, code: string) {
+  const result = await client.execute({
+    sql: `
+      SELECT *
+      FROM user_to_group
+             JOIN user_group ON user_to_group.group_id = user_group.id
+      WHERE user_to_group.user_id = ?
+        AND user_group.join_key = ?
+    `,
+    args: [userId, code],
+  });
+
+  if (result.rows.length === 0) {
+    return null;
+  }
+
+  return {
+    id: result.rows[0].group_id as string,
+  };
+}

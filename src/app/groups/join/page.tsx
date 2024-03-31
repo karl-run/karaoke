@@ -7,9 +7,10 @@ import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import Link from 'next/link';
 import { Skeleton } from '@/components/ui/skeleton';
-import { getGroupByJoinCode } from '@/db/groups';
+import { getGroupByJoinCode, isUserInGroup } from '@/db/groups';
 import { joinGroupAction } from '@/app/groups/_group-actions';
 import { redirect } from 'next/navigation';
+import { getUser } from '@/session/user';
 
 type Props = {
   searchParams: {
@@ -91,7 +92,7 @@ function JoinForm(): ReactElement {
 }
 
 async function JoinInvite({ code }: { code: string }): Promise<ReactElement> {
-  const group = await getGroupByJoinCode(code);
+  const [group, user] = await Promise.all([getGroupByJoinCode(code), getUser()]);
 
   if (group == null) {
     return (
@@ -101,6 +102,32 @@ async function JoinInvite({ code }: { code: string }): Promise<ReactElement> {
           The join code you entered is invalid. Please double-check the link you followed and try again.
         </AlertDescription>
         <AlertDescription className="mt-4">The code might be expired.</AlertDescription>
+      </Alert>
+    );
+  }
+
+  if (user == null) {
+    return (
+      <Alert>
+        <AlertTitle>Log in to join</AlertTitle>
+        <AlertDescription>
+          You must be logged in to join a group. Please log in or create an account to join this group.
+        </AlertDescription>
+      </Alert>
+    );
+  }
+
+  const userInGroup = await isUserInGroup(user.userId, code);
+  if (userInGroup != null) {
+    return (
+      <Alert>
+        <AlertTitle>Already in the group</AlertTitle>
+        <AlertDescription>
+          You are already a member of this group.{' '}
+          <Link href={`/groups/${userInGroup.id}`} className="underline">
+            View group
+          </Link>
+        </AlertDescription>
       </Alert>
     );
   }
