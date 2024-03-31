@@ -1,13 +1,15 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, Suspense } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
+import { getActiveSession } from '@/db/sessions';
+import { getSessionId } from '@/session/user';
 
 function Landing(): ReactElement {
   return (
     <div className="px-6 sm:px-20 mt-8 mb-8">
       <h1 className="text-3xl">Karaoke Match</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
         <Card>
           <CardHeader>
             <CardTitle className="flex gap-3">
@@ -42,25 +44,39 @@ function Landing(): ReactElement {
             </div>
           </CardContent>
         </Card>
-        <Card className="col-span-1 sm:col-span-2 md:col-span-1">
-          <CardHeader>
-            <CardTitle>Log in now</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p>Log in now to start matching your favourite tracks</p>
-            <div className="flex gap-2 mt-2">
-              <Link className="underline" href="/login">
-                Log in
-              </Link>
-              <p>or</p>
-              <Link className="underline" href="/signup">
-                Sign up
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
+        <Suspense>
+          <LogInNowCard />
+        </Suspense>
       </div>
     </div>
+  );
+}
+
+async function LogInNowCard() {
+  const activeSession = await getActiveSession(getSessionId());
+
+  if (activeSession != null) {
+    return null;
+  }
+
+  return (
+    <Card className="col-span-1 sm:col-span-2 md:col-span-1">
+      <CardHeader>
+        <CardTitle>Log in now</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p>Log in now to start matching your favourite tracks</p>
+        <div className="flex gap-2 mt-2">
+          <Link className="underline" href="/login">
+            Log in
+          </Link>
+          <p>or</p>
+          <Link className="underline" href="/signup">
+            Sign up
+          </Link>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
 
