@@ -31,6 +31,7 @@ function PlaySong({ songId, previewUrl }: Props): ReactElement {
       <Button
         size="icon"
         variant="ghost"
+        className="rounded-full"
         onClick={() => {
           const newPlay = !play;
           if (newPlay) {

@@ -1,0 +1,76 @@
+.trackGrid {
+  position: relative;
+  display: grid;
+  grid-template: 1fr 1fr / 2.5rem 1fr 2.5rem;
+  @apply gap-1;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  grid-column: 1 / 2;
+  grid-row: 1 / 3;
+}
+
+.name {
+  grid-column: 2 / 3;
+  grid-row: 1;
+}
+
+.artist {
+  grid-column: 2 / 3;
+  grid-row: 2;
+}
+
+.previewPlay {
+  grid-column: 1 / 2;
+  grid-row: 1 / 3;
+  @apply flex justify-center items-center;
+}
+
+.interactive {
+  position: absolute;
+  grid-column: 3 / span 1;
+  grid-row: 1 / span 2;
+  height: 100%;
+  width: 100%;
+}
+
+.name,
+.artist {
+  @apply text-sm truncate;
+}
+
+@media screen(xs) {
+  .trackGrid {
+    grid-template: 1fr 1rem 1rem / 1fr 2.5rem;
+  }
+
+  .image {
+    grid-column: 1 / 3;
+    grid-row: unset;
+  }
+
+  .name {
+    grid-column: 1 / 2;
+    grid-row: 2;
+  }
+
+  .artist {
+    grid-column: 1 / 2;
+    grid-row: 3;
+  }
+
+  .previewPlay {
+    grid-column: 2 / 3;
+    grid-row: 2 / 4;
+  }
+
+  .interactive {
+    position: absolute;
+    grid-column: 1 / span 2;
+    grid-row: 1 / span 1;
+    height: 100%;
+    width: 100%;
+  }
+}

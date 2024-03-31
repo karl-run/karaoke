@@ -5,19 +5,21 @@ import { Button } from '@/components/ui/button';
 import { CardStackMinusIcon } from '@radix-ui/react-icons';
 import { toast } from 'sonner';
 import { removeBangerAction } from '@/components/AddTrackActions';
+import { cn } from '@/lib/utils';
 
 type Props = {
   id: string;
   shortname: string;
+  className?: string;
 };
 
-function RemoveTrack({ id, shortname }: Props): ReactElement {
+function RemoveTrack({ id, shortname, className }: Props): ReactElement {
   const [justRemoved, setJustRemoved] = useState(false);
   const [transitioning, startTransition] = useTransition();
   return (
     <Button
       variant="ghost"
-      className="absolute w-10 h-10 p-0 xs:w-auto xs:h-auto xs:top-0 xs:left-0 right-0 xs:bottom-12 hover:bg-red-800/40 flex justify-center items-center"
+      className={cn(className, 'p-2 hover:bg-red-800/40 flex justify-center items-center')}
       disabled={justRemoved || transitioning}
       onClick={() => {
         startTransition(async () => {
@@ -28,7 +30,7 @@ function RemoveTrack({ id, shortname }: Props): ReactElement {
         });
       }}
     >
-      {!justRemoved && <CardStackMinusIcon className="h-6 w-6 xs:h-16 xs:w-16" />}
+      {!justRemoved && <CardStackMinusIcon className="h-full w-full xs:h-16 xs:w-16" />}
     </Button>
   );
 }

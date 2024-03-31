@@ -7,6 +7,8 @@ import RemoveTrack from '@/components/RemoveTrack';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 
+import styles from './Track.module.css';
+
 type Props = {
   track: TrackResult;
   action: 'addable' | 'removable' | 'already-added';
@@ -14,11 +16,9 @@ type Props = {
 
 function Track({ track, action }: Props): ReactElement {
   return (
-    <div key={track.id} className="flex flex-row xs:flex-col relative">
-      {action === 'addable' && <AddTrack id={track.id} shortname={`${track.name} - ${track.artist}`} />}
-      {action === 'removable' && <RemoveTrack id={track.id} shortname={`${track.name} - ${track.artist}`} />}
+    <div className={styles.trackGrid}>
       <Image
-        className={cn('h-12 w-12 xs:w-full xs:h-auto aspect-square rounded-xl', {
+        className={cn(styles.image, {
           'opacity-30': action === 'already-added',
         })}
         src={track.image.url}
@@ -26,21 +26,19 @@ function Track({ track, action }: Props): ReactElement {
         width={200}
         height={200}
       />
-      <div className="flex items-center p-1 grow">
-        <div className="grow text-sm">
-          <div className="max-w-[200px] truncate" title={track.name}>
-            {track.name}
-          </div>
-          <div className="max-w-[200px] truncate" title={track.artist}>
-            {track.artist}
-          </div>
-        </div>
-        {track.preview_url && (
-          <div className="h-10 w-10 absolute left-1 top-1 xs:relative xs:left-0 xs:top-0">
-            <PlaySong songId={track.id} previewUrl={track.preview_url} />
-          </div>
-        )}
+      <div className={styles.name} title={track.name}>
+        {track.name}
       </div>
+      <div className={styles.artist} title={track.artist}>
+        {track.artist}
+      </div>
+      {track.preview_url && (
+        <div className={styles.previewPlay}>
+          <PlaySong songId={track.id} previewUrl={track.preview_url} />
+        </div>
+      )}
+      {action === 'addable' && <AddTrack className={styles.interactive} id={track.id} shortname={`${track.name} - ${track.artist}`} />}
+      {action === 'removable' && <RemoveTrack className={styles.interactive} id={track.id} shortname={`${track.name} - ${track.artist}`} />}
     </div>
   );
 }

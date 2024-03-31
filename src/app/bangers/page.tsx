@@ -14,7 +14,7 @@ function Page(): ReactElement {
   return (
     <div className="container">
       <UserBar />
-      <div className="p-8 flex flex-col">
+      <div className="p-2 xs:p-4 sm:p-8 flex flex-col">
         <h1 className="text-xl mb-2">My bangers</h1>
         <div>
           <Link href="/?focus=true&q=" className="flex items-center gap-1 mb-4 max-w-fit">
@@ -81,9 +81,11 @@ async function LazyTrack({ trackId }: { trackId: string }): Promise<ReactElement
 
 function BangersSkeleton() {
   return (
-    <div className="p-20 flex justify-center items-center">
-      <div className="text-xl opacity-70">Loading bangers...</div>
-    </div>
+    <TrackGrid>
+      {[...Array(20)].map((_, index) => (
+        <TrackSkeleton key={index} />
+      ))}
+    </TrackGrid>
   );
 }
 
