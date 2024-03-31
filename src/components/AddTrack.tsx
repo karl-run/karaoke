@@ -26,13 +26,24 @@ function AddTrack({ id, shortname, className }: Props): ReactElement {
       onClick={() => {
         setLoading(true);
         startTransition(async () => {
-          await addBangerAction(id).catch(() => {
+          const result = await addBangerAction(id).catch(() => {
             toast.error('Failed to add track :(');
+            return {
+              error: 'unknown',
+            };
           });
 
           setLoading(false);
-          setSuccess(true);
-          toast.success(`${shortname} added to your bangers`);
+          if ('error' in result) {
+            if (result.error === 'not-logged-in') {
+              toast.error('You have to be logged in to add bangers!');
+            } else {
+              toast.error('Failed to add track :(');
+            }
+          } else {
+            setSuccess(true);
+            toast.success(`${shortname} added to your bangers`);
+          }
         });
       }}
     >
