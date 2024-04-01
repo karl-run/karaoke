@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import Link from 'next/link';
+import ThemeToggler from './ThemeToggler';
 
 type Props = {
   name: string;
@@ -24,16 +25,18 @@ function UserDropdownAvatar({ name }: Props): ReactElement {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem>
-          <Link href="/bangers">My bangers</Link>
+          <Link href="/bangers">Bangers</Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Link href="/groups">My groups</Link>
+          <Link href="/groups">Groups</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
+        <ThemeToggler />
+        <DropdownMenuSeparator />
+        <DropdownMenuLabel>User</DropdownMenuLabel>
         <DropdownMenuItem>
           <Link href="/profile">Profile</Link>
         </DropdownMenuItem>
-        <DropdownMenuSeparator />
         <DropdownMenuItem>
           <Link href="/logout">Log out</Link>
         </DropdownMenuItem>
