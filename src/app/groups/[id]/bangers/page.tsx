@@ -1,5 +1,5 @@
 import React, { ReactElement, Suspense } from 'react';
-import { SmallPage } from '@/components/layout/Layouts';
+import { FullPage, FullPageDescription, SmallPage } from '@/components/layout/Layouts';
 import Link from 'next/link';
 import { getGroup } from '@/db/groups';
 import { getGroupBangers } from '@/db/bangers';
@@ -22,7 +22,7 @@ type Props = {
 
 function Page({ params: { id } }: Props): ReactElement {
   return (
-    <SmallPage
+    <FullPage
       title="Group bangers"
       back={{
         to: '/groups',
@@ -40,7 +40,7 @@ function Page({ params: { id } }: Props): ReactElement {
       <Suspense>
         <GroupBangers id={id} />
       </Suspense>
-    </SmallPage>
+    </FullPage>
   );
 }
 
@@ -53,10 +53,12 @@ async function GroupBangers({ id }: { id: string }) {
 
   return (
     <div>
-      <div className="flex gap-3 items-center">
-        <GroupAvatar iconIndex={group.iconIndex} />
-        <h1 className="text-lg">Certified bangers for {group.name}</h1>
-      </div>
+      <FullPageDescription>
+        <div className="flex gap-3 items-center">
+          <GroupAvatar iconIndex={group.iconIndex} />
+          <h1 className="text-lg">Certified bangers for {group.name}</h1>
+        </div>
+      </FullPageDescription>
 
       {bangers.length === 0 && (
         <Alert className="mt-4">

@@ -37,6 +37,10 @@ export function FullPage({ title, back, children, actions }: PropsWithChildren<F
   );
 }
 
+export function FullPageDescription({ children }: PropsWithChildren) {
+  return <div className="ml-4 sm:ml-8">{children}</div>;
+}
+
 type SmallPageProps = {
   title: string;
   className?: string;
@@ -79,7 +83,7 @@ export function SmallPage({
         <h1 className="text-xl">{title}</h1>
         <div className="absolute -top-4 right-0">{actions}</div>
       </div>
-      <div className={cn('max-w-prose p-8 pt-4', className)}>{children}</div>
+      <div className={cn('max-w-prose p-8 pt-0', className)}>{children}</div>
     </div>
   );
 }
