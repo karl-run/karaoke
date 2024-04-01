@@ -4,6 +4,7 @@ import React from 'react';
 
 export function BackLink(props: { href: string; text: string }) {
   return (
+    // @ts-expect-error TODO can this strong typing be used in custom components?
     <Link href={props.href} className="flex items-center gap-1 mb-4 max-w-fit">
       <ArrowLeft className="h-4 w-4" />
       {props.text}

@@ -14,8 +14,8 @@ type UserDb = {
 export async function getUserByEmail(email: string): Promise<UserDb | null> {
   const result = await client.execute({
     sql: `SELECT *
-          FROM users
-          WHERE email = ?`,
+              FROM users
+              WHERE email = ?`,
     args: [email],
   });
 
@@ -36,10 +36,10 @@ export async function getUserByEmail(email: string): Promise<UserDb | null> {
 export async function updateUserLoginState(email: string, hash: string, salt: string) {
   await client.execute({
     sql: `UPDATE users
-          SET login_hash      = ?,
-              login_salt      = ?,
-              login_timestamp = ?
-          WHERE email = ?`,
+              SET login_hash      = ?,
+                  login_salt      = ?,
+                  login_timestamp = ?
+              WHERE email = ?`,
     args: [hash, salt, new Date(), email],
   });
 }
@@ -47,10 +47,10 @@ export async function updateUserLoginState(email: string, hash: string, salt: st
 export async function clearUserLoginState(email: string) {
   await client.execute({
     sql: `UPDATE users
-            SET login_hash      = NULL,
-                login_salt      = NULL,
-                login_timestamp = NULL
-            WHERE email = ?`,
+              SET login_hash      = NULL,
+                  login_salt      = NULL,
+                  login_timestamp = NULL
+              WHERE email = ?`,
     args: [email],
   });
 }
@@ -58,7 +58,7 @@ export async function clearUserLoginState(email: string) {
 export async function createUser(email: string, displayName: string, hash: string, salt: string) {
   await client.execute({
     sql: `INSERT INTO users (email, name, login_hash, login_salt, login_timestamp)
-          VALUES (?, ?, ?, ?, ?)`,
+              VALUES (?, ?, ?, ?, ?)`,
     args: [email, displayName, hash, salt, new Date()],
   });
 }
@@ -80,6 +80,43 @@ export async function getUserDetails(sessionId: string) {
   return {
     name: user.name,
     userId: user.email,
-    groups: [],
   };
+}
+
+export async function deleteUserCascading(userId: string) {
+  const transaction = await client.transaction();
+
+  // Delete all bangers
+  await transaction.execute({
+    sql: `DELETE
+              FROM bangers
+              WHERE user_id = ?`,
+    args: [userId],
+  });
+
+  // Delete all group memberships
+  await transaction.execute({
+    sql: `DELETE
+              FROM user_to_group
+              WHERE user_id = ?`,
+    args: [userId],
+  });
+
+  // Delete sessions
+  await transaction.execute({
+    sql: `DELETE
+                FROM sessions
+                WHERE user_id = ?`,
+    args: [userId],
+  });
+
+  // Delete user
+  await transaction.execute({
+    sql: `DELETE
+              FROM users
+              WHERE email = ?`,
+    args: [userId],
+  });
+
+  await transaction.commit();
 }

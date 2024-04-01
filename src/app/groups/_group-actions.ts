@@ -43,6 +43,10 @@ export async function deleteGroupAction(groupId: string): Promise<boolean> {
   }
 
   const group = await getGroup(groupId);
+  if (!group) {
+    throw new Error('Group not found');
+  }
+
   const admin = group.users.find((it) => it.role === 'admin');
 
   if (!admin) {

@@ -133,7 +133,7 @@ async function JoinInvite({ code }: { code: string }): Promise<ReactElement> {
         <AlertTitle>Already in the group</AlertTitle>
         <AlertDescription>
           You are already a member of this group.{' '}
-          <Link href={`/groups/${userInGroup.id}`} className="underline">
+          <Link href={`/groups/${userInGroup.id}/bangers`} className="underline">
             View group
           </Link>
         </AlertDescription>

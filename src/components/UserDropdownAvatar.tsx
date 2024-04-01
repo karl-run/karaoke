@@ -31,6 +31,10 @@ function UserDropdownAvatar({ name }: Props): ReactElement {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
+          <Link href="/profile">Profile</Link>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
           <Link href="/logout">Log out</Link>
         </DropdownMenuItem>
       </DropdownMenuContent>

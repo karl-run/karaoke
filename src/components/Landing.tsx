@@ -94,7 +94,7 @@ async function LogInNowCard() {
             Log in
           </Link>
           <p>or</p>
-          <Link className="underline" href="/signup">
+          <Link className="underline" href="/register">
             Sign up
           </Link>
         </div>
