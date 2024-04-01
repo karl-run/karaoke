@@ -8,6 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 
 import styles from './Track.module.css';
+import { CheckIcon } from '@radix-ui/react-icons';
 
 type Props = {
   track: TrackResult;
@@ -42,6 +43,12 @@ function Track({ track, action }: Props): ReactElement {
       )}
       {action === 'removable' && (
         <RemoveTrack className={styles.interactive} id={track.id} shortname={`${track.name} - ${track.artist}`} />
+      )}
+      {action === 'already-added' && (
+        <div className={cn(styles.interactive, 'flex flex-col justify-center items-center')}>
+          <CheckIcon className={cn('h-full w-full xs:h-1/2 xs:w-1/2')} />
+          <p className="hidden xs:block opacity-70">Already in your bangers</p>
+        </div>
       )}
     </div>
   );
