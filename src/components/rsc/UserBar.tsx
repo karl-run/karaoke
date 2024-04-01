@@ -31,7 +31,7 @@ function UserBar(): ReactElement {
         <Button asChild size="sm" variant="outline">
           <Link href="/groups">Groups</Link>
         </Button>
-        <Button asChild variant="outline">
+        <Button asChild size="sm" variant="outline">
           <Link href="/bangers">Bangers</Link>
         </Button>
         <Suspense fallback={<UserDetailsSkeleton />}>
