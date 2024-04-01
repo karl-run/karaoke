@@ -1,8 +1,6 @@
 import React, { ReactElement, Suspense } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 
-import logo from '@/images/logo.png';
 import SearchBar from '@/components/SearchBar';
 import { getUserDetails } from '@/db/users';
 import { cookies } from 'next/headers';
@@ -13,13 +11,14 @@ import UserDropdownAvatar from '@/components/UserDropdownAvatar';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import GroupAvatar from '@/components/avatar/GroupAvatar';
 
 function UserBar(): ReactElement {
   return (
     <div className={cn(styles.gridContainer, 'container')}>
       <div className={styles.logo}>
         <Link href="/">
-          <Image className="h-10 w-10" src={logo} alt="" height="48" width="48" priority />
+          <GroupAvatar iconIndex={Math.floor(Math.random() * 36)} />
         </Link>
       </div>
       <div className={styles.search}>

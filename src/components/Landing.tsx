@@ -1,6 +1,6 @@
 import React, { ReactElement, Suspense } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
+import { MagnifyingGlassIcon, PersonIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { getActiveSession } from '@/db/sessions';
 import { getSessionId } from '@/session/user';
@@ -9,7 +9,19 @@ import GroupAvatar from '@/components/avatar/GroupAvatar';
 function Landing(): ReactElement {
   return (
     <div className="px-6 sm:px-20 mt-8 mb-8">
-      <h1 className="text-3xl">Karaoke Match</h1>
+      <div className="flex flex-col items-center">
+        <div className="flex gap-3 items-center">
+          <GroupAvatar iconIndex={2} />
+          <h1 className="text-3xl">Karaoke Match</h1>
+        </div>
+        <div className="border mt-4 max-w-96 p-4 rounded-xl relative">
+          <div className="text-sm absolute -top-2.5 left-1/2 -translate-x-1/2 bg-background px-2">What is it?</div>
+          <p className="font-bold text-center">Build a list of your go-to karaoke bangers!</p>
+          <p className="font-bold mt-4 text-center">
+            Join your friends in a group and get a list of all the songs two or more of you love :-)
+          </p>
+        </div>
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
         <Card>
           <CardHeader>
@@ -19,7 +31,7 @@ function Landing(): ReactElement {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p>Match your favourite tracks with your friends</p>
+            <p>Build up a list of your go-to karaoke bangers!</p>
           </CardContent>
           <CardFooter>
             <p>
@@ -30,7 +42,10 @@ function Landing(): ReactElement {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Join groups</CardTitle>
+            <CardTitle className="flex gap-3">
+              <PersonIcon className="h-6 w-6" />
+              Join groups
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <p>Be a part of multiple groups, your bangers will apply across all groups.</p>
