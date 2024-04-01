@@ -56,7 +56,9 @@ async function GroupBangers({ id }: { id: string }) {
       <FullPageDescription>
         <div className="flex gap-3 items-center">
           <GroupAvatar iconIndex={group.iconIndex} />
-          <h1 className="text-lg">Certified bangers for {group.name}</h1>
+          <h1 className="text-lg">
+            {bangers.length} certified bangers for {group.name}
+          </h1>
         </div>
       </FullPageDescription>
 

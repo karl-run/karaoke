@@ -37,8 +37,8 @@ export function FullPage({ title, back, children, actions }: PropsWithChildren<F
   );
 }
 
-export function FullPageDescription({ children }: PropsWithChildren) {
-  return <div className="ml-4 sm:ml-8">{children}</div>;
+export function FullPageDescription({ children, className }: PropsWithChildren<{ className?: string }>) {
+  return <div className={cn(className, 'ml-4 sm:ml-8')}>{children}</div>;
 }
 
 type SmallPageProps = {

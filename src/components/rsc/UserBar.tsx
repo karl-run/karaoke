@@ -12,6 +12,7 @@ import styles from './UserBar.module.css';
 import UserDropdownAvatar from '@/components/UserDropdownAvatar';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 
 function UserBar(): ReactElement {
   return (
@@ -27,6 +28,12 @@ function UserBar(): ReactElement {
         </Suspense>
       </div>
       <div className={styles.userDetails}>
+        <Button asChild size="sm" variant="outline">
+          <Link href="/groups">Groups</Link>
+        </Button>
+        <Button asChild variant="outline">
+          <Link href="/bangers">Bangers</Link>
+        </Button>
         <Suspense fallback={<UserDetailsSkeleton />}>
           <UserDetails />
         </Suspense>
@@ -45,7 +52,7 @@ async function UserDetails() {
   if (!user) return <NotLoggedIn />;
 
   return (
-    <div className="flex gap-3 items-center justify-end h-full p-3">
+    <div className="flex gap-3 items-center justify-end h-full p-3 shrink-0">
       <div>
         <div className="text-xs">Logged in</div>
         <div className="truncate">{user.name}</div>

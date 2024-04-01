@@ -6,7 +6,7 @@ import { TrackResult } from '@/spotify/types';
 import { TrackGrid } from '@/components/track/TrackGrid';
 import Track, { TrackSkeleton } from '@/components/rsc/Track';
 import { getTrack } from '@/spotify/track';
-import { FullPage } from '@/components/layout/Layouts';
+import { FullPage, FullPageDescription } from '@/components/layout/Layouts';
 import ImportFromSpotify from '@/components/import-from-spotify/ImportFromSpotify';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -37,9 +37,9 @@ async function BangersList(): Promise<ReactElement> {
 
   if (!session) {
     return (
-      <div className="p-20 flex justify-center items-center">
+      <FullPageDescription className="p-20 flex justify-center items-center">
         <div className="text-xl opacity-70">Log in to see your bangers</div>
-      </div>
+      </FullPageDescription>
     );
   }
 
@@ -47,27 +47,30 @@ async function BangersList(): Promise<ReactElement> {
 
   if (bangs.length === 0) {
     return (
-      <div>
+      <FullPageDescription>
         <div className="text-lg opacity-70">No songs found</div>
         <p className="mt-8">Start adding bangers by searching for songs and adding them to your list.</p>
-      </div>
+      </FullPageDescription>
     );
   }
 
   return (
-    <TrackGrid>
-      {bangs.map(([song_id, track]) => (
-        <div key={song_id}>
-          {track != null ? (
-            <KnownTrack track={track} />
-          ) : (
-            <Suspense fallback={<TrackSkeleton />}>
-              <LazyTrack trackId={song_id} />
-            </Suspense>
-          )}
-        </div>
-      ))}
-    </TrackGrid>
+    <>
+      <FullPageDescription>You have {bangs.length} bangers in your list!</FullPageDescription>
+      <TrackGrid>
+        {bangs.map(([song_id, track]) => (
+          <div key={song_id}>
+            {track != null ? (
+              <KnownTrack track={track} />
+            ) : (
+              <Suspense fallback={<TrackSkeleton />}>
+                <LazyTrack trackId={song_id} />
+              </Suspense>
+            )}
+          </div>
+        ))}
+      </TrackGrid>
+    </>
   );
 }
 
