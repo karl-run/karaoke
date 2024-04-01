@@ -1,0 +1,21 @@
+.wheel {
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+  animation: spinTheWheel 5s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+}
+
+.slice {
+  clip-path: polygon(50% 50%, 100% 40%, 100% 100%);
+  transform-origin: 50% 50%;
+  transform: rotate(var(--rotate));
+}
+
+@keyframes spinTheWheel {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(3600deg);
+  }
+}

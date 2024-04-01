@@ -7,7 +7,7 @@ import { TrackGrid } from '@/components/track/TrackGrid';
 import Track, { TrackSkeleton } from '@/components/rsc/Track';
 import { getTrack } from '@/spotify/track';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { GearIcon } from '@radix-ui/react-icons';
+import { Crosshair2Icon, GearIcon } from '@radix-ui/react-icons';
 import { MessageCircleWarningIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
@@ -47,19 +47,31 @@ function Page({ params: { id } }: Props): ReactElement {
 async function GroupBangers({ id }: { id: string }) {
   const [group, bangers, user] = await Promise.all([getGroup(id), getGroupBangers(id), getUser()]);
 
+  if (!user) {
+    notFound();
+  }
+
   if (group == null || group.users.find((u) => u.userId === user?.userId) == null) {
     notFound();
   }
 
   return (
     <div>
-      <FullPageDescription>
+      <FullPageDescription className="flex gap-3 mb-3 justify-between items-center">
         <div className="flex gap-3 items-center">
           <GroupAvatar iconIndex={group.iconIndex} />
           <h1 className="text-lg">
             {bangers.length} certified bangers for {group.name}
           </h1>
         </div>
+        {user.userId === process.env.ADMIN_ID && (
+          <Button variant="outline" className="mr-3 rounded-full w-10 h-10" asChild>
+            <Link href={`/groups/${id}/wheel`} aria-label="Go to The Wheel" className="relative">
+              <Crosshair2Icon className="h-4 w-4 absolute" />
+              <Crosshair2Icon className="h-4 w-4 animate-ping absolute" />
+            </Link>
+          </Button>
+        )}
       </FullPageDescription>
 
       {bangers.length === 0 && (

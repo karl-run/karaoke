@@ -13,7 +13,7 @@ export async function addToCache(song: TrackResult) {
   });
 }
 
-export async function getUserSongs(user_id: string): Promise<[string, TrackResult | null][]> {
+export async function getUserBangers(user_id: string): Promise<[string, TrackResult | null][]> {
   const result = await client.execute({
     sql: `
         SELECT *
@@ -35,7 +35,7 @@ export async function getUserSongs(user_id: string): Promise<[string, TrackResul
 }
 
 export async function getUserSongMap(user_id: string): Promise<Record<string, TrackResult | null>> {
-  const results = await getUserSongs(user_id);
+  const results = await getUserBangers(user_id);
 
   return R.fromEntries(results);
 }
