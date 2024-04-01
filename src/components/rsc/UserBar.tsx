@@ -17,7 +17,7 @@ function UserBar(): ReactElement {
   return (
     <div className={cn(styles.gridContainer, 'container')}>
       <div className={styles.logo}>
-        <Link href="/">
+        <Link href="/" aria-label="Home">
           <GroupAvatar iconIndex={Math.floor(Math.random() * 36)} />
         </Link>
       </div>
