@@ -5,14 +5,14 @@ import { Input } from '@/components/ui/input';
 import { useQueryState } from 'nuqs';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-function SearchBar(): React.ReactElement | null {
+function SearchBar(): ReactElement | null {
   const path = usePathname();
   const router = useRouter();
   const query = useSearchParams();
   const searchRef = useRef<HTMLInputElement>(null);
   const [search, setSearch] = useQueryState('q', {
     shallow: false,
-    throttleMs: 1000,
+    throttleMs: 1500,
   });
 
   useEffect(() => {

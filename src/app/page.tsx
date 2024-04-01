@@ -30,7 +30,7 @@ export default async function Home({ searchParams }: Props) {
 }
 
 async function TrackSearch({ query }: { query: string }) {
-  if (!query)
+  if (!query || query.length < 4)
     return (
       <div className="p-20 flex justify-center items-center">
         <div className="text-xl opacity-70">Start searching for bangers</div>
