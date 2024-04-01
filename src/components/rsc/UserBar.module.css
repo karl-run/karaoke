@@ -27,7 +27,7 @@
 
 @media screen(md) {
   .gridContainer {
-    grid-template-columns: 3rem 2fr 1.2fr;
+    grid-template-columns: 3rem 1fr 1fr;
     grid-template-rows: 1fr;
   }
 

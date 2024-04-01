@@ -77,11 +77,11 @@ function UserDetailsSkeleton() {
 
 function NotLoggedIn() {
   return (
-    <div className="flex gap-6 items-center justify-between sm:justify-end h-full p-3">
-      <Link className="underline" href="/login">
+    <div className="flex gap-2 xs:gap-6 flex-col-reverse xs:flex-row items-center justify-between sm:justify-end h-full p-3">
+      <Link className="underline shrink-0" href="/login">
         Log in
       </Link>
-      <Link className="underline" href="/register">
+      <Link className="underline shrink-0" href="/register">
         Register
       </Link>
     </div>
