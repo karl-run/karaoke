@@ -20,6 +20,7 @@ function ArbitraryAddableTrack({ artist, name, existingSongs }: Props): ReactEle
   const [lookup, setLookup] = useState<TrackResult | null>(null);
   const [adding, setAdding] = useState(false);
   const [added, setAdded] = useState(false);
+  const [notFound, setNotFound] = useState(false);
 
   const alreadyAdded = lookup?.id ? existingSongs[lookup.id] != null : false;
 
@@ -37,22 +38,27 @@ function ArbitraryAddableTrack({ artist, name, existingSongs }: Props): ReactEle
           className={cn(styles.searchButton)}
         />
       )}
-      {!lookup && (
+      {!lookup && !notFound && (
         <Button
           variant="outline"
           className={cn(styles.searchButton, 'p-2')}
           disabled={loading}
           onClick={async () => {
             setLoading(true);
-            const result = await tryToFindSongAction(`${name} - ${artist}`);
+            const result = await tryToFindSongAction(`track:${name} artist:${artist}`);
             setLoading(false);
             setLookup(result);
+
+            if (result == null) {
+              setNotFound(true);
+            }
           }}
         >
           <SearchIcon className="w-12 h-12" />
         </Button>
       )}
-      {!lookup && <div className={styles.lookupText}>Find song</div>}
+      {!lookup && !notFound && <div className={styles.lookupText}>Find song</div>}
+      {!lookup && notFound && <div className={styles.lookupText}>Song not found on Spotify</div>}
       {lookup && <div className={styles.spotifyTop}>{lookup.name}</div>}
       {lookup && <div className={styles.spotifyBottom}>{lookup.artist}</div>}
       {lookup && !added && !alreadyAdded && (

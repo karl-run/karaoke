@@ -31,6 +31,10 @@ export async function searchTracks(search: string) {
 export async function bestGuessTrack(search: string): Promise<TrackResult | null> {
   const tracks = await searchTracks(search);
 
+  if (tracks.length === 0) {
+    return null;
+  }
+
   await addToCache(tracks[0]);
 
   return tracks[0] ?? null;
