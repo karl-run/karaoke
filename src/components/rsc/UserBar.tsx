@@ -1,4 +1,4 @@
-import { ReactElement, Suspense } from 'react';
+import React, { ReactElement, Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -11,6 +11,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import styles from './UserBar.module.css';
 import UserDropdownAvatar from '@/components/UserDropdownAvatar';
 import { cn } from '@/lib/utils';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 function UserBar(): ReactElement {
   return (
@@ -56,9 +57,14 @@ async function UserDetails() {
 
 function UserDetailsSkeleton() {
   return (
-    <div className="flex gap-6 items-center justify-between sm:justify-end h-full p-3">
-      <Skeleton className="h-4 w-10" />
-      <Skeleton className="h-4 w-16" />
+    <div className="flex gap-3 items-center justify-end h-full p-3">
+      <div>
+        <Skeleton className="h-3 w-10" />
+        <Skeleton className="h-4 w-16 mt-2" />
+      </div>
+      <Avatar>
+        <AvatarFallback />
+      </Avatar>
     </div>
   );
 }
