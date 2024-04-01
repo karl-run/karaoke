@@ -26,17 +26,19 @@
 .lookupText {
   grid-column: 3 / 4;
   grid-row: 1 / span 2;
-  @apply self-center;
+  @apply self-center truncate;
 }
 
 .spotifyTop {
   grid-column: 3 /4;
   grid-row: 1;
+  @apply truncate;
 }
 
 .spotifyBottom {
   grid-column: 3 /4;
   grid-row: 2;
+  @apply truncate;
 }
 
 .addButton {
