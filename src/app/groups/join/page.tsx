@@ -56,7 +56,16 @@ function JoinForm(): ReactElement {
         action={async (data) => {
           'use server';
 
-          console.log(data);
+          const code = data.get('join-code')?.toString() as string;
+
+          const result = await joinGroupAction(code);
+
+          if (result == null) {
+            console.error('Unable to join group');
+            return;
+          }
+
+          redirect(`/groups/${result.id}/details`);
         }}
         className="flex items-end gap-3"
       >
