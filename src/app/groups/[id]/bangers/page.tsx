@@ -77,7 +77,7 @@ async function GroupBangers({ id }: { id: string }) {
         <TrackGrid>
           {bangers.map((banger) => (
             <div key={banger.songId} className="relative">
-              <div className="text-xs mb-1 truncate">{banger.users.join(', ')}</div>
+              <div className="text-xs ml-1 mb-0.5 truncate">{banger.users.join(', ')}</div>
               {banger.track != null ? (
                 <Track track={banger.track} action="none" />
               ) : (

@@ -47,7 +47,7 @@ function Track({ track, action }: Props): ReactElement {
       {action === 'already-added' && (
         <div className={cn(styles.interactive, 'flex flex-col justify-center items-center')}>
           <CheckIcon className={cn('h-full w-full xs:h-1/2 xs:w-1/2')} />
-          <p className="hidden xs:block opacity-70">Already in your bangers</p>
+          <p className="hidden xs:block opacity-70 text-center px-2">Already in your bangers</p>
         </div>
       )}
     </div>
