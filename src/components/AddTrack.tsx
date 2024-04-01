@@ -2,7 +2,7 @@
 
 import { ReactElement, useState, useTransition } from 'react';
 import { Button } from '@/components/ui/button';
-import { CardStackPlusIcon, CheckIcon, CheckboxIcon, UpdateIcon } from '@radix-ui/react-icons';
+import { CardStackPlusIcon, CheckIcon, UpdateIcon } from '@radix-ui/react-icons';
 import { addBangerAction } from '@/components/AddTrackActions';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
@@ -49,7 +49,7 @@ function AddTrack({ id, shortname, className }: Props): ReactElement {
     >
       {loading && <UpdateIcon className="h-full w-full xs:h-16 xs:w-16 animate-spin" />}
       {!loading && !success && (
-        <CardStackPlusIcon className="h-full w-full xs:h-16 xs:w-16 animate-out fade-out zoom-out" />
+        <CheckIcon className="h-full w-full xs:h-16 xs:w-16 animate-out fade-out zoom-out" />
       )}
       {!loading && success && <CheckIcon className="h-full w-full xs:h-22 xs:w-22 animate-in fade-in zoom-in" />}
     </Button>

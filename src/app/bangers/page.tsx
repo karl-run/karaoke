@@ -8,10 +8,23 @@ import Track, { TrackSkeleton } from '@/components/rsc/Track';
 import { getTrack } from '@/spotify/track';
 import { FullPage } from '@/components/layout/Layouts';
 import ImportFromSpotify from '@/components/import-from-spotify/ImportFromSpotify';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 function Page(): ReactElement {
   return (
-    <FullPage title="My bangers" back="search" actions={<ImportFromSpotify />}>
+    <FullPage
+      title="My bangers"
+      back="search"
+      actions={
+        <div className="flex gap-3">
+          <Button variant="outline" asChild className="hidden sm:block">
+            <Link href="/bangers/m3u8">Import .m3u8 file</Link>
+          </Button>
+          <ImportFromSpotify />
+        </div>
+      }
+    >
       <Suspense fallback={<BangersSkeleton />}>
         <BangersList />
       </Suspense>
