@@ -75,8 +75,8 @@ async function Group({ id }: { id: string }) {
       </div>
 
       {userIsAdmin && (
-        <div className="mt-8">
-          <h2>Danger zone</h2>
+        <div className="mt-2 border border-dashed p-4 rounded">
+          <h2 className="text-lg mb-4">Danger zone</h2>
           <p className="mb-4">
             Permanently delete group. This will not delete any of your bangers, only the group and remove any members
             from it.

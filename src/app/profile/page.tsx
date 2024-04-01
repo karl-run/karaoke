@@ -12,13 +12,17 @@ function Page(): ReactElement {
   }
 
   return (
-    <SmallPage title="User profile">
-      <div className="mt-8">
-        <h2>Danger zone</h2>
-        <p className="mb-4">
-          Permanently delete group. This will not delete any of your bangers, only the group and remove any members from
-          it.
-        </p>
+    <SmallPage
+      title="User profile"
+      back={{
+        to: '/',
+        text: 'Back to home',
+      }}
+    >
+      <div className="mt-2 border border-dashed p-4 rounded">
+        <h2 className="text-lg mb-4">Danger zone</h2>
+        <p className="mb-4">Permanently delete your account. This action cannot be undone.</p>
+        <p className="mb-4">All your data, including your songs, will be permanently deleted.</p>
         <Suspense>
           <DeleteUserButton />
         </Suspense>
