@@ -5,11 +5,11 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import CopyToClipboard from '@/components/CopyToClipboard';
 import Link from 'next/link';
-import { GearIcon } from '@radix-ui/react-icons';
 import { Button } from '@/components/ui/button';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
 import DeleteGroupButton from '@/components/DeleteGroupButton';
 import { getUser } from '@/session/user';
+import { notFound } from 'next/navigation';
 
 type Props = {
   params: {
@@ -40,6 +40,10 @@ function Page({ params: { id } }: Props): ReactElement {
 
 async function Group({ id }: { id: string }) {
   const [group, user] = await Promise.all([getGroup(id), getUser()]);
+
+  if (group == null || group.users.find((u) => u.userId === user?.userId) == null) {
+    notFound();
+  }
 
   const userIsAdmin = group.users.find((it) => it.role === 'admin')?.userId === user?.userId;
 

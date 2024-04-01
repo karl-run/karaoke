@@ -61,6 +61,10 @@ export async function getGroup(id: string) {
     args: [id],
   });
 
+  if (group.rows.length === 0) {
+    return null;
+  }
+
   return {
     name: group.rows[0].name as string,
     iconIndex: group.rows[0].icon_index as number,

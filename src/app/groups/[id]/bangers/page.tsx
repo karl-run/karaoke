@@ -11,6 +11,8 @@ import { GearIcon } from '@radix-ui/react-icons';
 import { MessageCircleWarningIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
+import { getUser } from '@/session/user';
+import { notFound } from 'next/navigation';
 
 type Props = {
   params: {
@@ -43,7 +45,11 @@ function Page({ params: { id } }: Props): ReactElement {
 }
 
 async function GroupBangers({ id }: { id: string }) {
-  const [group, bangers] = await Promise.all([getGroup(id), getGroupBangers(id)]);
+  const [group, bangers, user] = await Promise.all([getGroup(id), getGroupBangers(id), getUser()]);
+
+  if (group == null || group.users.find((u) => u.userId === user?.userId) == null) {
+    notFound();
+  }
 
   return (
     <div>
