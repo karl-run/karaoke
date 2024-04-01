@@ -114,8 +114,6 @@ export async function joinGroup(code: string, userId: string) {
     args: [userId, code],
   });
 
-  console.log(result);
-
   return {
     id: result.rows[0].group_id as string,
   };

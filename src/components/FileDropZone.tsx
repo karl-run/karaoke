@@ -40,7 +40,12 @@ function FileDropZone({ onFileLoad }: Props): ReactElement {
     [onFileLoad],
   );
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: {
+      'application/m3u': ['.m3u8', '.m3u'],
+    },
+  });
 
   return (
     <div className="my-8">

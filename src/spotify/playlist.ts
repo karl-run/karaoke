@@ -19,5 +19,3 @@ export async function getTracksInPlaylist(playlistId: string) {
     };
   }
 }
-
-console.log(await getTracksInPlaylist('37i9dQZF1DXcBWIGoYBM5M'));
