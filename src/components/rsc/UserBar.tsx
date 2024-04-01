@@ -56,7 +56,7 @@ async function UserDetails() {
         <div className="text-xs">Logged in</div>
         <div className="truncate">{user.name}</div>
       </div>
-      <UserDropdownAvatar name={user.name} />
+      <UserDropdownAvatar name={user.name} id={user.userId} />
     </div>
   );
 }

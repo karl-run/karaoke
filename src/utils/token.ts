@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 
-export function hashWithSalt(token: string, salt: string) {
-  return crypto.pbkdf2Sync(token, salt, 1000, 64, 'sha512').toString('hex');
+export function hashWithSalt(value: string, salt: string) {
+  return crypto.pbkdf2Sync(value, salt, 1000, 64, 'sha512').toString('hex');
 }
 
 export function generate64ByteHex() {
@@ -15,3 +15,5 @@ export function generate32ByteHex() {
 export function generate16ByteHex() {
   return crypto.randomBytes(16).toString('hex');
 }
+
+console.log(hashWithSalt('karloveraa@gmail.com', '69'));

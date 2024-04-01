@@ -13,9 +13,10 @@ import ThemeToggler from './ThemeToggler';
 
 type Props = {
   name: string;
+  id: string;
 };
 
-function UserDropdownAvatar({ name }: Props): ReactElement {
+function UserDropdownAvatar({ name, id }: Props): ReactElement {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -40,6 +41,15 @@ function UserDropdownAvatar({ name }: Props): ReactElement {
         <DropdownMenuItem>
           <Link href="/logout">Log out</Link>
         </DropdownMenuItem>
+        {id === process.env.ADMIN_ID && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel>Secret</DropdownMenuLabel>
+            <DropdownMenuItem>
+              <Link href="/admin">Admin stats</Link>
+            </DropdownMenuItem>
+          </>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );
