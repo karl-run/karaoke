@@ -6,6 +6,7 @@ import { Inter } from 'next/font/google';
 import { Toaster } from '@/components/ui/sonner';
 import UserBar from '@/components/rsc/UserBar';
 import { ThemeProvider } from '@/components/theme-provider';
+import Script from 'next/script';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -28,6 +29,11 @@ export default function RootLayout({
           <Toaster />
         </ThemeProvider>
       </body>
+      <Script
+        strategy="afterInteractive"
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon='{"token": "b5b39f9a6c334feebd09ae642c9a9f1e"}'
+      />
     </html>
   );
 }
