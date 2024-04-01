@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 
-import sheet from './sheet.png';
 import { cn } from '@/lib/utils';
+import sheet_png from './sheet.png';
 
 type Props = {
   iconIndex: number;
@@ -23,7 +23,7 @@ function GroupAvatar({ iconIndex, className, size = 'normal' }: Props): ReactEle
     <div
       className={cn(className, 'min-h-12 min-w-12 max-h-12 max-w-12 rounded-xl border')}
       style={{
-        backgroundImage: `url(${sheet.src})`,
+        backgroundImage: `url(${sheet_png.src})`,
         backgroundPosition: `${-10 - ROW_PADDING * rowIndex - rowIndex * ROW_SIZE}px ${-10 - COL_PADDING * colIndex - colIndex * COL_SIZE}px`,
         backgroundSize: '360px 346px',
         transform: size === 'small' ? 'scale(0.75)' : 'scale(1)',
