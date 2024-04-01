@@ -31,6 +31,7 @@ function ArbitraryAddableTrack({ artist, name, existingSongs }: Props): ReactEle
       {alreadyAdded && <div className={styles.added}>Already added</div>}
       {lookup && (
         <Image
+          unoptimized
           src={lookup.image.url}
           width={lookup.image.width}
           height={lookup.image.height}

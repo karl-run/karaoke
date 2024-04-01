@@ -19,6 +19,7 @@ function Track({ track, action }: Props): ReactElement {
   return (
     <div className={styles.trackGrid}>
       <Image
+        unoptimized
         className={cn(styles.image, {
           'opacity-30': action === 'already-added',
         })}
