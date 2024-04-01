@@ -29,7 +29,7 @@ export function FullPage({ title, back, children, actions }: PropsWithChildren<F
           )}
 
           <h1 className="text-xl">{title}</h1>
-          <div className="absolute -top-4 right-0">{actions}</div>
+          <div className="absolute -top-4 right-3">{actions}</div>
         </div>
       )}
       {children}
@@ -81,7 +81,7 @@ export function SmallPage({
           </div>
         )}
         <h1 className="text-xl">{title}</h1>
-        <div className="absolute -top-4 right-0">{actions}</div>
+        <div className="absolute -top-4 -right-5">{actions}</div>
       </div>
       <div className={cn('max-w-prose p-8 pt-0', className)}>{children}</div>
     </div>
