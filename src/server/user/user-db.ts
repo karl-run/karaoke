@@ -141,7 +141,5 @@ export async function usersShareGroup(userIdA: string, userIdB: string): Promise
 
   const overlappingGroups = result.rows[0][0] as number;
 
-  console.log(userIdA, userIdB, overlappingGroups);
-
   return overlappingGroups > 0;
 }

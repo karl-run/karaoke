@@ -93,3 +93,32 @@ export async function getUserBangers(userId: string): Promise<[string, TrackResu
       [row.song_id as string, row.data ? JSON.parse(row.data as string) : null] satisfies [string, TrackResult | null],
   );
 }
+
+export async function getUsersUniqueSongs(
+  userId: string,
+  uniqueInGroupId: string,
+): Promise<[string, TrackResult | null][]> {
+  const result = await client.execute({
+    sql: `
+        SELECT b.song_id, sc.data
+        FROM bangers AS b
+                 JOIN song_cache AS sc ON b.song_id = sc.song_id
+        WHERE b.user_id = ?
+          AND b.song_id NOT IN (SELECT b2.song_id
+                                FROM bangers AS b2
+                                         JOIN user_to_group AS utg ON b2.user_id = utg.user_id
+                                WHERE utg.group_id = ?
+                                  AND b2.user_id != ?)
+        GROUP BY b.song_id;`,
+    args: [userId, uniqueInGroupId, userId],
+  });
+
+  if (result.rows == null) {
+    return [];
+  }
+
+  return result.rows.map(
+    (row) =>
+      [row.song_id as string, row.data ? JSON.parse(row.data as string) : null] satisfies [string, TrackResult | null],
+  );
+}

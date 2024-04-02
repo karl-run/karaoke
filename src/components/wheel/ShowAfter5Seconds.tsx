@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ReactElement } from 'react';
+import React, { PropsWithChildren, ReactElement } from 'react';
 import Image from 'next/image';
 
 import { TrackResult } from 'server/spotify/types';
@@ -13,7 +13,7 @@ type Props = {
   track: TrackResult;
 };
 
-function ShowAfter5Seconds({ track }: Props): ReactElement | null {
+function ShowAfter5Seconds({ track, children }: PropsWithChildren<Props>): ReactElement | null {
   const [show, setShow] = React.useState(false);
 
   React.useEffect(() => {
@@ -44,10 +44,9 @@ function ShowAfter5Seconds({ track }: Props): ReactElement | null {
       />
 
       <div className="bg-black/50 w-full p-4 rounded-xl absolute text-3xl">
-        <div className="text-center font-bold top-1/2 relative text-white drop-shadow-2xl shadow-black">
-          {track.name}
-        </div>
-        <div className="text-center font-bold relative">{track.artist}</div>
+        <div className="text-center font-bold">{track.name}</div>
+        <div className="text-center font-bold">{track.artist}</div>
+        {children && <div className="text-center font-bold">{children}</div>}
       </div>
     </div>
   );

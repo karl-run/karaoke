@@ -66,14 +66,12 @@ async function GroupBangers({ id }: { id: string }) {
             {bangers.length} certified bangers for {group.name}
           </h1>
         </div>
-        {user.userId === process.env.ADMIN_ID && (
-          <Button variant="outline" className="mr-3 rounded-full w-10 h-10" asChild>
-            <Link href={`/groups/${id}/wheel`} aria-label="Go to The Wheel" className="relative">
-              <Crosshair2Icon className="h-4 w-4 absolute" />
-              <Crosshair2Icon className="h-4 w-4 animate-ping absolute" />
-            </Link>
-          </Button>
-        )}
+        <Button variant="outline" className="mr-3 rounded-full w-10 h-10" asChild>
+          <Link href={`/groups/${id}/wheel`} aria-label="Go to The Wheel" className="relative">
+            <Crosshair2Icon className="h-4 w-4 absolute" />
+            <Crosshair2Icon className="h-4 w-4 animate-ping absolute" />
+          </Link>
+        </Button>
       </FullPageDescription>
 
       {bangers.length === 0 && (

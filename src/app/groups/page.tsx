@@ -1,5 +1,6 @@
 import React, { ReactElement, Suspense } from 'react';
 import Link from 'next/link';
+import {Crosshair2Icon, GearIcon} from '@radix-ui/react-icons';
 
 import { getUser } from 'server/user/user-service';
 import { getUserGroups } from 'server/group/group-db';
@@ -7,7 +8,6 @@ import { getUserGroups } from 'server/group/group-db';
 import { SmallPage } from '@/components/layout/Layouts';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
 import { Skeleton } from '@/components/ui/skeleton';
-import { GearIcon } from '@radix-ui/react-icons';
 
 function Page(): ReactElement {
   return (
@@ -75,11 +75,14 @@ function GroupListItem({
       <Link href={`/groups/${group.id}/bangers`} className="hover:outline grow">
         <div className="flex gap-3">
           <GroupAvatar iconIndex={group.iconIndex} />
-          <div>
-            <div>{group.name}</div>
+          <div className="max-w-44 xs:max-w-full">
+            <div className="truncate">{group.name}</div>
             <div className="text-sm">{group.memberCount} members</div>
           </div>
         </div>
+      </Link>
+      <Link href={`/groups/${group.id}/wheel`} className="w-12 hover:outline flex items-center justify-center">
+        <Crosshair2Icon className="h-6 w-6" />
       </Link>
       <Link href={`/groups/${group.id}/details`} className="w-12 hover:outline flex items-center justify-center">
         <GearIcon className="h-6 w-6" />

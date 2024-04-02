@@ -22,28 +22,28 @@ function Page({ params }: Props): ReactElement {
     >
       <div className="flex flex-col gap-3 w-full sm:max-w-60">
         <div>
+          <Button asChild className="bg-blue-300 text-wrap h-20 text-lg w-full">
+            <Link href={`/groups/${params.id}/wheel/solo-deep-cut`}>
+              Solo <span className="font-bold mx-1">deep cut</span>
+            </Link>
+          </Button>
+          <Label>(unique song to the singer)</Label>
+        </div>
+        <div className="opacity-30 pointer-events-none">
           <Button asChild className="bg-green-300 text-wrap h-20 text-lg w-full">
-            <Link href={`/groups/${params.id}/wheel/1`}>
+            <Link href={`/groups/${params.id}/wheel/mega-banger` as any}>
               Real <span className="font-bold mx-1">mega-banger</span>
             </Link>
           </Button>
           <Label>(only the most popular)</Label>
         </div>
-        <div>
+        <div className="opacity-30 pointer-events-none">
           <Button asChild className="bg-red-300 text-wrap h-20 text-lg w-full">
-            <Link href={`/groups/${params.id}/wheel/2`}>
+            <Link href={`/groups/${params.id}/wheel/hit` as any}>
               A <span className="font-bold mx-1">HIT!</span>
             </Link>
           </Button>
           <Label>(2 or more)</Label>
-        </div>
-        <div>
-          <Button asChild className="bg-blue-300 text-wrap h-20 text-lg w-full">
-            <Link href={`/groups/${params.id}/wheel/3`}>
-              Solo <span className="font-bold mx-1">deep cut</span>
-            </Link>
-          </Button>
-          <Label>(only 1 person has this)</Label>
         </div>
       </div>
     </SmallPage>
