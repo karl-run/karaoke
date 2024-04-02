@@ -7,6 +7,7 @@ import { getUserGroups } from 'server/group/group-db';
 import { SmallPage } from '@/components/layout/Layouts';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
 import { Skeleton } from '@/components/ui/skeleton';
+import { GearIcon } from '@radix-ui/react-icons';
 
 function Page(): ReactElement {
   return (
@@ -70,15 +71,20 @@ function GroupListItem({
   };
 }) {
   return (
-    <Link href={`/groups/${group.id}/bangers`} className="rounded hover:outline">
-      <div className="flex gap-3">
-        <GroupAvatar iconIndex={group.iconIndex} />
-        <div>
-          <div>{group.name}</div>
-          <div className="text-sm">{group.memberCount} members</div>
+    <div className="rounded flex justify-between">
+      <Link href={`/groups/${group.id}/bangers`} className="hover:outline grow">
+        <div className="flex gap-3">
+          <GroupAvatar iconIndex={group.iconIndex} />
+          <div>
+            <div>{group.name}</div>
+            <div className="text-sm">{group.memberCount} members</div>
+          </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+      <Link href={`/groups/${group.id}/details`} className="w-12 hover:outline flex items-center justify-center">
+        <GearIcon className="h-6 w-6" />
+      </Link>
+    </div>
   );
 }
 
