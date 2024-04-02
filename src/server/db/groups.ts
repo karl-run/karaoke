@@ -6,14 +6,14 @@ export async function createGroup(userId: string, groupName: string, iconIndex: 
   const joinCode = generate32ByteHex();
 
   const transaction = await client.transaction('write');
-  await client.execute({
+  await transaction.execute({
     sql: `
             INSERT INTO user_group (id, join_key, name, icon_index, description)
             VALUES (?, ?, ?, ?, '')
         `,
     args: [id, joinCode, groupName, iconIndex],
   });
-  await client.execute({
+  await transaction.execute({
     sql: `
             INSERT INTO user_to_group (user_id, group_id, role)
             VALUES (?, ?, 'admin')
@@ -142,14 +142,14 @@ export async function isUserInGroup(userId: string, code: string) {
 
 export async function deleteGroup(groupId: string) {
   const transaction = await client.transaction('write');
-  await client.execute({
+  await transaction.execute({
     sql: `
         DELETE FROM user_to_group
         WHERE group_id = ?
         `,
     args: [groupId],
   });
-  await client.execute({
+  await transaction.execute({
     sql: `
       DELETE FROM user_group
       WHERE id = ?
