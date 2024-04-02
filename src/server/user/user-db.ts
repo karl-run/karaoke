@@ -1,4 +1,5 @@
 import { client } from 'server/db';
+
 import { generate16ByteHex } from 'utils/token';
 
 type UserDb = {
@@ -10,7 +11,10 @@ type UserDb = {
   login_timestamp: Date | null;
 };
 
-export async function getUserByEmail(email: string): Promise<UserDb | null> {
+/**
+ * This is the entire user object, including login state. This should generally not be used, see `user-service.ts@getUser` instead.
+ */
+export async function getFullLoginUserByEmail(email: string): Promise<UserDb | null> {
   const result = await client.execute({
     sql: `SELECT *
               FROM users
@@ -29,6 +33,25 @@ export async function getUserByEmail(email: string): Promise<UserDb | null> {
     login_hash: user.login_hash as string | null,
     login_salt: user.login_salt as string | null,
     login_timestamp: user.login_timestamp ? new Date(user.login_timestamp as number) : null,
+  };
+}
+
+export async function getUserBySafeId(safeId: string) {
+  const result = await client.execute({
+    sql: `SELECT *
+              FROM users
+              WHERE safeId = ?`,
+    args: [safeId],
+  });
+
+  const user = result.rows?.[0] ?? null;
+
+  if (user == null) return null;
+
+  return {
+    email: user.email as string,
+    name: user.name as string,
+    safeId: user.safeId as string,
   };
 }
 
@@ -62,6 +85,9 @@ export async function createUser(email: string, displayName: string, hash: strin
   });
 }
 
+/**
+ * Complete nuke of all users data. This is a dangerous operation and should be used with caution.
+ */
 export async function deleteUserCascading(userId: string) {
   const transaction = await client.transaction();
 
@@ -114,6 +140,8 @@ export async function usersShareGroup(userIdA: string, userIdB: string): Promise
   });
 
   const overlappingGroups = result.rows[0][0] as number;
+
+  console.log(userIdA, userIdB, overlappingGroups);
 
   return overlappingGroups > 0;
 }

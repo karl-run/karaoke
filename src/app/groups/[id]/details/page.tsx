@@ -59,7 +59,10 @@ async function Group({ id }: { id: string }) {
       <ul>
         {group.users.map((user) => (
           <li key={user.displayName}>
-            {user.displayName} ({user.role})
+            <Link href={`/user/${user.safeId}`} className="hover:underline">
+              {user.displayName}
+            </Link>{' '}
+            ({user.role})
           </li>
         ))}
       </ul>

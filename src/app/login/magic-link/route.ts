@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { addDays, differenceInMinutes, isBefore, subMinutes } from 'date-fns';
 
-import { clearUserLoginState, getUserByEmail } from 'server/user/user-db';
+import { clearUserLoginState, getFullLoginUserByEmail } from 'server/user/user-db';
 import { createUserSession, setUserVerified } from 'server/session/session-db';
 
 import { generate16ByteHex, hashWithSalt } from '@/utils/token';
@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
   }
 
   const { email, actualToken } = decodeToken(token);
-  const user = await getUserByEmail(email);
+  const user = await getFullLoginUserByEmail(email);
 
   if (!user || user.login_timestamp == null || user.login_salt == null) {
     console.warn('User not found');

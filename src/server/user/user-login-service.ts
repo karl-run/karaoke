@@ -1,11 +1,11 @@
-import { createUser, getUserByEmail, updateUserLoginState } from 'server/user/user-db';
+import { createUser, getFullLoginUserByEmail, updateUserLoginState } from 'server/user/user-db';
 
 import { generate16ByteHex, generate64ByteHex, hashWithSalt } from 'utils/token';
 import {sendLoginLink} from "@/server/email/email-service";
 
 export async function createMagicLinkForUser(email: string) {
   const cleanEmail = email.trim().toLowerCase();
-  const existingUser = await getUserByEmail(cleanEmail);
+  const existingUser = await getFullLoginUserByEmail(cleanEmail);
 
   if (!existingUser) {
     console.warn(`User with ${cleanEmail} not found, ignoring.`);
@@ -21,7 +21,7 @@ export async function createMagicLinkForUser(email: string) {
 
 export async function signup(email: string, displayName: string) {
   const cleanEmail = email.trim().toLowerCase();
-  const existingUser = await getUserByEmail(cleanEmail);
+  const existingUser = await getFullLoginUserByEmail(cleanEmail);
 
   if (existingUser != null) {
     // Treat it as a normal login
