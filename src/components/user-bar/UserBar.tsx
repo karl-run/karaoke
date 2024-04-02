@@ -1,12 +1,12 @@
 import React, { ReactElement, Suspense } from 'react';
 import Link from 'next/link';
-import { cookies } from 'next/headers';
 
-import { getUserDetails } from '@/server/db/users';
+import { getUser } from 'server/user/user-service';
+
+import { cn } from '@/lib/utils';
 import SearchBar from '@/components/SearchBar';
 import { Skeleton } from '@/components/ui/skeleton';
 import UserDropdownAvatar from '@/components/UserDropdownAvatar';
-import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
@@ -42,11 +42,7 @@ function UserBar(): ReactElement {
 }
 
 async function UserDetails() {
-  const session = cookies().get('session')?.value;
-
-  if (!session) return <NotLoggedIn />;
-
-  const user = await getUserDetails(session);
+  const user = await getUser();
 
   if (!user) return <NotLoggedIn />;
 

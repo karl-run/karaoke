@@ -2,11 +2,12 @@
 
 import { revalidatePath } from 'next/cache';
 
-import { getTracksInPlaylist } from '@/server/spotify/playlist';
+import { getTracksInPlaylist } from 'server/spotify/playlist';
+import { addBangers } from 'server/bangers/bangers-db';
+import { addToCache } from 'server/bangers/bangers-cache';
+
 import { getIdFromUrl } from '@/components/import-from-spotify/spotify-url-utils';
-import { addBangers } from '@/server/db/bangers';
-import { getUser } from '@/server/session/user';
-import { addToCache } from '@/server/db/song-cache';
+import { getUser } from '@/server/user/user-service';
 
 export async function importFromSpotifyAction(
   prevState: any,

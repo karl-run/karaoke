@@ -1,11 +1,12 @@
 import React, { ReactElement } from 'react';
 import { notFound } from 'next/navigation';
 
+import { getTotalBangersCount, getTotalGroupCount, getTotalUserCount } from 'server/db/stats';
+
 import GroupAvatar from '@/components/avatar/GroupAvatar';
-import { getUser } from '@/server/session/user';
-import { getTotalBangersCount, getTotalGroupCount, getTotalUserCount } from '@/server/db/stats';
 import { SmallPage } from '@/components/layout/Layouts';
 import { Label } from '@/components/ui/label';
+import {getUser} from "@/server/user/user-service";
 
 async function Page(): Promise<ReactElement> {
   const user = await getUser();

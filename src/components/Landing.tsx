@@ -2,9 +2,9 @@ import React, { ReactElement, Suspense } from 'react';
 import { MagnifyingGlassIcon, PersonIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 
+import { getUser } from 'server/user/user-service';
+
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { getActiveSession } from '@/server/db/sessions';
-import { getSessionId } from '@/server/session/user';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
 
 function Landing(): ReactElement {
@@ -70,9 +70,8 @@ function Landing(): ReactElement {
 }
 
 async function LogInNowCard() {
-  const activeSession = await getActiveSession(getSessionId());
-
-  if (activeSession != null) {
+  const user = await getUser();
+  if (user != null) {
     return (
       <Card className="col-span-1 sm:col-span-2 lg:col-span-1">
         <CardHeader>

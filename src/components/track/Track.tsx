@@ -2,8 +2,9 @@ import React, { ReactElement } from 'react';
 import Image from 'next/image';
 import { CheckIcon } from '@radix-ui/react-icons';
 
+import { TrackResult } from 'server/spotify/types';
+
 import PlaySong from '@/components/PlaySong';
-import { TrackResult } from '@/server/spotify/types';
 import AddTrack from '@/components/add-track/AddTrack';
 import RemoveTrack from '@/components/RemoveTrack';
 import { Skeleton } from '@/components/ui/skeleton';

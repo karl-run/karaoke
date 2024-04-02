@@ -3,12 +3,11 @@
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 
-import { getUser } from '@/server/session/user';
-import { deleteUserCascading } from '@/server/db/users';
+import { getUser } from 'server/user/user-service';
+import { deleteUserCascading } from 'server/user/user-db';
 
 export async function deleteUserAction() {
   const user = await getUser();
-
   if (user == null) {
     return {
       error: 'User not found, or user not logged in.',

@@ -1,4 +1,4 @@
-import { client } from '@/server/db/client';
+import { client } from 'server/db/client';
 
 export async function getTotalBangersCount() {
   const result = await client.execute('SELECT COUNT(*) FROM bangers');

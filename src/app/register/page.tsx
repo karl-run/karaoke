@@ -2,7 +2,8 @@ import React, { ReactElement } from 'react';
 import { redirect } from 'next/navigation';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 
-import { signup } from '@/server/auth/login';
+import { signup } from 'server/user/user-login-service';
+
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';

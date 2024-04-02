@@ -1,22 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { addDays } from 'date-fns';
 
-import { clearUserSession, getActiveSession } from '@/server/db/sessions';
+import { getUser } from 'server/user/user-service';
+import { clearUserSession } from 'server/session/session-db';
 
 export async function GET(request: NextRequest) {
-  const session = await getActiveSession(request.cookies.get('session')?.value ?? null);
+  const user = await getUser();
 
   cookies().delete({
     name: 'session',
     httpOnly: true,
   });
 
-  if (session == null || session?.id == null) {
+  if (user?.sessionId == null) {
     return backToRoot(request);
   }
 
-  await clearUserSession(session.id);
+  await clearUserSession(user.sessionId);
 
   return backToRoot(request);
 }

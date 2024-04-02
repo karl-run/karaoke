@@ -1,6 +1,4 @@
-import { client } from '@/server/db/client';
-import { raise } from '@/utils/ts';
-import { getActiveSession } from '@/server/db/sessions';
+import { client } from 'server/db';
 
 type UserDb = {
   email: string;
@@ -61,26 +59,6 @@ export async function createUser(email: string, displayName: string, hash: strin
               VALUES (?, ?, ?, ?, ?)`,
     args: [email, displayName, hash, salt, new Date()],
   });
-}
-
-export async function getUserDetails(sessionId: string) {
-  const activeSession = await getActiveSession(sessionId);
-
-  if (activeSession == null) {
-    return null;
-  }
-
-  const user = await getUserByEmail(activeSession.user_id);
-
-  if (user == null) {
-    console.warn('Active session but no user found, something is weird.');
-    return null;
-  }
-
-  return {
-    name: user.name,
-    userId: user.email,
-  };
 }
 
 export async function deleteUserCascading(userId: string) {

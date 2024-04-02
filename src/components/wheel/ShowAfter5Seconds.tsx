@@ -3,7 +3,8 @@
 import React, { ReactElement } from 'react';
 import Image from 'next/image';
 
-import { TrackResult } from '@/server/spotify/types';
+import { TrackResult } from 'server/spotify/types';
+
 import { cn } from '@/lib/utils';
 
 import styles from './ShowAfter5Seconds.module.css';

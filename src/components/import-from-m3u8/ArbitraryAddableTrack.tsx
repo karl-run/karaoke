@@ -3,7 +3,8 @@ import { SearchIcon } from 'lucide-react';
 import Image from 'next/image';
 import { CardStackPlusIcon, CheckIcon } from '@radix-ui/react-icons';
 
-import { TrackResult } from '@/server/spotify/types';
+import { TrackResult } from 'server/spotify/types';
+
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { addSongAction, tryToFindSongAction } from '@/components/import-from-m3u8/ArbitraryAddableTrackActions';
@@ -71,7 +72,7 @@ function ArbitraryAddableTrack({ artist, name, existingSongs }: Props): ReactEle
           disabled={loading || adding || added}
           onClick={async () => {
             setAdding(true);
-            const result = await addSongAction(lookup?.id ?? 'unknown');
+            await addSongAction(lookup?.id ?? 'unknown');
             setAdding(false);
             setAdded(true);
           }}

@@ -4,17 +4,17 @@ import { Crosshair2Icon, GearIcon } from '@radix-ui/react-icons';
 import { MessageCircleWarningIcon } from 'lucide-react';
 import { notFound } from 'next/navigation';
 
-import { FullPage, FullPageDescription, SmallPage } from '@/components/layout/Layouts';
-import { getGroup } from '@/server/db/groups';
-import { getGroupBangers } from '@/server/db/bangers';
+import { getTrack } from 'server/spotify/track';
+import { getUser } from 'server/user/user-service';
+import { getGroupById } from 'server/group/group-db';
+import { getGroupBangers } from 'server/bangers/bangers-db';
+
+import { FullPage, FullPageDescription } from '@/components/layout/Layouts';
 import { TrackGrid } from '@/components/track/TrackGrid';
 import Track, { TrackSkeleton } from '@/components/track/Track';
-import { getTrack } from '@/server/spotify/track';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
-import { getUser } from '@/server/session/user';
-
 
 type Props = {
   params: {
@@ -47,7 +47,7 @@ function Page({ params: { id } }: Props): ReactElement {
 }
 
 async function GroupBangers({ id }: { id: string }) {
-  const [group, bangers, user] = await Promise.all([getGroup(id), getGroupBangers(id), getUser()]);
+  const [group, bangers, user] = await Promise.all([getGroupById(id), getGroupBangers(id), getUser()]);
 
   if (!user) {
     notFound();

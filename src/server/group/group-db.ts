@@ -1,5 +1,6 @@
-import { client } from '@/server/db/client';
-import { generate16ByteHex, generate32ByteHex } from '@/utils/token';
+import { client } from 'server/db';
+
+import { generate16ByteHex, generate32ByteHex } from 'utils/token';
 
 export async function createGroup(userId: string, groupName: string, iconIndex: number) {
   const id = generate16ByteHex();
@@ -50,7 +51,7 @@ export async function getUserGroups(userId: string) {
   }));
 }
 
-export async function getGroup(id: string) {
+export async function getGroupById(id: string) {
   const group = await client.execute({
     sql: `SELECT users.name as display_name, users.email, user_to_group.role, user_group.name, user_group.icon_index, user_group.join_key
           FROM user_group

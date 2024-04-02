@@ -2,8 +2,8 @@
 
 import { revalidatePath } from 'next/cache';
 
-import { addBanger, removeBanger } from '@/server/db/bangers';
-import { getUser } from '@/server/session/user';
+import { getUser } from '@/server/user/user-service';
+import { addBanger, removeBanger } from '@/server/bangers/bangers-db';
 
 export async function addBangerAction(trackId: string): Promise<{ error: 'not-logged-in' } | { ok: true }> {
   const user = await getUser();

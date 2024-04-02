@@ -3,15 +3,16 @@ import { InfoCircledIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
+import { getUser } from 'server/user/user-service';
+import { getGroupByJoinCode, isUserInGroup } from 'server/group/group-db';
+
 import { SmallPage } from '@/components/layout/Layouts';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Skeleton } from '@/components/ui/skeleton';
-import { getGroupByJoinCode, isUserInGroup } from '@/server/db/groups';
 import { joinGroupAction } from '@/app/groups/_group-actions';
-import { getUser } from '@/server/session/user';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
 
 type Props = {

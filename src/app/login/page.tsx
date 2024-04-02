@@ -1,13 +1,12 @@
 import React, { ReactElement } from 'react';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
-import { redirect } from 'next/navigation';
 import Link from 'next/link';
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { createMagicLinkForUser } from '@/server/auth/login';
 import { SmallPage } from '@/components/layout/Layouts';
+import { magicLoginLinkAction } from '@/app/login/_login-actions';
 
 function Page(): ReactElement {
   return (
@@ -19,22 +18,7 @@ function Page(): ReactElement {
         text: 'Back to home',
       }}
     >
-      <form
-        action={async (data) => {
-          'use server';
-
-          const email = data.get('email')?.toString();
-
-          if (!email) {
-            throw new Error('Email is required');
-          }
-
-          await createMagicLinkForUser(email);
-
-          redirect('/login/success');
-        }}
-        className="flex gap-3"
-      >
+      <form action={magicLoginLinkAction} className="flex gap-3">
         <Input name="email" placeholder="Email" required type="email" />
         <Button>Create magic login link</Button>
       </form>

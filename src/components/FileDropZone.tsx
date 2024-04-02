@@ -3,12 +3,14 @@
 import React, { ReactElement, useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
-import { ArtistSongTuple, parseM3U } from '@/server/spotify/m3u-parser';
+import { ArtistSongTuple, parseM3U } from 'server/spotify/m3u-parser';
+
 import { cn } from '@/lib/utils';
 
-interface Props {
-  onFileLoad: (emoji: ArtistSongTuple[]) => void;
-}
+type Props = {
+  // eslint-disable-next-line no-unused-vars
+  onFileLoad: (tracks: ArtistSongTuple[]) => void;
+};
 
 function FileDropZone({ onFileLoad }: Props): ReactElement {
   const [fileName, setFileName] = useState<string | null>(null);

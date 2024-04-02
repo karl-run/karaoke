@@ -1,5 +1,5 @@
-import { client } from '@/server/db/client';
-import { TrackResult } from '@/server/spotify/types';
+import { client } from 'server/db/client';
+import { TrackResult } from 'server/spotify/types';
 
 export async function addBanger(user_id: string, track_id: string) {
   return client.execute({
@@ -71,4 +71,25 @@ export async function getGroupBangers(group_id: string) {
     userCount: row.user_count as number,
     users: JSON.parse(row.user_names_json as string) as string[],
   }));
+}
+
+export async function getUserBangers(userId: string): Promise<[string, TrackResult | null][]> {
+  const result = await client.execute({
+    sql: `
+        SELECT *
+        FROM bangers
+            LEFT JOIN song_cache ON bangers.song_id = song_cache.song_id
+        WHERE bangers.user_id = ?
+    `,
+    args: [userId],
+  });
+
+  if (result.rows == null) {
+    return [];
+  }
+
+  return result.rows.map(
+    (row) =>
+      [row.song_id as string, row.data ? JSON.parse(row.data as string) : null] satisfies [string, TrackResult | null],
+  );
 }

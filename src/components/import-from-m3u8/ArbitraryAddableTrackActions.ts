@@ -1,8 +1,9 @@
 'use server';
 
-import { bestGuessTrack } from '@/server/spotify/track';
-import { getUser } from '@/server/session/user';
-import { addBanger } from '@/server/db/bangers';
+import { bestGuessTrack } from 'server/spotify/track';
+import { addBanger } from 'server/bangers/bangers-db';
+
+import { getUser } from '@/server/user/user-service';
 
 export async function tryToFindSongAction(search: string) {
   return bestGuessTrack(search);

@@ -2,10 +2,10 @@
 
 import React, { ReactElement, useState } from 'react';
 
-import { TrackResult } from '@/server/spotify/types';
-import { ArtistSongTuple } from '@/server/spotify/m3u-parser';
+import { TrackResult } from 'server/spotify/types';
+import { ArtistSongTuple } from 'server/spotify/m3u-parser';
+
 import FileDropZone from '@/components/FileDropZone';
-import { TrackGrid } from '@/components/track/TrackGrid';
 import ArbitraryAddableTrack from '@/components/import-from-m3u8/ArbitraryAddableTrack';
 
 type Props = {
@@ -17,7 +17,7 @@ function ImportFromM3U8({ existingSongs }: Props): ReactElement {
   return (
     <div>
       <div className="max-w-prose">
-        <FileDropZone onFileLoad={setSongs}></FileDropZone>
+        <FileDropZone onFileLoad={(tracks) => setSongs(tracks)}></FileDropZone>
       </div>
       <div className="flex flex-col gap-3">
         {songs?.map(([artist, song]) => (

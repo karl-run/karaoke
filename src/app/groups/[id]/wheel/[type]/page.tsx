@@ -1,13 +1,15 @@
 import React, { CSSProperties, ReactElement, Suspense } from 'react';
 import { notFound } from 'next/navigation';
 
+import { getSpecialSongInGroup } from 'server/wheel/wheel-service';
+import { getUser } from 'server/user/user-service';
+import { getGroupById } from 'server/group/group-db';
+
 import { FullPage } from '@/components/layout/Layouts';
 import { Skeleton } from '@/components/ui/skeleton';
-import { getUser } from '@/server/session/user';
-import { getGroup } from '@/server/db/groups';
-import { getSpecialSongInGroup } from '@/server/wheel/wheel-service';
 import { cn } from '@/lib/utils';
 import ShowAfter5Seconds from '@/components/wheel/ShowAfter5Seconds';
+
 
 import styles from './_page.module.css';
 
@@ -39,7 +41,7 @@ function Page({ params }: Props): ReactElement {
 }
 
 async function WheelWithData({ groupId, type }: { groupId: string; type: '1' | '2' | '3' }): Promise<ReactElement> {
-  const [group, user] = await Promise.all([getGroup(groupId), getUser()]);
+  const [group, user] = await Promise.all([getGroupById(groupId), getUser()]);
 
   if (group == null || group.users.find((u) => u.userId === user?.userId) == null) {
     notFound();

@@ -1,9 +1,10 @@
 import React, { ReactElement, Suspense } from 'react';
 import Link from 'next/link';
 
+import { getUser } from 'server/user/user-service';
+import { getUserGroups } from 'server/group/group-db';
+
 import { SmallPage } from '@/components/layout/Layouts';
-import { getUserGroups } from '@/server/db/groups';
-import { getUser } from '@/server/session/user';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -43,7 +44,6 @@ function Page(): ReactElement {
 
 async function UserGroups() {
   const user = await getUser();
-
   if (!user) {
     return <div>You must be logged in to view your groups</div>;
   }

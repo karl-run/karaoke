@@ -30,8 +30,6 @@ export async function getSpotifyToken(): Promise<string> {
 export async function spotifyFetch<Response>(path: string): Promise<Response> {
   const token = await getSpotifyToken();
 
-  console.info('Fetching Spotify API: ', `${SPOTIFY_BASE_URL}${path}`);
-
   const response = await fetch(`${SPOTIFY_BASE_URL}${path}`, {
     headers: {
       Authorization: `Bearer ${token}`,

@@ -1,13 +1,17 @@
-import { getGroup } from '@/server/db/groups';
-import { getUserBangers } from '@/server/db/song-cache';
+import { getGroupById } from 'server/group/group-db';
+import { getUserBangers } from 'server/bangers/bangers-db';
 
 /**
  * 1: Song with the most users
  * 2: Song with 2 or more, but not top
  * 3: Song with ONLY 1 user
  */
-export async function getSpecialSongInGroup(groupId: string, type: '1' | '2' | '3') {
-  const group = await getGroup(groupId);
+export async function getSpecialSongInGroup(
+  groupId: string,
+  // eslint-disable-next-line no-unused-vars
+  type: '1' | '2' | '3',
+) {
+  const group = await getGroupById(groupId);
 
   const bangs = await getUserBangers(group!.users[0].userId);
 

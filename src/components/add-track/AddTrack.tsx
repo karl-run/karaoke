@@ -1,7 +1,7 @@
 'use client';
 
 import { ReactElement, useState, useTransition } from 'react';
-import { CardStackPlusIcon, CheckIcon, PlusIcon, UpdateIcon } from '@radix-ui/react-icons';
+import { CheckIcon, PlusIcon, UpdateIcon } from '@radix-ui/react-icons';
 import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';

@@ -3,8 +3,8 @@
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 
-import { getUser } from '@/server/session/user';
-import { createGroup, deleteGroup, getGroup, joinGroup } from '@/server/db/groups';
+import { getUser } from 'server/user/user-service';
+import { createGroup, deleteGroup, getGroupById, joinGroup } from 'server/group/group-db';
 
 export async function createGroupAction(groupName: string, groupIcon: number): Promise<{ id: string } | null> {
   const user = await getUser();
@@ -14,7 +14,7 @@ export async function createGroupAction(groupName: string, groupIcon: number): P
   }
 
   try {
-    return await createGroup(user.userId, groupName, 1);
+    return await createGroup(user.userId, groupName, groupIcon);
   } catch (e) {
     console.error(e);
     return null;
@@ -43,7 +43,7 @@ export async function deleteGroupAction(groupId: string): Promise<boolean> {
     throw new Error('You must be logged in to delete a group');
   }
 
-  const group = await getGroup(groupId);
+  const group = await getGroupById(groupId);
   if (!group) {
     throw new Error('Group not found');
   }

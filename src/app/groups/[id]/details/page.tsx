@@ -2,16 +2,16 @@ import React, { ReactElement, Suspense } from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
+import { getUser } from 'server/user/user-service';
+import { getGroupById } from 'server/group/group-db';
+
 import { SmallPage } from '@/components/layout/Layouts';
-import { getGroup } from '@/server/db/groups';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import CopyToClipboard from '@/components/CopyToClipboard';
 import { Button } from '@/components/ui/button';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
 import DeleteGroupButton from '@/components/DeleteGroupButton';
-import { getUser } from '@/server/session/user';
-
 
 type Props = {
   params: {
@@ -41,7 +41,7 @@ function Page({ params: { id } }: Props): ReactElement {
 }
 
 async function Group({ id }: { id: string }) {
-  const [group, user] = await Promise.all([getGroup(id), getUser()]);
+  const [group, user] = await Promise.all([getGroupById(id), getUser()]);
 
   if (group == null || group.users.find((u) => u.userId === user?.userId) == null) {
     notFound();

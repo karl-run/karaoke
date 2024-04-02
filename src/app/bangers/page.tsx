@@ -1,13 +1,13 @@
 import React, { ReactElement, Suspense } from 'react';
-import { cookies } from 'next/headers';
 import Link from 'next/link';
 
-import { getActiveSession } from '@/server/db/sessions';
-import { getUserBangers } from '@/server/db/song-cache';
-import { TrackResult } from '@/server/spotify/types';
+import { getUserBangers } from 'server/bangers/bangers-db';
+import { TrackResult } from 'server/spotify/types';
+import { getTrack } from 'server/spotify/track';
+import { getUser } from 'server/user/user-service';
+
 import { TrackGrid } from '@/components/track/TrackGrid';
 import Track, { TrackSkeleton } from '@/components/track/Track';
-import { getTrack } from '@/server/spotify/track';
 import { FullPage, FullPageDescription } from '@/components/layout/Layouts';
 import ImportFromSpotify from '@/components/import-from-spotify/ImportFromSpotify';
 import { Button } from '@/components/ui/button';
@@ -35,9 +35,8 @@ function Page(): ReactElement {
 }
 
 async function BangersList(): Promise<ReactElement> {
-  const session = await getActiveSession(cookies().get('session')?.value ?? null);
-
-  if (!session) {
+  const user = await getUser();
+  if (!user) {
     return (
       <FullPageDescription className="p-20 flex justify-center items-center">
         <div className="text-xl opacity-70">Log in to see your bangers</div>
@@ -45,8 +44,7 @@ async function BangersList(): Promise<ReactElement> {
     );
   }
 
-  const bangs = await getUserBangers(session.user_id);
-
+  const bangs = await getUserBangers(user.userId);
   if (bangs.length === 0) {
     return (
       <FullPageDescription>

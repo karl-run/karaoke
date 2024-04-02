@@ -1,10 +1,21 @@
 {
   "extends": "next/core-web-vitals",
   "rules": {
+    "no-unused-vars": "warn",
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "no-undef": "warn",
+    "no-unused-expressions": "warn",
     "import/order": [
       "warn",
       {
-        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "pathGroups": [
+          {
+            "pattern": "server/**",
+            "group": "external",
+            "position": "after"
+          }
+        ],
+        "groups": ["builtin", "external", "internal", "unknown", "parent", "sibling", "index", "object", "type"],
         "newlines-between": "always"
       }
     ]
