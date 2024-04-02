@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { clearUserSession, getActiveSession } from '@/db/sessions';
 import { cookies } from 'next/headers';
 import { addDays } from 'date-fns';
+
+import { clearUserSession, getActiveSession } from '@/server/db/sessions';
 
 export async function GET(request: NextRequest) {
   const session = await getActiveSession(request.cookies.get('session')?.value ?? null);

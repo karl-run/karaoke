@@ -1,12 +1,13 @@
 import React, { Suspense } from 'react';
+
 import Landing from '@/components/Landing';
-import Track, { TrackSkeleton } from '@/components/rsc/Track';
-import { searchTracks } from '@/spotify/track';
+import Track, { TrackSkeleton } from '@/components/track/Track';
+import { searchTracks } from '@/server/spotify/track';
 import { TrackGrid } from '@/components/track/TrackGrid';
-import { getUserSongMap } from '@/db/song-cache';
-import { getActiveSession } from '@/db/sessions';
-import { getSessionId } from '@/session/user';
-import { TrackResult } from '@/spotify/types';
+import { getUserSongMap } from '@/server/db/song-cache';
+import { getActiveSession } from '@/server/db/sessions';
+import { getSessionId } from '@/server/session/user';
+import { TrackResult } from '@/server/spotify/types';
 import { FullPage } from '@/components/layout/Layouts';
 
 interface Props {

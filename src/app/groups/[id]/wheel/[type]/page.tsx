@@ -1,14 +1,15 @@
 import React, { CSSProperties, ReactElement, Suspense } from 'react';
+import { notFound } from 'next/navigation';
+
 import { FullPage } from '@/components/layout/Layouts';
 import { Skeleton } from '@/components/ui/skeleton';
-import { notFound } from 'next/navigation';
-import { getUser } from '@/session/user';
-import { getGroup } from '@/db/groups';
-import { getSpecialSongInGroup } from '@/wheel/wheel-service';
-
-import styles from './_page.module.css';
+import { getUser } from '@/server/session/user';
+import { getGroup } from '@/server/db/groups';
+import { getSpecialSongInGroup } from '@/server/wheel/wheel-service';
 import { cn } from '@/lib/utils';
 import ShowAfter5Seconds from '@/components/wheel/ShowAfter5Seconds';
+
+import styles from './_page.module.css';
 
 type Props = {
   params: {

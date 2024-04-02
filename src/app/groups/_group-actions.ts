@@ -1,9 +1,10 @@
 'use server';
 
-import { getUser } from '@/session/user';
-import { createGroup, deleteGroup, getGroup, joinGroup } from '@/db/groups';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
+
+import { getUser } from '@/server/session/user';
+import { createGroup, deleteGroup, getGroup, joinGroup } from '@/server/db/groups';
 
 export async function createGroupAction(groupName: string, groupIcon: number): Promise<{ id: string } | null> {
   const user = await getUser();

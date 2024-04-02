@@ -1,7 +1,8 @@
 import React, { PropsWithChildren, ReactElement, ReactNode } from 'react';
-import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
+
+import { cn } from '@/lib/utils';
 import { BackLink, BackToSearch } from '@/components/layout/BackLinks';
 
 type FullPageProps = {

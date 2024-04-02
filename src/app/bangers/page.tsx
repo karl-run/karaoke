@@ -1,15 +1,17 @@
 import React, { ReactElement, Suspense } from 'react';
-import { getActiveSession } from '@/db/sessions';
 import { cookies } from 'next/headers';
-import { getUserBangers } from '@/db/song-cache';
-import { TrackResult } from '@/spotify/types';
+import Link from 'next/link';
+
+import { getActiveSession } from '@/server/db/sessions';
+import { getUserBangers } from '@/server/db/song-cache';
+import { TrackResult } from '@/server/spotify/types';
 import { TrackGrid } from '@/components/track/TrackGrid';
-import Track, { TrackSkeleton } from '@/components/rsc/Track';
-import { getTrack } from '@/spotify/track';
+import Track, { TrackSkeleton } from '@/components/track/Track';
+import { getTrack } from '@/server/spotify/track';
 import { FullPage, FullPageDescription } from '@/components/layout/Layouts';
 import ImportFromSpotify from '@/components/import-from-spotify/ImportFromSpotify';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+
 
 function Page(): ReactElement {
   return (

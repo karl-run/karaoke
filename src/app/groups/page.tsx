@@ -1,8 +1,9 @@
 import React, { ReactElement, Suspense } from 'react';
-import { SmallPage } from '@/components/layout/Layouts';
-import { getUserGroups } from '@/db/groups';
-import { getUser } from '@/session/user';
 import Link from 'next/link';
+
+import { SmallPage } from '@/components/layout/Layouts';
+import { getUserGroups } from '@/server/db/groups';
+import { getUser } from '@/server/session/user';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
 import { Skeleton } from '@/components/ui/skeleton';
 

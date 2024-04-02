@@ -1,8 +1,9 @@
 'use client';
 
 import React, { ReactElement } from 'react';
-import { TrackResult } from '@/spotify/types';
 import Image from 'next/image';
+
+import { TrackResult } from '@/server/spotify/types';
 import { cn } from '@/lib/utils';
 
 import styles from './ShowAfter5Seconds.module.css';

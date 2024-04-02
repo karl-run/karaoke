@@ -1,4 +1,4 @@
-import { SpotifyTrack, TrackResult } from '@/spotify/types';
+import { SpotifyTrack, TrackResult } from '@/server/spotify/types';
 
 export function spotifyTrackToTrackResult(track: SpotifyTrack): TrackResult {
   return {

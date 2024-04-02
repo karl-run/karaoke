@@ -1,4 +1,5 @@
 import Link from 'next/link';
+
 import { SmallPage } from '@/components/layout/Layouts';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
 

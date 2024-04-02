@@ -2,7 +2,8 @@
 
 import React, { ReactElement, useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { ArtistSongTuple, parseM3U } from '@/spotify/m3u-parser';
+
+import { ArtistSongTuple, parseM3U } from '@/server/spotify/m3u-parser';
 import { cn } from '@/lib/utils';
 
 interface Props {

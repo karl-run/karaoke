@@ -1,8 +1,9 @@
 import React, { ReactElement } from 'react';
 import { notFound } from 'next/navigation';
+
 import GroupAvatar from '@/components/avatar/GroupAvatar';
-import { getUser } from '@/session/user';
-import { getTotalBangersCount, getTotalGroupCount, getTotalUserCount } from '@/db/stats';
+import { getUser } from '@/server/session/user';
+import { getTotalBangersCount, getTotalGroupCount, getTotalUserCount } from '@/server/db/stats';
 import { SmallPage } from '@/components/layout/Layouts';
 import { Label } from '@/components/ui/label';
 

@@ -1,11 +1,12 @@
 import React, { ReactElement } from 'react';
 import { redirect } from 'next/navigation';
+import { InfoCircledIcon } from '@radix-ui/react-icons';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { SmallPage } from '@/components/layout/Layouts';
 import { createGroupAction } from '@/app/groups/_group-actions';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
 

@@ -1,4 +1,5 @@
 import { createClient } from '@libsql/client';
+
 import { raise } from '@/utils/ts';
 
 export const client = createClient({

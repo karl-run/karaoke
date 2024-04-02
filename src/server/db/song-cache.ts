@@ -1,6 +1,7 @@
 import * as R from 'remeda';
-import { TrackResult } from '@/spotify/types';
-import { client } from '@/db/client';
+
+import { TrackResult } from '@/server/spotify/types';
+import { client } from '@/server/db/client';
 
 export async function addToCache(song: TrackResult) {
   await client.execute({

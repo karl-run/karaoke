@@ -1,4 +1,5 @@
 import React, { ReactElement } from 'react';
+
 import { SmallPage } from '@/components/layout/Layouts';
 
 interface Props {

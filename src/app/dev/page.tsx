@@ -1,6 +1,7 @@
 import * as R from 'remeda';
 import React, { ReactElement } from 'react';
 import { notFound } from 'next/navigation';
+
 import GroupAvatar from '@/components/avatar/GroupAvatar';
 
 function Page(): ReactElement {

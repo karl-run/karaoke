@@ -1,4 +1,6 @@
 import React, { ReactElement } from 'react';
+import Link from 'next/link';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,8 +10,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import Link from 'next/link';
-import ThemeToggler from './ThemeToggler';
+
+import ThemeToggler from './theme/ThemeToggler';
 
 type Props = {
   name: string;

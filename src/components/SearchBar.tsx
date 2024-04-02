@@ -1,9 +1,10 @@
 'use client';
 
-import { useRef, ReactElement, useEffect } from 'react';
-import { Input } from '@/components/ui/input';
+import { ReactElement, useEffect, useRef } from 'react';
 import { useQueryState } from 'nuqs';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+
+import { Input } from '@/components/ui/input';
 
 function SearchBar(): ReactElement | null {
   const path = usePathname();

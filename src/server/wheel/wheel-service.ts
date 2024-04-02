@@ -1,5 +1,5 @@
-import { getGroup } from '@/db/groups';
-import { getUserBangers } from '@/db/song-cache';
+import { getGroup } from '@/server/db/groups';
+import { getUserBangers } from '@/server/db/song-cache';
 
 /**
  * 1: Song with the most users

@@ -1,9 +1,10 @@
 import React, { ReactElement, Suspense } from 'react';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { MagnifyingGlassIcon, PersonIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
-import { getActiveSession } from '@/db/sessions';
-import { getSessionId } from '@/session/user';
+
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { getActiveSession } from '@/server/db/sessions';
+import { getSessionId } from '@/server/session/user';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
 
 function Landing(): ReactElement {

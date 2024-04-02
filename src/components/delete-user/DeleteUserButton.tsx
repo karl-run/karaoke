@@ -1,6 +1,7 @@
 'use client';
 
 import React, { ReactElement } from 'react';
+
 import { Button } from '@/components/ui/button';
 import {
   AlertDialog,
@@ -13,7 +14,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { deleteUserAction } from '@/actions/user';
+
+import { deleteUserAction } from './DeleteUserAction';
 
 function DeleteUserButton(): ReactElement {
   const [transition, startTransition] = React.useTransition();

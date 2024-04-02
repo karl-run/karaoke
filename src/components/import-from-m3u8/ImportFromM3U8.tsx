@@ -1,8 +1,9 @@
 'use client';
 
 import React, { ReactElement, useState } from 'react';
-import { TrackResult } from '@/spotify/types';
-import { ArtistSongTuple } from '@/spotify/m3u-parser';
+
+import { TrackResult } from '@/server/spotify/types';
+import { ArtistSongTuple } from '@/server/spotify/m3u-parser';
 import FileDropZone from '@/components/FileDropZone';
 import { TrackGrid } from '@/components/track/TrackGrid';
 import ArbitraryAddableTrack from '@/components/import-from-m3u8/ArbitraryAddableTrack';

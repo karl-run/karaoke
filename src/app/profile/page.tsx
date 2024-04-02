@@ -1,8 +1,9 @@
 import React, { ReactElement, Suspense } from 'react';
-import { SmallPage } from '@/components/layout/Layouts';
-import { getUser } from '@/session/user';
-import DeleteUserButton from '@/components/DeleteUserButton';
 import { notFound } from 'next/navigation';
+
+import { SmallPage } from '@/components/layout/Layouts';
+import { getUser } from '@/server/session/user';
+import DeleteUserButton from '@/components/delete-user/DeleteUserButton';
 
 function Page(): ReactElement {
   const user = getUser();

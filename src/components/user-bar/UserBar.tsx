@@ -1,17 +1,17 @@
 import React, { ReactElement, Suspense } from 'react';
 import Link from 'next/link';
-
-import SearchBar from '@/components/SearchBar';
-import { getUserDetails } from '@/db/users';
 import { cookies } from 'next/headers';
-import { Skeleton } from '@/components/ui/skeleton';
 
-import styles from './UserBar.module.css';
+import { getUserDetails } from '@/server/db/users';
+import SearchBar from '@/components/SearchBar';
+import { Skeleton } from '@/components/ui/skeleton';
 import UserDropdownAvatar from '@/components/UserDropdownAvatar';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
+
+import styles from './UserBar.module.css';
 
 function UserBar(): ReactElement {
   return (

@@ -15,5 +15,3 @@ export function generate32ByteHex() {
 export function generate16ByteHex() {
   return crypto.randomBytes(16).toString('hex');
 }
-
-console.log(hashWithSalt('karloveraa@gmail.com', '69'));

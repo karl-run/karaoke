@@ -1,5 +1,5 @@
-import { client } from '@/db/client';
-import { TrackResult } from '@/spotify/types';
+import { client } from '@/server/db/client';
+import { TrackResult } from '@/server/spotify/types';
 
 export async function addBanger(user_id: string, track_id: string) {
   return client.execute({

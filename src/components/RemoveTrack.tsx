@@ -1,10 +1,11 @@
 'use client';
 
 import { ReactElement, useState, useTransition } from 'react';
-import { Button } from '@/components/ui/button';
 import { CardStackMinusIcon, UpdateIcon } from '@radix-ui/react-icons';
 import { toast } from 'sonner';
-import { removeBangerAction } from '@/components/AddTrackActions';
+
+import { Button } from '@/components/ui/button';
+import { removeBangerAction } from '@/components/add-track/AddTrackActions';
 import { cn } from '@/lib/utils';
 
 type Props = {

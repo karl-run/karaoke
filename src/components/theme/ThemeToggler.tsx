@@ -2,6 +2,7 @@
 
 import React, { ReactElement } from 'react';
 import { useTheme } from 'next-themes';
+
 import { DropdownMenuItem, DropdownMenuLabel } from '@/components/ui/dropdown-menu';
 
 function ThemeToggler(): ReactElement {

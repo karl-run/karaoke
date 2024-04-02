@@ -1,16 +1,17 @@
 import React, { ReactElement, Suspense } from 'react';
+import { InfoCircledIcon } from '@radix-ui/react-icons';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
+
 import { SmallPage } from '@/components/layout/Layouts';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import Link from 'next/link';
 import { Skeleton } from '@/components/ui/skeleton';
-import { getGroupByJoinCode, isUserInGroup } from '@/db/groups';
+import { getGroupByJoinCode, isUserInGroup } from '@/server/db/groups';
 import { joinGroupAction } from '@/app/groups/_group-actions';
-import { redirect } from 'next/navigation';
-import { getUser } from '@/session/user';
+import { getUser } from '@/server/session/user';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
 
 type Props = {

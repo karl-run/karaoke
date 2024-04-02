@@ -1,14 +1,15 @@
 import React, { ReactElement } from 'react';
 import Image from 'next/image';
+import { CheckIcon } from '@radix-ui/react-icons';
+
 import PlaySong from '@/components/PlaySong';
-import { TrackResult } from '@/spotify/types';
-import AddTrack from '@/components/AddTrack';
+import { TrackResult } from '@/server/spotify/types';
+import AddTrack from '@/components/add-track/AddTrack';
 import RemoveTrack from '@/components/RemoveTrack';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 
 import styles from './Track.module.css';
-import { CheckIcon } from '@radix-ui/react-icons';
 
 type Props = {
   track: TrackResult;

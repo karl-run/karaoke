@@ -1,6 +1,6 @@
-import { spotifyFetch } from '@/spotify/auth';
-import { SpotifyTrack } from '@/spotify/types';
-import { spotifyTrackToTrackResult } from '@/spotify/mapper';
+import { spotifyFetch } from '@/server/spotify/auth';
+import { SpotifyTrack } from '@/server/spotify/types';
+import { spotifyTrackToTrackResult } from '@/server/spotify/mapper';
 
 type PlaylistResponse = {
   tracks: {

@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
 import Link from 'next/link';
+
 import { SmallPage } from '@/components/layout/Layouts';
 
 function Page(): ReactElement {

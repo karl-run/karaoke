@@ -1,6 +1,6 @@
 import { generate16ByteHex, generate64ByteHex, hashWithSalt } from '@/utils/token';
-import { sendLoginLink } from '@/email/login';
-import { createUser, getUserByEmail, updateUserLoginState } from '@/db/users';
+import { sendLoginLink } from '@/server/email/login';
+import { createUser, getUserByEmail, updateUserLoginState } from '@/server/db/users';
 
 export async function createMagicLinkForUser(email: string) {
   const cleanEmail = email.trim().toLowerCase();

@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { clearUserLoginState, getUserByEmail } from '@/db/users';
 import { cookies } from 'next/headers';
 import { addDays, differenceInMinutes, isBefore, subMinutes } from 'date-fns';
+
+import { clearUserLoginState, getUserByEmail } from '@/server/db/users';
 import { generate16ByteHex, hashWithSalt } from '@/utils/token';
-import { createUserSession, setUserVerified } from '@/db/sessions';
+import { createUserSession, setUserVerified } from '@/server/db/sessions';
 
 export async function GET(request: NextRequest) {
   const params = request.nextUrl.searchParams;

@@ -1,9 +1,10 @@
 'use server';
 
-import { getUser } from '@/session/user';
-import { deleteUserCascading } from '@/db/users';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
+
+import { getUser } from '@/server/session/user';
+import { deleteUserCascading } from '@/server/db/users';
 
 export async function deleteUserAction() {
   const user = await getUser();

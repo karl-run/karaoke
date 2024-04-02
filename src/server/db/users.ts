@@ -1,6 +1,6 @@
-import { client } from '@/db/client';
+import { client } from '@/server/db/client';
 import { raise } from '@/utils/ts';
-import { getActiveSession } from '@/db/sessions';
+import { getActiveSession } from '@/server/db/sessions';
 
 type UserDb = {
   email: string;

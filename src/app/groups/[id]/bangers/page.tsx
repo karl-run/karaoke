@@ -1,18 +1,20 @@
 import React, { ReactElement, Suspense } from 'react';
-import { FullPage, FullPageDescription, SmallPage } from '@/components/layout/Layouts';
 import Link from 'next/link';
-import { getGroup } from '@/db/groups';
-import { getGroupBangers } from '@/db/bangers';
-import { TrackGrid } from '@/components/track/TrackGrid';
-import Track, { TrackSkeleton } from '@/components/rsc/Track';
-import { getTrack } from '@/spotify/track';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Crosshair2Icon, GearIcon } from '@radix-ui/react-icons';
 import { MessageCircleWarningIcon } from 'lucide-react';
+import { notFound } from 'next/navigation';
+
+import { FullPage, FullPageDescription, SmallPage } from '@/components/layout/Layouts';
+import { getGroup } from '@/server/db/groups';
+import { getGroupBangers } from '@/server/db/bangers';
+import { TrackGrid } from '@/components/track/TrackGrid';
+import Track, { TrackSkeleton } from '@/components/track/Track';
+import { getTrack } from '@/server/spotify/track';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
-import { getUser } from '@/session/user';
-import { notFound } from 'next/navigation';
+import { getUser } from '@/server/session/user';
+
 
 type Props = {
   params: {

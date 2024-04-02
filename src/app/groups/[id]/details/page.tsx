@@ -1,15 +1,17 @@
 import React, { ReactElement, Suspense } from 'react';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+
 import { SmallPage } from '@/components/layout/Layouts';
-import { getGroup } from '@/db/groups';
+import { getGroup } from '@/server/db/groups';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import CopyToClipboard from '@/components/CopyToClipboard';
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
 import DeleteGroupButton from '@/components/DeleteGroupButton';
-import { getUser } from '@/session/user';
-import { notFound } from 'next/navigation';
+import { getUser } from '@/server/session/user';
+
 
 type Props = {
   params: {

@@ -1,4 +1,4 @@
-import { client } from '@/db/client';
+import { client } from '@/server/db/client';
 
 type UserSession = {
   id: string;

@@ -1,4 +1,4 @@
-import { client } from '@/db/client';
+import { client } from '@/server/db/client';
 import { generate16ByteHex, generate32ByteHex } from '@/utils/token';
 
 export async function createGroup(userId: string, groupName: string, iconIndex: number) {

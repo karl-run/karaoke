@@ -1,11 +1,12 @@
 import React, { ReactElement } from 'react';
+import { InfoCircledIcon } from '@radix-ui/react-icons';
+import { redirect } from 'next/navigation';
+import Link from 'next/link';
+
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { InfoCircledIcon } from '@radix-ui/react-icons';
-import { redirect } from 'next/navigation';
-import { createMagicLinkForUser } from '@/auth/login';
-import Link from 'next/link';
+import { createMagicLinkForUser } from '@/server/auth/login';
 import { SmallPage } from '@/components/layout/Layouts';
 
 function Page(): ReactElement {

@@ -1,9 +1,10 @@
 import React, { ReactElement } from 'react';
-import { signup } from '@/auth/login';
 import { redirect } from 'next/navigation';
+import { InfoCircledIcon } from '@radix-ui/react-icons';
+
+import { signup } from '@/server/auth/login';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { SmallPage } from '@/components/layout/Layouts';
 
