@@ -39,7 +39,7 @@ export function FullPage({ title, back, children, actions }: PropsWithChildren<F
 }
 
 export function FullPageDescription({ children, className }: PropsWithChildren<{ className?: string }>) {
-  return <div className={cn(className, 'ml-4 sm:ml-8')}>{children}</div>;
+  return <div className={cn(className, 'ml-2 sm:ml-4 sm:ml-8')}>{children}</div>;
 }
 
 type SmallPageProps = {
@@ -63,7 +63,7 @@ export function SmallPage({
 }: PropsWithChildren<SmallPageProps>): ReactElement {
   return (
     <div className="container">
-      <div className="my-4 mx-8 mt-10 relative">
+      <div className="mt-6 my-4 ml-4 sm:ml-8 mx-8 sm:mt-10 relative">
         {back && (
           <div className="text-xs underline absolute -top-5">
             {back === 'search' && (
@@ -84,7 +84,7 @@ export function SmallPage({
         <h1 className="text-xl">{title}</h1>
         <div className="absolute -top-4 -right-5">{actions}</div>
       </div>
-      <div className={cn('max-w-prose p-8 pt-0', className)}>{children}</div>
+      <div className={cn('max-w-prose p-2 sm:p-8 sm:pt-0', className)}>{children}</div>
     </div>
   );
 }
