@@ -19,3 +19,5 @@ export async function getUser() {
     sessionId: activeSession.id,
   };
 }
+
+export { usersShareGroup } from 'server/user/user-db';

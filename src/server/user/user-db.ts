@@ -1,4 +1,5 @@
 import { client } from 'server/db';
+import { generate16ByteHex } from 'utils/token';
 
 type UserDb = {
   email: string;
@@ -55,9 +56,9 @@ export async function clearUserLoginState(email: string) {
 
 export async function createUser(email: string, displayName: string, hash: string, salt: string) {
   await client.execute({
-    sql: `INSERT INTO users (email, name, login_hash, login_salt, login_timestamp)
+    sql: `INSERT INTO users (email, name, login_hash, login_salt, login_timestamp, safeId)
               VALUES (?, ?, ?, ?, ?)`,
-    args: [email, displayName, hash, salt, new Date()],
+    args: [email, displayName, hash, salt, new Date(), generate16ByteHex()],
   });
 }
 
@@ -97,4 +98,22 @@ export async function deleteUserCascading(userId: string) {
   });
 
   await transaction.commit();
+}
+
+export async function usersShareGroup(userIdA: string, userIdB: string): Promise<boolean> {
+  const result = await client.execute({
+    sql: `SELECT COUNT(*) as count
+              FROM user_to_group
+              WHERE user_id = ?
+                AND group_id IN (
+                  SELECT group_id
+                  FROM user_to_group
+                  WHERE user_id = ?
+                )`,
+    args: [userIdA, userIdB],
+  });
+
+  const overlappingGroups = result.rows[0][0] as number;
+
+  return overlappingGroups > 0;
 }

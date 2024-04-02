@@ -12,7 +12,6 @@ import { FullPage, FullPageDescription } from '@/components/layout/Layouts';
 import ImportFromSpotify from '@/components/import-from-spotify/ImportFromSpotify';
 import { Button } from '@/components/ui/button';
 
-
 function Page(): ReactElement {
   return (
     <FullPage
