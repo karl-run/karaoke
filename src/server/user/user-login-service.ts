@@ -33,6 +33,6 @@ export async function signup(email: string, displayName: string) {
   const token = generate64ByteHex();
   const salt = generate16ByteHex();
 
-  await sendLoginLink(cleanEmail, token);
   await createUser(cleanEmail, displayName, hashWithSalt(token, salt), salt);
+  await sendLoginLink(cleanEmail, token);
 }

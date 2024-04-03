@@ -80,7 +80,7 @@ export async function clearUserLoginState(email: string) {
 export async function createUser(email: string, displayName: string, hash: string, salt: string) {
   await client.execute({
     sql: `INSERT INTO users (email, name, login_hash, login_salt, login_timestamp, safeId)
-              VALUES (?, ?, ?, ?, ?)`,
+              VALUES (?, ?, ?, ?, ?, ?)`,
     args: [email, displayName, hash, salt, new Date(), generate16ByteHex()],
   });
 }

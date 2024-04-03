@@ -31,6 +31,7 @@ function Page(): ReactElement {
           }
 
           await signup(email, name);
+
           redirect('/login/success?new=true');
         }}
         className="flex flex-col xs:flex-row gap-3"
