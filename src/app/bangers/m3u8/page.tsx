@@ -2,7 +2,7 @@ import React, { ReactElement, Suspense } from 'react';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 
-import { getUserSongMap } from 'server/bangers/bangers-service';
+import { getUserBangersRecord } from 'server/bangers/bangers-service';
 
 import { SmallPage } from '@/components/layout/Layouts';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -47,7 +47,7 @@ async function ImporterWithUserBangers() {
     );
   }
 
-  const bangers = await getUserSongMap(user.userId);
+  const bangers = await getUserBangersRecord(user.userId);
 
   return <ImportFromM3U8 existingSongs={bangers} />;
 }

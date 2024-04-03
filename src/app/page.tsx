@@ -3,13 +3,12 @@ import React, { Suspense } from 'react';
 import { searchTracks } from 'server/spotify/track';
 import { TrackResult } from 'server/spotify/types';
 import { getUser } from 'server/user/user-service';
-import {getUserSongMap} from "server/bangers/bangers-service";
+import { getUserBangersRecord } from 'server/bangers/bangers-service';
 
 import Landing from '@/components/Landing';
 import Track, { TrackSkeleton } from '@/components/track/Track';
 import { TrackGrid } from '@/components/track/TrackGrid';
 import { FullPage } from '@/components/layout/Layouts';
-
 
 interface Props {
   searchParams: {
@@ -41,7 +40,7 @@ async function TrackSearch({ query }: { query: string }) {
 
   const user = await getUser();
   const cachePromise: Promise<Record<string, TrackResult | null>> = user
-    ? getUserSongMap(user.userId)
+    ? getUserBangersRecord(user.userId)
     : Promise.resolve({});
 
   const searchPromise = searchTracks(query);

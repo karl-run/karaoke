@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { CheckIcon } from '@radix-ui/react-icons';
 
 import { TrackResult } from 'server/spotify/types';
+import { getTrack } from 'server/spotify/track';
 
 import PlaySong from '@/components/PlaySong';
 import AddTrack from '@/components/add-track/AddTrack';
@@ -55,6 +56,12 @@ function Track({ track, action }: Props): ReactElement {
       )}
     </div>
   );
+}
+
+export async function LazyTrack({ trackId, action }: { trackId: string } & Pick<Props, 'action'>): Promise<ReactElement> {
+  const track = await getTrack(trackId, true);
+
+  return <Track track={track} action={action} />;
 }
 
 export function TrackSkeleton() {

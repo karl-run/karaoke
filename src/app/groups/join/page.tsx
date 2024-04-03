@@ -22,7 +22,7 @@ type Props = {
   };
 };
 
-export async function generateMetadata({ searchParams }: Props, parent: ResolvingMetadata): Promise<Metadata> {
+export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
   const joinCode = searchParams.code;
 
   if (joinCode == null) {

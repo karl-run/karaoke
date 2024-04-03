@@ -4,14 +4,13 @@ import { Crosshair2Icon, GearIcon } from '@radix-ui/react-icons';
 import { MessageCircleWarningIcon } from 'lucide-react';
 import { notFound } from 'next/navigation';
 
-import { getTrack } from 'server/spotify/track';
 import { getUser } from 'server/user/user-service';
 import { getGroupById } from 'server/group/group-db';
 import { getGroupBangers } from 'server/bangers/bangers-db';
 
 import { FullPage, FullPageDescription } from '@/components/layout/Layouts';
 import { TrackGrid } from '@/components/track/TrackGrid';
-import Track, { TrackSkeleton } from '@/components/track/Track';
+import Track, { LazyTrack, TrackSkeleton } from '@/components/track/Track';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
@@ -94,7 +93,7 @@ async function GroupBangers({ id }: { id: string }) {
                 <Track track={banger.track} action="none" />
               ) : (
                 <Suspense fallback={<TrackSkeleton />}>
-                  <LazyTrack trackId={banger.songId} />
+                  <LazyTrack trackId={banger.songId} action="none" />
                 </Suspense>
               )}
               <div className="absolute right-0 top-5 xs:top-4 xs:left-0 bg-green-800/80 rounded-full w-6 h-6 flex items-center justify-center m-2 border border-gray-800/70">
@@ -106,12 +105,6 @@ async function GroupBangers({ id }: { id: string }) {
       )}
     </div>
   );
-}
-
-async function LazyTrack({ trackId }: { trackId: string }): Promise<ReactElement> {
-  const track = await getTrack(trackId, true);
-
-  return <Track track={track} action="none" />;
 }
 
 export default Page;

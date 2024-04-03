@@ -2,13 +2,11 @@ import React, { ReactElement, Suspense } from 'react';
 import { notFound, redirect } from 'next/navigation';
 
 import { getOtherUser, getUser, usersShareGroup } from 'server/user/user-service';
-import { getUserBangers } from 'server/bangers/bangers-db';
-import { getTrack } from 'server/spotify/track';
-import { getUserSongMap } from 'server/bangers/bangers-service';
+import { getUserBangers, getUserBangersRecord } from 'server/bangers/bangers-service';
 
 import { FullPage, FullPageDescription } from '@/components/layout/Layouts';
 import { TrackGrid } from '@/components/track/TrackGrid';
-import Track, { TrackSkeleton } from '@/components/track/Track';
+import Track, { LazyTrack, TrackSkeleton } from '@/components/track/Track';
 
 type Props = {
   params: {
@@ -60,7 +58,7 @@ async function GroupMemberBangers({ userSafeId }: { userSafeId: string }) {
 
   const [otherUserBangers, userCache] = await Promise.all([
     getUserBangers(otherUser.userId),
-    getUserSongMap(user.userId),
+    getUserBangersRecord(user.userId),
   ]);
 
   return (
@@ -74,7 +72,7 @@ async function GroupMemberBangers({ userSafeId }: { userSafeId: string }) {
             <Track key={trackId} track={track} action={userCache[trackId] != null ? 'already-added' : 'addable'} />
           ) : (
             <Suspense key={trackId} fallback={<TrackSkeleton />}>
-              <LazyTrack trackId={trackId} />
+              <LazyTrack trackId={trackId} action="addable" />
             </Suspense>
           ),
         )}
@@ -85,15 +83,6 @@ async function GroupMemberBangers({ userSafeId }: { userSafeId: string }) {
 
 function GroupMemberBangersSkeleton() {
   return <FullPageDescription>Loading...</FullPageDescription>;
-}
-
-/**
- * TODO: Consolidate this with other lazytracks
- */
-async function LazyTrack({ trackId }: { trackId: string }): Promise<ReactElement> {
-  const track = await getTrack(trackId, true);
-
-  return <Track track={track} action="addable" />;
 }
 
 function getRandomGoodWord() {

@@ -1,16 +1,14 @@
 import React, { ReactElement, Suspense } from 'react';
 import Link from 'next/link';
 
-import { getUserBangers } from 'server/bangers/bangers-db';
-import { TrackResult } from 'server/spotify/types';
-import { getTrack } from 'server/spotify/track';
 import { getUser } from 'server/user/user-service';
 
 import { TrackGrid } from '@/components/track/TrackGrid';
-import Track, { TrackSkeleton } from '@/components/track/Track';
+import Track, { LazyTrack, TrackSkeleton } from '@/components/track/Track';
 import { FullPage, FullPageDescription } from '@/components/layout/Layouts';
 import ImportFromSpotify from '@/components/import-from-spotify/ImportFromSpotify';
 import { Button } from '@/components/ui/button';
+import { getUserBangersCached } from '@/server/bangers/bangers-service';
 
 function Page(): ReactElement {
   return (
@@ -43,7 +41,7 @@ async function BangersList(): Promise<ReactElement> {
     );
   }
 
-  const bangs = await getUserBangers(user.userId);
+  const bangs = await getUserBangersCached(user.userId);
   if (bangs.length === 0) {
     return (
       <FullPageDescription>
@@ -60,10 +58,10 @@ async function BangersList(): Promise<ReactElement> {
         {bangs.map(([song_id, track]) => (
           <div key={song_id}>
             {track != null ? (
-              <KnownTrack track={track} />
+              <Track track={track} action="removable" />
             ) : (
               <Suspense fallback={<TrackSkeleton />}>
-                <LazyTrack trackId={song_id} />
+                <LazyTrack trackId={song_id} action="removable" />
               </Suspense>
             )}
           </div>
@@ -71,16 +69,6 @@ async function BangersList(): Promise<ReactElement> {
       </TrackGrid>
     </>
   );
-}
-
-async function KnownTrack({ track }: { track: TrackResult }): Promise<ReactElement> {
-  return <Track track={track} action="removable" />;
-}
-
-async function LazyTrack({ trackId }: { trackId: string }): Promise<ReactElement> {
-  const track = await getTrack(trackId, true);
-
-  return <Track track={track} action="removable" />;
 }
 
 function BangersSkeleton() {

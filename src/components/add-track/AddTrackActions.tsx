@@ -1,6 +1,6 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
 import { getUser } from '@/server/user/user-service';
 import { addBanger, removeBanger } from '@/server/bangers/bangers-db';
@@ -16,7 +16,7 @@ export async function addBangerAction(trackId: string): Promise<{ error: 'not-lo
 
   await addBanger(user.userId, trackId);
 
-  revalidatePath('/');
+  revalidateTag('bangers');
 
   return {
     ok: true,

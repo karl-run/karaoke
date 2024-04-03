@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 
 import { SmallPage } from '@/components/layout/Layouts';
 import DeleteUserButton from '@/components/delete-user/DeleteUserButton';
-import {getUser} from "@/server/user/user-service";
+import { getUser } from '@/server/user/user-service';
 
 function Page(): ReactElement {
   const user = getUser();
