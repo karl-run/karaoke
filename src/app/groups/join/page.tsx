@@ -2,6 +2,7 @@ import React, { ReactElement, Suspense } from 'react';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import { Metadata, ResolvingMetadata } from 'next';
 
 import { getUser } from 'server/user/user-service';
 import { getGroupByJoinCode, isUserInGroup } from 'server/group/group-db';
@@ -20,6 +21,31 @@ type Props = {
     code: string;
   };
 };
+
+export async function generateMetadata({ searchParams }: Props, parent: ResolvingMetadata): Promise<Metadata> {
+  const joinCode = searchParams.code;
+
+  if (joinCode == null) {
+    return {
+      title: 'Join a group',
+      description: 'Enter a join code to join a group on Karaoke Match!',
+    };
+  }
+
+  const group = await getGroupByJoinCode(joinCode);
+
+  if (group == null) {
+    return {
+      title: 'Join a group',
+      description: 'Enter a join code to join a group on Karaoke Match!',
+    };
+  }
+
+  return {
+    title: `You've been invited to join ${group.name}!`,
+    description: `Share your favorite songs with your friends in ${group.name} on Karaoke Match!`,
+  };
+}
 
 function Page({ searchParams }: Props): ReactElement {
   const code = searchParams.code ?? null;
