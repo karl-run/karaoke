@@ -1,6 +1,7 @@
+import * as R from 'remeda';
 import React, { ReactElement, Suspense } from 'react';
 import Link from 'next/link';
-import { Crosshair2Icon, GearIcon } from '@radix-ui/react-icons';
+import { Crosshair2Icon, GearIcon, HeartFilledIcon, StarFilledIcon } from '@radix-ui/react-icons';
 import { MessageCircleWarningIcon } from 'lucide-react';
 import { notFound } from 'next/navigation';
 
@@ -56,6 +57,8 @@ async function GroupBangers({ id }: { id: string }) {
     notFound();
   }
 
+  const biggestBangerCount = R.firstBy(bangers, [(banger) => banger.userCount, 'desc'])?.userCount ?? 0;
+
   return (
     <div>
       <FullPageDescription className="flex gap-3 mb-3 justify-between items-center">
@@ -96,8 +99,16 @@ async function GroupBangers({ id }: { id: string }) {
                   <LazyTrack trackId={banger.songId} action="none" />
                 </Suspense>
               )}
-              <div className="absolute right-0 top-5 xs:top-4 xs:left-0 bg-green-800/80 rounded-full w-6 h-6 flex items-center justify-center m-2 border border-gray-800/70">
-                {banger.userCount}
+              <div className="absolute right-0 top-5 xs:top-6 xs:left-2 rounded-full w-6 h-6 flex items-center justify-center m-2">
+                {banger.userCount === biggestBangerCount && biggestBangerCount > 2 ? (
+                  <>
+                    <StarFilledIcon className="h-10 w-10 text-yellow-500 absolute" />
+                    <StarFilledIcon className="h-10 w-10 text-yellow-400 absolute animate-ping" />
+                  </>
+                ) : (
+                  <div className="border min-w-7 min-h-7 bg-green-800/80 rounded-full" />
+                )}
+                <div className={"absolute text-white font-bold"}>{banger.userCount}</div>
               </div>
             </div>
           ))}
