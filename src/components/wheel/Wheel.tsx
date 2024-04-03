@@ -9,7 +9,7 @@ function Wheel({ children, skip }: PropsWithChildren<{ skip?: boolean }>): React
     <div
       className={cn(
         styles.wheel,
-        'relative h-full w-full max-w-full sm:max-w-prose aspect-square rounded-full border-4 border-white',
+        'relative h-full w-full max-w-full sm:max-w-prose aspect-square rounded-full border-4 border-black dark:border-white',
         {
           '!animate-none': skip,
         },

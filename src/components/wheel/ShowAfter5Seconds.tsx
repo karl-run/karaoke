@@ -42,8 +42,7 @@ function ShowAfter5Seconds({ track, children }: PropsWithChildren<Props>): React
         width={200}
         height={200}
       />
-
-      <div className="bg-black/50 w-full p-4 rounded-xl absolute text-3xl">
+      <div className="bg-black/50 w-full p-4 rounded-xl absolute text-3xl text-white">
         <div className="text-center font-bold">{track.name}</div>
         <div className="text-center font-bold">{track.artist}</div>
         {children && <div className="text-center font-bold">{children}</div>}
