@@ -69,7 +69,7 @@ async function GroupBangers({ id }: { id: string }) {
           </h1>
         </div>
         <Button variant="outline" className="mr-3 rounded-full w-10 h-10" asChild>
-          <Link href={`/groups/${id}/wheel`} aria-label="Go to The Wheel" className="relative">
+          <Link href={`/groups/${id}/wheel`} aria-label="Go to The Wheel" className="relative" prefetch={false}>
             <Crosshair2Icon className="h-4 w-4 absolute" />
             <Crosshair2Icon className="h-4 w-4 animate-ping absolute" />
           </Link>

@@ -31,11 +31,11 @@ function Page(): ReactElement {
 
       <div className="flex flex-col sm:flex-row gap-1 mt-8">
         <h2>Got more friends?</h2>
-        <Link className="underline" href="/groups/join">
+        <Link className="underline" href="/groups/join" prefetch={false}>
           Join a group
         </Link>
         <p>or</p>
-        <Link className="underline" href="/groups/create">
+        <Link className="underline" href="/groups/create" prefetch={false}>
           create a group.
         </Link>
       </div>
@@ -72,7 +72,7 @@ function GroupListItem({
 }) {
   return (
     <div className="rounded flex justify-between">
-      <Link href={`/groups/${group.id}/bangers`} className="hover:outline grow">
+      <Link href={`/groups/${group.id}/bangers`} className="hover:outline grow" prefetch={false}>
         <div className="flex gap-3">
           <GroupAvatar iconIndex={group.iconIndex} />
           <div className="max-w-44 xs:max-w-full">
@@ -81,10 +81,10 @@ function GroupListItem({
           </div>
         </div>
       </Link>
-      <Link href={`/groups/${group.id}/wheel`} className="w-12 hover:outline flex items-center justify-center">
+      <Link href={`/groups/${group.id}/wheel`} className="w-12 hover:outline flex items-center justify-center" prefetch={false}>
         <Crosshair2Icon className="h-6 w-6" />
       </Link>
-      <Link href={`/groups/${group.id}/details`} className="w-12 hover:outline flex items-center justify-center">
+      <Link href={`/groups/${group.id}/details`} className="w-12 hover:outline flex items-center justify-center" prefetch={false}>
         <GearIcon className="h-6 w-6" />
       </Link>
     </div>
