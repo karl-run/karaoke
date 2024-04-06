@@ -10,4 +10,4 @@ export const client = createClient({
 
 export const db = drizzle(client);
 
-export * from './tables';
+export * from './schema';

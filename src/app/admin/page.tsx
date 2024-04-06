@@ -6,7 +6,7 @@ import { getTotalBangersCount, getTotalGroupCount, getTotalUserCount } from 'ser
 import GroupAvatar from '@/components/avatar/GroupAvatar';
 import { SmallPage } from '@/components/layout/Layouts';
 import { Label } from '@/components/ui/label';
-import {getUser} from "@/server/user/user-service";
+import { getUser } from '@/server/user/user-service';
 
 async function Page(): Promise<ReactElement> {
   const user = await getUser();
