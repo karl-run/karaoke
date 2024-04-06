@@ -1,4 +1,6 @@
-import { client } from 'server/db/client';
+import { count } from 'drizzle-orm';
+
+import { client, db, users } from 'server/db/client';
 
 export async function getTotalBangersCount() {
   const result = await client.execute('SELECT COUNT(*) FROM bangers');
@@ -8,15 +10,14 @@ export async function getTotalBangersCount() {
 }
 
 export async function getTotalUserCount() {
-  const result = await client.execute('SELECT COUNT(*) FROM users');
-  const count = result.rows[0][0];
+  const result = await db.select({ count: count() }).from(users);
 
-  return count as number
+  return result[0].count;
 }
 
 export async function getTotalGroupCount() {
   const result = await client.execute('SELECT COUNT(*) FROM user_group');
   const count = result.rows[0][0];
 
-  return count as number
+  return count as number;
 }
