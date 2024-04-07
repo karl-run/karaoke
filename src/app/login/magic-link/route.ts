@@ -18,18 +18,18 @@ export async function GET(request: NextRequest) {
   const { email, actualToken } = decodeToken(token);
   const user = await getFullLoginUserByEmail(email);
 
-  if (!user || user.login_timestamp == null || user.login_salt == null) {
+  if (!user || user.loginTimestamp == null || user.loginSalt == null) {
     console.warn('User not found');
     return toLoginFail(request);
   }
 
-  if (isBefore(user.login_timestamp, subMinutes(new Date(), 10))) {
-    console.warn('Login link expired', new Date(), user.login_timestamp);
-    console.warn(`Link was ${differenceInMinutes(new Date(), user.login_timestamp)} minutes old`);
+  if (isBefore(user.loginTimestamp, subMinutes(new Date(), 10))) {
+    console.warn('Login link expired', new Date(), user.loginTimestamp);
+    console.warn(`Link was ${differenceInMinutes(new Date(), user.loginTimestamp)} minutes old`);
     return toLoginFail(request);
   }
 
-  if (hashWithSalt(actualToken, user.login_salt) !== user.login_hash) {
+  if (hashWithSalt(actualToken, user.loginSalt) !== user.loginHash) {
     console.warn('Login link tampered with');
     return toLoginFail(request);
   }

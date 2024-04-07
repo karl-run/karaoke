@@ -11,9 +11,11 @@ export const users = sqliteTable('users', {
   })
     .notNull()
     .default(false),
-  login_hash: text('login_hash'),
-  login_salt: text('login_salt'),
-  login_timestamp: text('login_timestamp'),
+  loginHash: text('login_hash'),
+  loginSalt: text('login_salt'),
+  loginTimestamp: integer('login_timestamp', {
+    mode: 'timestamp_ms',
+  }),
 });
 
 export const sessions = sqliteTable('sessions', {

@@ -42,6 +42,6 @@ export async function clearUserSession(sessionId: string) {
   await db.delete(sessions).where(eq(sessions.id, sessionId));
 }
 
-export function setUserVerified(email: string) {
-  db.update(users).set({ verified: true }).where(eq(users.email, email));
+export async function setUserVerified(email: string) {
+  await db.update(users).set({ verified: true }).where(eq(users.email, email));
 }
