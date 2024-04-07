@@ -1,5 +1,5 @@
 import { TrackResult } from 'server/spotify/types';
-import { db, songCache } from 'server/db/client';
+import { db, songCache } from 'server/db';
 
 export async function addToCache(song: TrackResult) {
   await db

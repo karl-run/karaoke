@@ -1,6 +1,6 @@
 import { eq, and, sql } from 'drizzle-orm';
 
-import { db, bangers, songCache } from 'server/db/client';
+import { bangers, db, songCache } from 'server/db';
 import { TrackResult } from 'server/spotify/types';
 
 export async function addBanger(userId: string, trackId: string) {

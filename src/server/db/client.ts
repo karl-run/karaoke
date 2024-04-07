@@ -10,4 +10,6 @@ export const client = createClient({
 
 export const db = drizzle(client);
 
-export * from './schema';
+export function disconnect() {
+  client.close();
+}

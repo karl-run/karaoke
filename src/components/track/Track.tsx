@@ -58,7 +58,10 @@ function Track({ track, action }: Props): ReactElement {
   );
 }
 
-export async function LazyTrack({ trackId, action }: { trackId: string } & Pick<Props, 'action'>): Promise<ReactElement> {
+export async function LazyTrack({
+  trackId,
+  action,
+}: { trackId: string } & Pick<Props, 'action'>): Promise<ReactElement> {
   const track = await getTrack(trackId, true);
 
   return <Track track={track} action={action} />;

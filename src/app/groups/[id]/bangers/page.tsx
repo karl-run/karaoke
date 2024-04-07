@@ -108,7 +108,7 @@ async function GroupBangers({ id }: { id: string }) {
                 ) : (
                   <div className="border min-w-7 min-h-7 bg-green-800/80 rounded-full" />
                 )}
-                <div className={"absolute text-white font-bold"}>{banger.userCount}</div>
+                <div className={'absolute text-white font-bold'}>{banger.userCount}</div>
               </div>
             </div>
           ))}

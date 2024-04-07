@@ -41,14 +41,18 @@ function UserDropdownAvatar({ name, id }: Props): ReactElement {
           <Link href="/profile">Profile</Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Link href="/logout" prefetch={false}>Log out</Link>
+          <Link href="/logout" prefetch={false}>
+            Log out
+          </Link>
         </DropdownMenuItem>
         {id === process.env.ADMIN_ID && (
           <>
             <DropdownMenuSeparator />
             <DropdownMenuLabel>Secret</DropdownMenuLabel>
             <DropdownMenuItem>
-              <Link href="/admin" prefetch={false}>Admin stats</Link>
+              <Link href="/admin" prefetch={false}>
+                Admin stats
+              </Link>
             </DropdownMenuItem>
           </>
         )}

@@ -1,7 +1,7 @@
 import { spotifyFetch } from 'server/spotify/auth';
 import { SpotifyTrack, SpotifyTracksResponse, TrackResult } from 'server/spotify/types';
 import { spotifyTrackToTrackResult } from 'server/spotify/mapper';
-import {addToCache} from "server/bangers/bangers-cache";
+import { addToCache } from 'server/bangers/bangers-cache';
 
 export async function getTrack(trackId: string, alsoCache: true): Promise<TrackResult> {
   const track = await spotifyFetch<SpotifyTrack>(`/v1/tracks/${trackId}`);

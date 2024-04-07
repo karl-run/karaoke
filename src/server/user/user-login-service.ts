@@ -1,7 +1,7 @@
 import { createUser, getFullLoginUserByEmail, updateUserLoginState } from 'server/user/user-db';
 
 import { generate16ByteHex, generate64ByteHex, hashWithSalt } from 'utils/token';
-import {sendLoginLink} from "@/server/email/email-service";
+import { sendLoginLink } from '@/server/email/email-service';
 
 export async function createMagicLinkForUser(email: string) {
   const cleanEmail = email.trim().toLowerCase();

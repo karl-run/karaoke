@@ -18,7 +18,9 @@ function Page(): ReactElement {
       actions={
         <div className="flex gap-3">
           <Button variant="outline" asChild className="hidden sm:block">
-            <Link prefetch={false} href="/bangers/m3u8">Import .m3u8 file</Link>
+            <Link prefetch={false} href="/bangers/m3u8">
+              Import .m3u8 file
+            </Link>
           </Button>
           <ImportFromSpotify />
         </div>
