@@ -9,7 +9,7 @@ CREATE TABLE `sessions` (
 	`id` text PRIMARY KEY NOT NULL,
 	`user_id` text,
 	`created_at` integer NOT NULL,
-	`last_seen_a` integer NOT NULL,
+	`last_seen` integer NOT NULL,
 	`ua` text NOT NULL,
 	FOREIGN KEY (`user_id`) REFERENCES `users`(`email`) ON UPDATE no action ON DELETE no action
 );

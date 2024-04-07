@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "68e59252-d9fb-4447-a3b9-dce52cc37729",
+  "id": "849abb40-3c98-4814-ac1a-397146fc2ebb",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "bangers": {
@@ -73,8 +73,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "last_seen_a": {
-          "name": "last_seen_a",
+        "last_seen": {
+          "name": "last_seen",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,

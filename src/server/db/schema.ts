@@ -20,7 +20,7 @@ export const sessions = sqliteTable('sessions', {
   id: text('id').primaryKey(),
   user_id: text('user_id').references(() => users.email),
   created_at: integer('created_at', { mode: 'timestamp_ms' }).notNull(),
-  last_seen: integer('last_seen_a', { mode: 'timestamp_ms' }).notNull(),
+  last_seen: integer('last_seen', { mode: 'timestamp_ms' }).notNull(),
   ua: text('ua').notNull(),
 });
 
