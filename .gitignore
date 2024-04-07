@@ -40,3 +40,4 @@ next-env.d.ts
 debug.json
 test.m3u8
 dev.db
+scripts/data-migration.ts

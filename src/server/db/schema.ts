@@ -27,7 +27,9 @@ export const sessions = sqliteTable('sessions', {
 export const bangers = sqliteTable(
   'bangers',
   {
+    // TODO: should be .notNull()
     songId: text('song_id'),
+    // TODO: should be .notNull()
     userId: text('user_id').references(() => users.email),
   },
   (table) => ({
