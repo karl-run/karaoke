@@ -2,22 +2,25 @@ import { eq, and, sql } from 'drizzle-orm';
 
 import { bangers, db, songCache } from 'server/db';
 import { TrackResult } from 'server/spotify/types';
+import { trackToNormalizedId } from 'server/bangers/normalization';
 
-export async function addBanger(userId: string, trackId: string) {
+export async function addBanger(userId: string, track: TrackResult) {
   await db.insert(bangers).values({
     userId,
-    songId: trackId,
+    songId: track.id,
+    songKey: trackToNormalizedId(track),
   });
 }
 
-export async function addBangers(userId: string, trackIds: string[]) {
+export async function addBangers(userId: string, tracks: TrackResult[]) {
   await db.transaction(async (tx) => {
-    for (const trackId of trackIds) {
+    for (const track of tracks) {
       await tx
         .insert(bangers)
         .values({
           userId,
-          songId: trackId,
+          songId: track.id,
+          songKey: trackToNormalizedId(track),
         })
         .onConflictDoNothing();
     }

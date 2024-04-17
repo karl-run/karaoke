@@ -4,6 +4,7 @@ import { revalidatePath, revalidateTag } from 'next/cache';
 
 import { getUser } from '@/server/user/user-service';
 import { addBanger, removeBanger } from '@/server/bangers/bangers-db';
+import { getTrack } from 'server/spotify/track';
 
 export async function addBangerAction(trackId: string): Promise<{ error: 'not-logged-in' } | { ok: true }> {
   const user = await getUser();
@@ -14,7 +15,8 @@ export async function addBangerAction(trackId: string): Promise<{ error: 'not-lo
     };
   }
 
-  await addBanger(user.userId, trackId);
+  const track = await getTrack(trackId, true);
+  await addBanger(user.userId, track);
 
   revalidateTag('bangers');
 

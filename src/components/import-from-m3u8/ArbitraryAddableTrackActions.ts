@@ -1,6 +1,6 @@
 'use server';
 
-import { bestGuessTrack } from 'server/spotify/track';
+import { bestGuessTrack, getTrack } from 'server/spotify/track';
 import { addBanger } from 'server/bangers/bangers-db';
 
 import { getUser } from '@/server/user/user-service';
@@ -18,7 +18,8 @@ export async function addSongAction(songId: string) {
     };
   }
 
-  await addBanger(user.userId, songId);
+  const track = await getTrack(songId, true);
+  await addBanger(user.userId, track);
 
   return {
     ok: true,

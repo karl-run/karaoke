@@ -39,7 +39,7 @@ export async function importFromSpotifyAction(
 
   await addBangers(
     user.userId,
-    playlist.tracks.map((track) => track.id),
+    playlist.tracks,
   );
 
   for (const track of playlist.tracks) {
