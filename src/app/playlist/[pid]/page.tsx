@@ -1,8 +1,10 @@
 import React, { ReactElement, Suspense } from 'react';
+
+import { getPlaylistWithTracks } from 'server/spotify/playlist';
+
 import { FullPage, FullPageDescription } from '@/components/layout/Layouts';
 import { TrackGrid } from '@/components/track/TrackGrid';
 import Track, { TrackSkeleton } from '@/components/track/Track';
-import { getTracksInPlaylist } from 'server/spotify/playlist';
 
 type Props = {
   params: {
@@ -21,18 +23,18 @@ function Page({ params }: Props): ReactElement {
 }
 
 async function Playlist({ playlistId }: { playlistId: string }): Promise<ReactElement> {
-  const tracks = await getTracksInPlaylist(playlistId);
+  const playlist = await getPlaylistWithTracks(playlistId);
 
-  if ('errorMessage' in tracks) {
+  if ('errorMessage' in playlist) {
     return (
       <FullPageDescription>
         <div className="text-lg opacity-70">Error fetching playlist</div>
-        <p className="mt-8">{tracks.errorMessage}</p>
+        <p className="mt-8">{playlist.errorMessage}</p>
       </FullPageDescription>
     );
   }
 
-  if (tracks.length === 0) {
+  if (playlist.tracks.length === 0) {
     return (
       <FullPageDescription>
         <div className="text-lg opacity-70">No songs in playlist found</div>
@@ -43,9 +45,11 @@ async function Playlist({ playlistId }: { playlistId: string }): Promise<ReactEl
 
   return (
     <>
-      <FullPageDescription>You have {tracks.length} bangers in your list!</FullPageDescription>
+      <FullPageDescription>
+        {playlist.name} by {playlist.owner}
+      </FullPageDescription>
       <TrackGrid>
-        {tracks.map((track) => (
+        {playlist.tracks.map((track) => (
           <div key={track.id}>
             <Track track={track} action="addable" />
           </div>

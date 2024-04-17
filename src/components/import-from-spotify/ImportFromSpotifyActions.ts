@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 
-import { getTracksInPlaylist } from 'server/spotify/playlist';
+import { getPlaylistWithTracks } from 'server/spotify/playlist';
 import { addBangers } from 'server/bangers/bangers-db';
 import { addToCache } from 'server/bangers/bangers-cache';
 
@@ -31,24 +31,24 @@ export async function importFromSpotifyAction(
     return { error: 'Invalid Spotify URL' };
   }
 
-  const tracks = await getTracksInPlaylist(extractedId);
+  const playlist = await getPlaylistWithTracks(extractedId);
 
-  if ('errorMessage' in tracks) {
-    return { error: tracks.errorMessage };
+  if ('errorMessage' in playlist) {
+    return { error: playlist.errorMessage };
   }
 
   await addBangers(
     user.userId,
-    tracks.map((track) => track.id),
+    playlist.tracks.map((track) => track.id),
   );
 
-  for (const track of tracks) {
+  for (const track of playlist.tracks) {
     await addToCache(track);
   }
 
   revalidatePath('/bangers');
 
   return {
-    tracksAdded: tracks.length,
+    tracksAdded: playlist.tracks.length,
   };
 }
