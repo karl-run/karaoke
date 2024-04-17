@@ -4,6 +4,7 @@ import React, { ReactElement, useTransition } from 'react';
 import { useQueryState, parseAsArrayOf, parseAsString } from 'nuqs';
 
 import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group';
+import { useRouter } from 'next/navigation';
 
 type Props = {
   members: {
@@ -14,6 +15,7 @@ type Props = {
 };
 
 function GroupMembers({ members }: Props): ReactElement {
+  const router = useRouter();
   const [transition, startTransition] = useTransition();
   const [ignored, setIgnored] = useQueryState(
     'ignored',
@@ -47,6 +49,14 @@ function GroupMembers({ members }: Props): ReactElement {
             key={member.safeId}
             className="flex flex-col h-14 w-1/3 xs:w-1/4 sm:w-auto grow sm:grow-0"
             value={member.safeId}
+            onContextMenu={(event) => {
+              // When touch, button is -1? Dunno lol
+              if (event.button === -1) {
+                event.preventDefault();
+
+                router.push(`/user/${member.safeId}`);
+              }
+            }}
           >
             <div className="truncate max-w-16 font-bold">{member.name}</div>
             <div className="text-xs">{member.bangers} songs</div>
