@@ -38,11 +38,19 @@ export async function getPlaylistWithTracks(playlistId: string) {
   }
 }
 
-async function traverseTracks(nextUrl: string): Promise<{ track: SpotifyTrack }[]> {
-  console.info(`Fetching ${nextUrl}`);
-  const response = await spotifyFetch<PlaylistResponse['tracks']>(nextUrl);
+export async function isValidPlaylist(playlistId: string): Promise<number | null> {
+  try {
+    const playlist = await spotifyFetch<PlaylistResponse>(`/v1/playlists/${playlistId}`);
 
-  console.log(response.total, response.items.length, response.offset);
+    return playlist.tracks.total;
+  } catch (e) {
+    console.warn(`Playlist was not valid, spotify says: ${e}`);
+    return null;
+  }
+}
+
+async function traverseTracks(nextUrl: string): Promise<{ track: SpotifyTrack }[]> {
+  const response = await spotifyFetch<PlaylistResponse['tracks']>(nextUrl);
 
   if (response.next == null) {
     return response.items;

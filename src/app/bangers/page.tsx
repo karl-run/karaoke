@@ -1,12 +1,12 @@
 import React, { ReactElement, Suspense } from 'react';
 import Link from 'next/link';
+import { EnterIcon, FileIcon } from '@radix-ui/react-icons';
 
 import { getUser } from 'server/user/user-service';
 
 import { TrackGrid } from '@/components/track/TrackGrid';
 import Track, { LazyTrack, TrackSkeleton } from '@/components/track/Track';
 import { FullPage, FullPageDescription } from '@/components/layout/Layouts';
-import ImportFromSpotify from '@/components/import-from-spotify/ImportFromSpotify';
 import { Button } from '@/components/ui/button';
 import { getUserBangersCached } from '@/server/bangers/bangers-service';
 
@@ -17,12 +17,18 @@ function Page(): ReactElement {
       back="search"
       actions={
         <div className="flex gap-3">
-          <Button variant="outline" asChild className="hidden sm:block">
+          <Button variant="outline" asChild className="hidden sm:flex gap-2">
             <Link prefetch={false} href="/bangers/m3u8">
+              <FileIcon />
               Import .m3u8 file
             </Link>
           </Button>
-          <ImportFromSpotify />
+          <Button variant="outline" asChild className="hidden sm:flex gap-2">
+            <Link prefetch={false} href="/bangers/import">
+              <EnterIcon />
+              Import from spotify
+            </Link>
+          </Button>
         </div>
       }
     >

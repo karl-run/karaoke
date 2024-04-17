@@ -1,7 +1,7 @@
 import * as R from 'remeda';
 import React, { ReactElement, Suspense } from 'react';
 import Link from 'next/link';
-import { Crosshair2Icon, GearIcon, HeartFilledIcon, StarFilledIcon } from '@radix-ui/react-icons';
+import { Crosshair2Icon, GearIcon, StarFilledIcon } from '@radix-ui/react-icons';
 import { MessageCircleWarningIcon } from 'lucide-react';
 import { notFound } from 'next/navigation';
 

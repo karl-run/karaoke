@@ -2,7 +2,7 @@ import React, { ReactElement, Suspense } from 'react';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { Metadata, ResolvingMetadata } from 'next';
+import { Metadata } from 'next';
 
 import { getUser } from 'server/user/user-service';
 import { getGroupByJoinCode, isUserInGroup } from 'server/group/group-db';
