@@ -1,6 +1,8 @@
 import React, { ReactElement, Suspense } from 'react';
 
 import { getPlaylistWithTracks } from 'server/spotify/playlist';
+import { getUserBangersRecord } from 'server/bangers/bangers-service';
+import { getUser } from 'server/user/user-service';
 
 import { FullPage, FullPageDescription } from '@/components/layout/Layouts';
 import { TrackGrid } from '@/components/track/TrackGrid';
@@ -23,7 +25,10 @@ function Page({ params }: Props): ReactElement {
 }
 
 async function Playlist({ playlistId }: { playlistId: string }): Promise<ReactElement> {
-  const playlist = await getPlaylistWithTracks(playlistId);
+  const [playlist, userTracks] = await Promise.all([
+    getPlaylistWithTracks(playlistId),
+    getUser().then((it) => (it ? getUserBangersRecord(it.userId) : null)),
+  ]);
 
   if ('errorMessage' in playlist) {
     return (
@@ -51,7 +56,7 @@ async function Playlist({ playlistId }: { playlistId: string }): Promise<ReactEl
       <TrackGrid>
         {playlist.tracks.map((track) => (
           <div key={track.id}>
-            <Track track={track} action="addable" />
+            <Track track={track} action={userTracks?.[track.id] != null ? 'already-added' : 'addable'} />
           </div>
         ))}
       </TrackGrid>

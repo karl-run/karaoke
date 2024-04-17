@@ -1,4 +1,5 @@
 import * as R from 'remeda';
+import { z } from 'zod';
 import React, { ReactElement, Suspense } from 'react';
 import Link from 'next/link';
 import { Crosshair2Icon, GearIcon, StarFilledIcon } from '@radix-ui/react-icons';
@@ -9,20 +10,29 @@ import { getUser } from 'server/user/user-service';
 import { getGroupById } from 'server/group/group-db';
 import { getGroupBangers } from 'server/bangers/bangers-db';
 
-import { FullPage, FullPageDescription } from '@/components/layout/Layouts';
+import { FullPage, FullPageDescription, FullPageDetails } from '@/components/layout/Layouts';
 import { TrackGrid } from '@/components/track/TrackGrid';
 import Track, { LazyTrack, TrackSkeleton } from '@/components/track/Track';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
+import GroupMembers from '@/components/group-members/GroupMembers';
 
 type Props = {
   params: {
     id: string;
   };
+  searchParams: {
+    // List of safeId of users that should be ignored from bangers
+    ignored?: string;
+  };
 };
 
-function Page({ params: { id } }: Props): ReactElement {
+const SearchParamsArraySchema = z.array(z.string());
+
+function Page({ params: { id }, searchParams }: Props): ReactElement {
+  const parsedParams = SearchParamsArraySchema.safeParse(searchParams.ignored?.split(',') ?? []);
+
   return (
     <FullPage
       title="Group bangers"
@@ -40,14 +50,14 @@ function Page({ params: { id } }: Props): ReactElement {
       }
     >
       <Suspense>
-        <GroupBangers id={id} />
+        <GroupBangers id={id} ignored={parsedParams.success ? parsedParams.data : []} />
       </Suspense>
     </FullPage>
   );
 }
 
-async function GroupBangers({ id }: { id: string }) {
-  const [group, bangers, user] = await Promise.all([getGroupById(id), getGroupBangers(id), getUser()]);
+async function GroupBangers({ id, ignored }: { id: string; ignored: string[] }) {
+  const [group, bangers, user] = await Promise.all([getGroupById(id), getGroupBangers(id, ignored), getUser()]);
 
   if (!user) {
     notFound();
@@ -64,9 +74,12 @@ async function GroupBangers({ id }: { id: string }) {
       <FullPageDescription className="flex gap-3 mb-3 justify-between items-center">
         <div className="flex gap-3 items-center">
           <GroupAvatar iconIndex={group.iconIndex} />
-          <h1 className="text-lg">
-            {bangers.length} certified bangers for {group.name}
-          </h1>
+          <div>
+            <h1 className="text-lg">
+              {bangers.length} certified bangers for {group.name}
+            </h1>
+            {ignored.length > 0 && <div className="text-xs">without {ignored.length} user(s)</div>}
+          </div>
         </div>
         <Button variant="outline" className="mr-3 rounded-full w-10 h-10" asChild>
           <Link href={`/groups/${id}/wheel`} aria-label="Go to The Wheel" className="relative" prefetch={false}>
@@ -75,16 +88,23 @@ async function GroupBangers({ id }: { id: string }) {
           </Link>
         </Button>
       </FullPageDescription>
+      <FullPageDetails>
+        <GroupMembers
+          members={group.users.map((it) => ({ name: it.displayName, safeId: it.safeId, bangers: it.count }))}
+        />
+      </FullPageDetails>
 
       {bangers.length === 0 && (
-        <Alert className="mt-4">
-          <MessageCircleWarningIcon className="h-4 w-4" />
-          <AlertTitle>No bangers found?!</AlertTitle>
-          <AlertDescription>
-            Invite your friends, have them add their karaoke bangers! There has got to be at least one song you all
-            share. :-)
-          </AlertDescription>
-        </Alert>
+        <FullPageDetails>
+          <Alert className="mt-4 max-w-prose">
+            <MessageCircleWarningIcon className="h-4 w-4" />
+            <AlertTitle>No bangers found?!</AlertTitle>
+            <AlertDescription>
+              Invite your friends, have them add their karaoke bangers! There has got to be at least one song you all
+              share. :-)
+            </AlertDescription>
+          </Alert>
+        </FullPageDetails>
       )}
 
       {bangers.length > 0 && (

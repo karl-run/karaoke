@@ -31,7 +31,7 @@ export async function removeBanger(userId: string, trackId: string) {
 /**
  * A banger is a track that two or more users have added to their list of bangers.
  */
-export async function getGroupBangers(groupId: string) {
+export async function getGroupBangers(groupId: string, ignored: string[]) {
   const result = await db.all<{ song_id: string; data: string; user_count: number; user_names_json: string }>(sql`
       SELECT b.song_id,
              sc.data,
@@ -45,6 +45,7 @@ export async function getGroupBangers(groupId: string) {
                JOIN
            song_cache AS sc ON b.song_id = sc.song_id
       WHERE utg.group_id = ${groupId}
+        AND u.safeId NOT IN ${ignored}
       GROUP BY b.song_id
       HAVING COUNT(DISTINCT b.user_id) >= 2
       ORDER BY user_count DESC;

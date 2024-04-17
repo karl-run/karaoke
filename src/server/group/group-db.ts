@@ -53,11 +53,23 @@ export async function getUserGroups(userId: string) {
 
 export async function getGroupById(id: string) {
   const group = await client.execute({
-    sql: `SELECT users.name as display_name, users.safeId, users.email, user_to_group.role, user_group.name, user_group.icon_index, user_group.join_key
-          FROM user_group
+    sql: `
+        SELECT users.name             as display_name,
+               users.safeId,
+               users.email,
+               user_to_group.role,
+               user_group.name,
+               user_group.icon_index,
+               user_group.join_key,
+               COUNT(bangers.song_id) as bangers_count
+        FROM user_group
                  LEFT JOIN user_to_group ON user_group.id = user_to_group.group_id
                  LEFT JOIN users ON user_to_group.user_id = users.email
-          WHERE id = ?
+                 LEFT JOIN bangers ON users.email = bangers.user_id
+        WHERE user_group.id = ?
+        GROUP BY users.email, users.name, users.safeId, user_to_group.role, user_group.name, user_group.icon_index,
+                 user_group.join_key
+
     `,
     args: [id],
   });
@@ -75,6 +87,7 @@ export async function getGroupById(id: string) {
       role: user.role as string,
       userId: user.email as string,
       safeId: user.safeId as string,
+      count: user.bangers_count as number,
     })),
   };
 }
