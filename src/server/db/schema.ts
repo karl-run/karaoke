@@ -33,6 +33,7 @@ export const bangers = sqliteTable(
     songId: text('song_id'),
     // TODO: should be .notNull()
     userId: text('user_id').references(() => users.email),
+    songKey: text('song_key').notNull().default(''),
   },
   (table) => ({
     pk: primaryKey({ columns: [table.songId, table.userId] }),
@@ -41,6 +42,11 @@ export const bangers = sqliteTable(
 
 export const songCache = sqliteTable('song_cache', {
   songId: text('song_id').primaryKey(),
+  data: text('data', { mode: 'json' }).$type<TrackResult>(),
+});
+
+export const normalizedSongCache = sqliteTable('normalized_song_cache', {
+  songKey: text('song_key').primaryKey(),
   data: text('data', { mode: 'json' }).$type<TrackResult>(),
 });
 
