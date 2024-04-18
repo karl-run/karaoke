@@ -50,12 +50,8 @@ function GroupMembers({ members }: Props): ReactElement {
             className="flex flex-col h-14 w-1/3 xs:w-1/4 sm:w-auto grow sm:grow-0"
             value={member.safeId}
             onContextMenu={(event) => {
-              // When touch, button is -1? Dunno lol
-              if (event.button === -1) {
-                event.preventDefault();
-
-                router.push(`/user/${member.safeId}`);
-              }
+              event.preventDefault();
+              router.push(`/user/${member.safeId}`);
             }}
           >
             <div className="truncate max-w-16 font-bold">{member.name}</div>
