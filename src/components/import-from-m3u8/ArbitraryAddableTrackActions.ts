@@ -1,5 +1,7 @@
 'use server';
 
+import { revalidateTag } from 'next/cache';
+
 import { bestGuessTrack, getTrack } from 'server/spotify/track';
 import { addBanger } from 'server/bangers/bangers-db';
 
@@ -20,6 +22,8 @@ export async function addSongAction(songId: string) {
 
   const track = await getTrack(songId, true);
   await addBanger(user.userId, track);
+
+  revalidateTag('bangers');
 
   return {
     ok: true,

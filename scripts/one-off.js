@@ -1,10 +1,11 @@
-import { client } from '@/db/client.ts';
-
 /**
  * Script used to do one-off stuff when developing
  */
+import { sql } from 'drizzle-orm';
 
-const result = await client.execute(`
+import { db } from '../src/server/db';
+
+const result = await db.all(sql`
     SELECT name
     FROM sqlite_master
     WHERE type = 'table';

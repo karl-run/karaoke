@@ -1,4 +1,4 @@
-import { eq, and, sql } from 'drizzle-orm';
+import { eq, and, sql, desc, asc } from 'drizzle-orm';
 
 import { bangers, db, songCache } from 'server/db';
 import { TrackResult } from 'server/spotify/types';
@@ -76,7 +76,8 @@ export async function getUserBangers(userId: string): Promise<[string, TrackResu
     })
     .from(bangers)
     .leftJoin(songCache, eq(bangers.songId, songCache.songId))
-    .where(eq(bangers.userId, userId));
+    .where(eq(bangers.userId, userId))
+    .orderBy(desc(bangers.bangedAt));
 
   if (result.length == 0) {
     return [];
