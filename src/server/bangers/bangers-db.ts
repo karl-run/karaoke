@@ -9,6 +9,7 @@ export async function addBanger(userId: string, track: TrackResult) {
     userId,
     songId: track.id,
     songKey: trackToNormalizedId(track),
+    bangedAt: new Date(),
   });
 }
 
@@ -21,6 +22,7 @@ export async function addBangers(userId: string, tracks: TrackResult[]) {
           userId,
           songId: track.id,
           songKey: trackToNormalizedId(track),
+          bangedAt: new Date(),
         })
         .onConflictDoNothing();
     }
