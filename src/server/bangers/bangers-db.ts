@@ -37,21 +37,27 @@ export async function removeBanger(userId: string, trackId: string) {
  * A banger is a track that two or more users have added to their list of bangers.
  */
 export async function getGroupBangers(groupId: string, ignored: string[]) {
-  const result = await db.all<{ song_id: string; data: string; user_count: number; user_names_json: string }>(sql`
-      SELECT b.song_id,
+  const result = await db.all<{
+    song_id: string;
+    song_key: string;
+    data: string;
+    user_count: number;
+    user_names_json: string;
+  }>(sql`
+      SELECT b.song_key,
              sc.data,
-             COUNT(DISTINCT b.user_id) AS user_count,
-             json_group_array(u.name)  AS user_names_json
+             COUNT(DISTINCT b.user_id)         AS user_count,
+             json_group_array(DISTINCT u.name) AS user_names_json -- Distinct moved to a subquery
       FROM bangers AS b
                JOIN
            user_to_group AS utg ON b.user_id = utg.user_id
                JOIN
            users AS u ON u.email = b.user_id
                JOIN
-           song_cache AS sc ON b.song_id = sc.song_id
+           normalized_song_cache AS sc ON b.song_key = sc.song_key
       WHERE utg.group_id = ${groupId}
         AND u.safeId NOT IN ${ignored}
-      GROUP BY b.song_id
+      GROUP BY b.song_key
       HAVING COUNT(DISTINCT b.user_id) >= 2
       ORDER BY user_count DESC;
   `);
@@ -61,7 +67,8 @@ export async function getGroupBangers(groupId: string, ignored: string[]) {
   }
 
   return result.map((row) => ({
-    songId: row.song_id as string,
+    songId: row.song_id,
+    songKey: row.song_key,
     track: (row.data ? JSON.parse(row.data as string) : null) as TrackResult | null,
     userCount: row.user_count as number,
     users: JSON.parse(row.user_names_json as string) as string[],
