@@ -1,6 +1,8 @@
+import * as R from 'remeda';
+
 import { spotifyFetch } from 'server/spotify/auth';
 import { SpotifyTrack, SpotifyTracksResponse, TrackResult } from 'server/spotify/types';
-import { spotifyTrackToTrackResult } from 'server/spotify/mapper';
+import { addNormalizedIdToTrack, spotifyTrackToTrackResult } from 'server/spotify/mapper';
 import { addToCache } from 'server/bangers/bangers-cache';
 
 export async function getTrack(trackId: string, alsoCache: true): Promise<TrackResult> {
@@ -25,7 +27,12 @@ export async function getTrack(trackId: string, alsoCache: true): Promise<TrackR
 export async function searchTracks(search: string) {
   const result = await spotifyFetch<SpotifyTracksResponse>(`/v1/search?q=${buildSearchQuery(search)}&type=track`);
 
-  return result.tracks.items.map(spotifyTrackToTrackResult);
+  return R.pipe(
+    result.tracks.items,
+    R.map(spotifyTrackToTrackResult),
+    R.map(addNormalizedIdToTrack),
+    R.uniqueWith((a, b) => a.nid === b.nid),
+  );
 }
 
 export async function bestGuessTrack(search: string): Promise<TrackResult | null> {

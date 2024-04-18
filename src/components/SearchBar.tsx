@@ -1,18 +1,19 @@
 'use client';
 
-import { ReactElement, useEffect, useRef } from 'react';
+import { ReactElement, useEffect, useRef, useTransition } from 'react';
 import { useQueryState } from 'nuqs';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { Input } from '@/components/ui/input';
 
 function SearchBar(): ReactElement | null {
+  const [transition, startTransition] = useTransition();
   const path = usePathname();
   const router = useRouter();
   const query = useSearchParams();
   const searchRef = useRef<HTMLInputElement>(null);
   const [search, setSearch] = useQueryState('q', {
-    shallow: false,
+    startTransition,
     throttleMs: 1500,
   });
 

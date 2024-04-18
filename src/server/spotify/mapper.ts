@@ -1,4 +1,5 @@
 import { SpotifyTrack, TrackResult } from 'server/spotify/types';
+import { trackToNormalizedId } from 'server/bangers/normalization';
 
 export function spotifyTrackToTrackResult(track: SpotifyTrack): TrackResult {
   return {
@@ -9,4 +10,11 @@ export function spotifyTrackToTrackResult(track: SpotifyTrack): TrackResult {
     preview_url: track.preview_url,
     image: track.album.images[0],
   } satisfies TrackResult;
+}
+
+export function addNormalizedIdToTrack(track: TrackResult): TrackResult & { nid: string } {
+  return {
+    ...track,
+    nid: trackToNormalizedId(track),
+  };
 }
