@@ -1,0 +1,1 @@
+ALTER TABLE bangers ADD `banged_at` integer;

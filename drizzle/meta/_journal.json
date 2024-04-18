@@ -15,6 +15,13 @@
       "when": 1713385516179,
       "tag": "0001_same_supreme_intelligence",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1713440145061,
+      "tag": "0002_slim_excalibur",
+      "breakpoints": true
     }
   ]
 }

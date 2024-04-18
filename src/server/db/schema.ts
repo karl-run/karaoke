@@ -34,6 +34,7 @@ export const bangers = sqliteTable(
     // TODO: should be .notNull()
     userId: text('user_id').references(() => users.email),
     songKey: text('song_key').notNull().default(''),
+    bangedAt: integer('banged_at', { mode: 'timestamp_ms' }),
   },
   (table) => ({
     pk: primaryKey({ columns: [table.songId, table.userId] }),
