@@ -91,7 +91,11 @@ async function GroupBangers({ id, ignored }: { id: string; ignored: string[] }) 
       </FullPageDescription>
       <FullPageDetails>
         <GroupMembers
-          members={group.users.map((it) => ({ name: it.displayName, safeId: it.safeId, bangers: it.count }))}
+          members={R.pipe(
+            group.users,
+            R.sortBy([(it) => it.count, 'desc']),
+            R.map((it) => ({ name: it.displayName, safeId: it.safeId, bangers: it.count })),
+          )}
         />
       </FullPageDetails>
 

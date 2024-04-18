@@ -1,6 +1,7 @@
 import React, { ReactElement, Suspense } from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import * as R from 'remeda';
 
 import { getUser } from 'server/user/user-service';
 import { getGroupById } from 'server/group/group-db';
@@ -48,6 +49,7 @@ async function Group({ id }: { id: string }) {
   }
 
   const userIsAdmin = group.users.find((it) => it.role === 'admin')?.userId === user?.userId;
+  const sortedUsers = R.sortBy.strict(group.users, [(it) => it.role === 'admin', 'desc'], [(it) => it.count, 'desc']);
 
   return (
     <div>
@@ -56,13 +58,14 @@ async function Group({ id }: { id: string }) {
         <h1 className="text-lg">{group.name}</h1>
       </div>
       <div className="mt-4">{group.users.length} members:</div>
-      <ul>
-        {group.users.map((user) => (
-          <li key={user.displayName}>
+      <ul className="flex flex-col gap-2">
+        {sortedUsers.map((user) => (
+          <li key={user.displayName} className="border p-2 rounded relative hover:bg-accent">
             <Link href={`/user/${user.safeId}`} className="hover:underline">
-              {user.displayName}
+              <div>{user.displayName}</div>
+              <div className="text-xs">{user.count} bangers</div>
+              <div className="absolute top-2 right-2 text-sm">{user.role}</div>
             </Link>{' '}
-            ({user.role})
           </li>
         ))}
       </ul>
