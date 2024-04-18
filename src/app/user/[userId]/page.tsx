@@ -5,8 +5,9 @@ import { getOtherUser, getUser, usersShareGroup } from 'server/user/user-service
 import { getUserBangers, getUserBangersRecord } from 'server/bangers/bangers-service';
 
 import { FullPage, FullPageDescription } from '@/components/layout/Layouts';
-import { TrackGrid } from '@/components/track/TrackGrid';
+import { TrackGrid, TrackGridSkeleton } from '@/components/track/TrackGrid';
 import Track, { LazyTrack, TrackSkeleton } from '@/components/track/Track';
+import { Skeleton } from '@/components/ui/skeleton';
 
 type Props = {
   params: {
@@ -82,7 +83,14 @@ async function GroupMemberBangers({ userSafeId }: { userSafeId: string }) {
 }
 
 function GroupMemberBangersSkeleton() {
-  return <FullPageDescription>Loading...</FullPageDescription>;
+  return (
+    <>
+      <FullPageDescription>
+        <Skeleton className="h-4 w-20" />
+      </FullPageDescription>
+      <TrackGridSkeleton />
+    </>
+  );
 }
 
 function getRandomGoodWord() {

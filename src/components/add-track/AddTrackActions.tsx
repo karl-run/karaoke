@@ -2,9 +2,10 @@
 
 import { revalidatePath, revalidateTag } from 'next/cache';
 
+import { getTrack } from 'server/spotify/track';
+
 import { getUser } from '@/server/user/user-service';
 import { addBanger, removeBanger } from '@/server/bangers/bangers-db';
-import { getTrack } from 'server/spotify/track';
 
 export async function addBangerAction(trackId: string): Promise<{ error: 'not-logged-in' } | { ok: true }> {
   const user = await getUser();

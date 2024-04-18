@@ -5,8 +5,8 @@ import { getUserBangersRecord } from 'server/bangers/bangers-service';
 import { getUser } from 'server/user/user-service';
 
 import { FullPage, FullPageDescription } from '@/components/layout/Layouts';
-import { TrackGrid } from '@/components/track/TrackGrid';
-import Track, { TrackSkeleton } from '@/components/track/Track';
+import { TrackGrid, TrackGridSkeleton } from '@/components/track/TrackGrid';
+import Track from '@/components/track/Track';
 
 type Props = {
   params: {
@@ -17,7 +17,7 @@ type Props = {
 function Page({ params }: Props): ReactElement {
   return (
     <FullPage title="Spotify playlist" back={{ text: 'Back to home', to: '/' }}>
-      <Suspense fallback={<PlaylistSkeleton />}>
+      <Suspense fallback={<TrackGridSkeleton />}>
         <Playlist playlistId={params.pid} />
       </Suspense>
     </FullPage>
@@ -61,16 +61,6 @@ async function Playlist({ playlistId }: { playlistId: string }): Promise<ReactEl
         ))}
       </TrackGrid>
     </>
-  );
-}
-
-function PlaylistSkeleton() {
-  return (
-    <TrackGrid>
-      {[...Array(20)].map((_, index) => (
-        <TrackSkeleton key={index} />
-      ))}
-    </TrackGrid>
   );
 }
 

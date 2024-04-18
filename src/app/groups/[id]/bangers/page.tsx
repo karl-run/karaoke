@@ -11,12 +11,13 @@ import { getGroupById } from 'server/group/group-db';
 import { getGroupBangers } from 'server/bangers/bangers-db';
 
 import { FullPage, FullPageDescription, FullPageDetails } from '@/components/layout/Layouts';
-import { TrackGrid } from '@/components/track/TrackGrid';
+import { TrackGrid, TrackGridSkeleton } from '@/components/track/TrackGrid';
 import Track, { LazyTrack, TrackSkeleton } from '@/components/track/Track';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
 import GroupMembers from '@/components/group-members/GroupMembers';
+import { Skeleton } from '@/components/ui/skeleton';
 
 type Props = {
   params: {
@@ -49,7 +50,7 @@ function Page({ params: { id }, searchParams }: Props): ReactElement {
         </Button>
       }
     >
-      <Suspense>
+      <Suspense fallback={<GroupBangersSkeleton />}>
         <GroupBangers id={id} ignored={parsedParams.success ? parsedParams.data : []} />
       </Suspense>
     </FullPage>
@@ -134,6 +135,31 @@ async function GroupBangers({ id, ignored }: { id: string; ignored: string[] }) 
           ))}
         </TrackGrid>
       )}
+    </div>
+  );
+}
+
+function GroupBangersSkeleton(): ReactElement {
+  return (
+    <div>
+      <FullPageDescription className="flex gap-3 mb-3 justify-between items-center">
+        <div className="flex gap-3 items-center">
+          <Skeleton className="w-12 h-12" />
+          <Skeleton className="w-80 h-6" />
+        </div>
+      </FullPageDescription>
+      <FullPageDetails>
+        <div className="mb-2">
+          <div className="text-xs mb-1">Active members</div>
+          <div className="flex w-full justify-start flex-wrap gap-1">
+            <Skeleton className="flex flex-col h-14 min-w-20 w-1/3 xs:w-1/4 sm:w-auto grow sm:grow-0" />
+            <Skeleton className="flex flex-col h-14 min-w-20 w-1/3 xs:w-1/4 sm:w-auto grow sm:grow-0" />
+            <Skeleton className="flex flex-col h-14 min-w-20 w-1/3 xs:w-1/4 sm:w-auto grow sm:grow-0" />
+            <Skeleton className="flex flex-col h-14 min-w-20 w-1/3 xs:w-1/4 sm:w-auto grow sm:grow-0" />
+          </div>
+        </div>
+      </FullPageDetails>
+      <TrackGridSkeleton />
     </div>
   );
 }

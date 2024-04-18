@@ -1,4 +1,4 @@
-import { eq, and, sql, desc, asc } from 'drizzle-orm';
+import { eq, and, sql, desc } from 'drizzle-orm';
 
 import { bangers, db, songCache } from 'server/db';
 import { TrackResult } from 'server/spotify/types';

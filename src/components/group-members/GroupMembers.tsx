@@ -2,9 +2,9 @@
 
 import React, { ReactElement, useTransition } from 'react';
 import { useQueryState, parseAsArrayOf, parseAsString } from 'nuqs';
+import { useRouter } from 'next/navigation';
 
 import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group';
-import { useRouter } from 'next/navigation';
 
 type Props = {
   members: {

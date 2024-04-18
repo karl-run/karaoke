@@ -4,7 +4,7 @@ import { EnterIcon, FileIcon } from '@radix-ui/react-icons';
 
 import { getUser } from 'server/user/user-service';
 
-import { TrackGrid } from '@/components/track/TrackGrid';
+import { TrackGrid, TrackGridSkeleton } from '@/components/track/TrackGrid';
 import Track, { LazyTrack, TrackSkeleton } from '@/components/track/Track';
 import { FullPage, FullPageDescription } from '@/components/layout/Layouts';
 import { Button } from '@/components/ui/button';
@@ -32,7 +32,7 @@ function Page(): ReactElement {
         </div>
       }
     >
-      <Suspense fallback={<BangersSkeleton />}>
+      <Suspense fallback={<TrackGridSkeleton />}>
         <BangersList />
       </Suspense>
     </FullPage>
@@ -76,16 +76,6 @@ async function BangersList(): Promise<ReactElement> {
         ))}
       </TrackGrid>
     </>
-  );
-}
-
-function BangersSkeleton() {
-  return (
-    <TrackGrid>
-      {[...Array(20)].map((_, index) => (
-        <TrackSkeleton key={index} />
-      ))}
-    </TrackGrid>
   );
 }
 
