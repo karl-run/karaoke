@@ -1,0 +1,5 @@
+.nav {
+  display: grid;
+  grid-template-columns: 1fr 6rem 1fr;
+  @apply p-1 gap-1 fixed bottom-0 h-16 border-t-2 bg-background w-full sm:hidden;
+}

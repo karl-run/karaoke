@@ -27,10 +27,10 @@ function UserBar(): ReactElement {
         </Suspense>
       </div>
       <div className={styles.userDetails}>
-        <Button asChild size="sm" variant="outline" className="hidden xs:flex">
+        <Button asChild size="sm" variant="outline" className="hidden sm:flex">
           <Link href="/groups">Groups</Link>
         </Button>
-        <Button asChild size="sm" variant="outline">
+        <Button asChild size="sm" variant="outline" className="hidden sm:flex">
           <Link href="/bangers">Bangers</Link>
         </Button>
         <Suspense fallback={<UserDetailsSkeleton />}>

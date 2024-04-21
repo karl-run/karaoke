@@ -9,7 +9,7 @@ import GroupAvatar from '@/components/avatar/GroupAvatar';
 
 function Landing(): ReactElement {
   return (
-    <div className="px-6 sm:px-20 mt-8 mb-8">
+    <div className="px-6 sm:px-20 mt-8 mb-4">
       <div className="flex flex-col items-center">
         <div className="flex gap-3 items-center">
           <GroupAvatar iconIndex={2} />

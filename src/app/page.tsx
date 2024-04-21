@@ -18,7 +18,7 @@ interface Props {
 
 export default async function Home({ searchParams }: Props) {
   return (
-    <FullPage title={searchParams.q != null ? 'Add songs' : undefined}>
+    <FullPage title={searchParams.q != null ? 'Find new songs' : undefined}>
       {searchParams.q == null ? (
         <Landing />
       ) : (
@@ -33,8 +33,16 @@ export default async function Home({ searchParams }: Props) {
 async function TrackSearch({ query }: { query: string }) {
   if (!query || query.length < 4)
     return (
-      <div className="p-20 flex justify-center items-center">
-        <div className="text-xl opacity-70">Start searching for bangers</div>
+      <div className="relative overflow-hidden h-64">
+        <TrackGrid>
+          <TrackSkeleton />
+          <TrackSkeleton />
+          <TrackSkeleton />
+          <TrackSkeleton />
+        </TrackGrid>
+        <div className="absolute top-0 h-64 p-8 w-full bg-gradient-to-b from-transparent to-background flex items-center justify-center">
+          <div className="text-xl opacity-70 text-center">Start typing to search for new bangers...</div>
+        </div>
       </div>
     );
 

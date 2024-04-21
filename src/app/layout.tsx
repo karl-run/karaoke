@@ -1,12 +1,13 @@
 import './globals.css';
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Inter } from 'next/font/google';
 import Script from 'next/script';
 
 import { Toaster } from '@/components/ui/sonner';
 import UserBar from '@/components/user-bar/UserBar';
 import { ThemeProvider } from '@/components/theme/theme-provider';
+import MobileBar from '@/components/user-bar/MobileBar';
 
 import type { Metadata } from 'next';
 
@@ -28,6 +29,9 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <UserBar />
           <main>{children}</main>
+          <Suspense fallback={null}>
+            <MobileBar />
+          </Suspense>
           <Toaster />
         </ThemeProvider>
       </body>

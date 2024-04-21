@@ -19,7 +19,7 @@ type FullPageProps = {
 
 export function FullPage({ title, back, children, actions }: PropsWithChildren<FullPageProps>): ReactElement {
   return (
-    <div className="container">
+    <div className="container pb-24">
       {title && (
         <div className="mt-6 my-4 ml-4 sm:ml-8 sm:mt-10 relative">
           {back && (
@@ -66,7 +66,7 @@ export function SmallPage({
   actions,
 }: PropsWithChildren<SmallPageProps>): ReactElement {
   return (
-    <div className="container">
+    <div className="container pb-24">
       <div className="mt-6 my-4 ml-4 sm:ml-8 mx-8 sm:mt-10 relative">
         {back && (
           <div className="text-xs underline absolute -top-5">
