@@ -1,4 +1,4 @@
-import React, { ReactElement, Suspense } from 'react';
+import React, { ReactElement, startTransition, Suspense } from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import * as R from 'remeda';
@@ -14,6 +14,9 @@ import { Button } from '@/components/ui/button';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
 import DeleteGroupButton from '@/components/DeleteGroupButton';
 import LeaveGroupButton from '@/components/LeaveGroupButton';
+import { UpdateIcon } from '@radix-ui/react-icons';
+import { invalidateInviteLinkAction } from '@/app/groups/_group-actions';
+import InvalidateInviteLink from '@/components/InvalidateInviteLink';
 
 type Props = {
   params: {
@@ -36,14 +39,14 @@ function Page({ params: { id } }: Props): ReactElement {
       }
     >
       <Suspense>
-        <Group id={id} />
+        <Group groupId={id} />
       </Suspense>
     </SmallPage>
   );
 }
 
-async function Group({ id }: { id: string }) {
-  const [group, user] = await Promise.all([getGroupById(id), getUser()]);
+async function Group({ groupId }: { groupId: string }) {
+  const [group, user] = await Promise.all([getGroupById(groupId), getUser()]);
 
   if (group == null || group.users.find((u) => u.userId === user?.userId) == null) {
     notFound();
@@ -54,11 +57,13 @@ async function Group({ id }: { id: string }) {
 
   return (
     <div>
-      <div className="flex gap-3 items-center">
+      <div className="flex gap-3 items-center mb-4">
         <GroupAvatar iconIndex={group.iconIndex} />
-        <h1 className="text-lg">{group.name}</h1>
+        <div>
+          <h1 className="text-lg">{group.name}</h1>
+          <div className="text-xs">{group.users.length} members</div>
+        </div>
       </div>
-      <div className="mt-4">{group.users.length} members:</div>
       <ul className="flex flex-col gap-2">
         {sortedUsers.map((user) => (
           <li key={user.displayName} className="border p-2 rounded relative hover:bg-accent">
@@ -66,12 +71,12 @@ async function Group({ id }: { id: string }) {
               <div>{user.displayName}</div>
               <div className="text-xs">{user.count} bangers</div>
               <div className="absolute top-2 right-2 text-sm">{user.role}</div>
-            </Link>{' '}
+            </Link>
           </li>
         ))}
       </ul>
-      <div className="p-2 flex items-end gap-3 mt-8">
-        <div className="grid w-full max-w-sm items-center gap-1.5">
+      <div className="flex items-end gap-3 mt-8">
+        <div className="grid w-full items-center gap-1.5">
           <Label htmlFor="join-code">Invite link</Label>
           <Input
             id="join-code"
@@ -81,6 +86,7 @@ async function Group({ id }: { id: string }) {
           />
         </div>
         <CopyToClipboard value={`https://karaoke.karl.run/groups/join?code=${group.joinCode}`} />
+        {userIsAdmin && <InvalidateInviteLink groupId={groupId} />}
       </div>
 
       <div className="mt-2 border border-dashed p-4 rounded">
@@ -92,7 +98,7 @@ async function Group({ id }: { id: string }) {
               from it.
             </p>
             <Suspense>
-              <DeleteGroupButton groupId={id} />
+              <DeleteGroupButton groupId={groupId} />
             </Suspense>
           </>
         ) : (
@@ -102,7 +108,7 @@ async function Group({ id }: { id: string }) {
               personal bangers.
             </p>
             <Suspense>
-              <LeaveGroupButton groupId={id} />
+              <LeaveGroupButton groupId={groupId} />
             </Suspense>
           </>
         )}

@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import { revalidatePath, revalidateTag } from 'next/cache';
 
 import { getUser } from 'server/user/user-service';
-import { createGroup, deleteGroup, getGroupById, joinGroup, leaveGroup } from 'server/group/group-db';
+import { createGroup, deleteGroup, getGroupById, joinGroup, leaveGroup, updateInviteLink } from 'server/group/group-db';
 
 export async function createGroupAction(groupName: string, groupIcon: number): Promise<{ id: string } | null> {
   const user = await getUser();
@@ -42,7 +42,6 @@ export async function joinGroupAction(joinCode: string): Promise<{ id: string } 
 
 export async function deleteGroupAction(groupId: string): Promise<boolean> {
   const user = await getUser();
-
   if (!user) {
     throw new Error('You must be logged in to delete a group');
   }
@@ -53,7 +52,6 @@ export async function deleteGroupAction(groupId: string): Promise<boolean> {
   }
 
   const admin = group.users.find((it) => it.role === 'admin');
-
   if (!admin) {
     throw new Error('Group does not have an admin');
   }
@@ -88,4 +86,29 @@ export async function leaveGroupAction(groupId: string): Promise<boolean> {
   await leaveGroup(user.userId, groupId);
   revalidateTag('user-groups');
   redirect('/groups');
+}
+
+export async function invalidateInviteLinkAction(groupId: string): Promise<void> {
+  const user = await getUser();
+  if (!user) {
+    throw new Error('You must be logged in to delete a group');
+  }
+
+  const group = await getGroupById(groupId);
+  if (!group) {
+    throw new Error('Group not found');
+  }
+
+  const admin = group.users.find((it) => it.role === 'admin');
+  if (!admin) {
+    throw new Error('Group does not have an admin');
+  }
+
+  if (admin.userId !== user.userId) {
+    throw new Error('You must be an admin to delete a group');
+  }
+
+  await updateInviteLink(groupId);
+
+  revalidatePath(`/groups/${groupId}/details`);
 }
