@@ -6,7 +6,7 @@ import * as R from 'remeda';
 import { getUser } from 'server/user/user-service';
 import { getGroupById } from 'server/group/group-db';
 
-import { SmallPage } from '@/components/layout/Layouts';
+import { FullPageDescription, SmallPage } from '@/components/layout/Layouts';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import CopyToClipboard from '@/components/CopyToClipboard';
@@ -17,6 +17,7 @@ import LeaveGroupButton from '@/components/LeaveGroupButton';
 import { UpdateIcon } from '@radix-ui/react-icons';
 import { invalidateInviteLinkAction } from '@/app/groups/_group-actions';
 import InvalidateInviteLink from '@/components/InvalidateInviteLink';
+import { Skeleton } from '@/components/ui/skeleton';
 
 type Props = {
   params: {
@@ -38,7 +39,7 @@ function Page({ params: { id } }: Props): ReactElement {
         </Button>
       }
     >
-      <Suspense>
+      <Suspense fallback={<GroupSkeleton />}>
         <Group groupId={id} />
       </Suspense>
     </SmallPage>
@@ -113,6 +114,36 @@ async function Group({ groupId }: { groupId: string }) {
           </>
         )}
       </div>
+    </div>
+  );
+}
+
+function GroupSkeleton() {
+  return (
+    <div>
+      <div className="flex gap-3 items-center mb-4">
+        <div className="flex gap-3 items-center">
+          <Skeleton className="w-12 h-12" />
+          <div className="flex flex-col gap-1">
+            <Skeleton className="w-80 h-6" />
+            <Skeleton className="w-12 h-4" />
+          </div>
+        </div>
+      </div>
+      <ul className="flex flex-col gap-2 relative">
+        {R.range(0, 4).map((user) => (
+          <li key={user} className="border p-2 rounded relative hover:bg-accent">
+            <div className="hover:underline flex flex-col gap-2">
+              <Skeleton className="w-20 h-5" />
+              <Skeleton className="w-16 h-3" />
+              <div className="absolute top-2 right-2 text-sm">
+                <Skeleton className="w-10 h-4" />
+              </div>
+            </div>
+          </li>
+        ))}
+        <div className="bg-gradient-to-b from-transparent to-background absolute w-full h-full" />
+      </ul>
     </div>
   );
 }
