@@ -24,10 +24,10 @@ function Page(): ReactElement {
               Import .m3u8 file
             </Link>
           </Button>
-          <Button variant="outline" asChild className="hidden sm:flex gap-2">
+          <Button variant="outline" asChild className="gap-2">
             <Link prefetch={false} href="/bangers/import">
               <EnterIcon />
-              Import from spotify
+              Import from Spotify
             </Link>
           </Button>
         </div>
