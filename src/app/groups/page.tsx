@@ -20,9 +20,13 @@ function Page(): ReactElement {
     >
       <Suspense
         fallback={
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 h-60 relative overflow-hidden">
             <GroupListItemSkeleton />
             <GroupListItemSkeleton />
+            <GroupListItemSkeleton />
+            <GroupListItemSkeleton />
+            <GroupListItemSkeleton />
+            <div className="absolute w-full h-full bg-gradient-to-b from-transparent to-background" />
           </div>
         }
       >
@@ -52,7 +56,7 @@ async function UserGroups() {
   const groups = await getUserGroups(user.userId);
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 min-h-60">
       {groups.map((group) => (
         <GroupListItem key={group.id} group={group} />
       ))}
