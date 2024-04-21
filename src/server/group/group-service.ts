@@ -1,9 +1,12 @@
+import { unstable_cache as cache } from 'next/cache';
+
 import { getUser } from 'server/user/user-service';
-import { getGroupById } from 'server/group/group-db';
+
+import * as groupDb from './group-db';
 
 export async function getGroupForUser(groupId: string, _user = null) {
   const userPromise = _user || getUser();
-  const [user, group] = await Promise.all([userPromise, getGroupById(groupId)]);
+  const [user, group] = await Promise.all([userPromise, groupDb.getGroupById(groupId)]);
 
   if (user == null) {
     return { error: 'not-logged-in' };
@@ -19,3 +22,8 @@ export async function getGroupForUser(groupId: string, _user = null) {
 
   return { group, user };
 }
+
+export const getUsersGroupsCached = cache(async (userId: string) => groupDb.getUserGroups(userId), ['user-groups'], {
+  revalidate: 600,
+  tags: ['groups'],
+});

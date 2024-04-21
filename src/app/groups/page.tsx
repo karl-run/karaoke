@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Crosshair2Icon, GearIcon } from '@radix-ui/react-icons';
 
 import { getUser } from 'server/user/user-service';
-import { getUserGroups } from 'server/group/group-db';
+import { getUsersGroupsCached } from 'server/group/group-service';
 
 import { SmallPage } from '@/components/layout/Layouts';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
@@ -53,7 +53,7 @@ async function UserGroups() {
     return <div>You must be logged in to view your groups</div>;
   }
 
-  const groups = await getUserGroups(user.userId);
+  const groups = await getUsersGroupsCached(user.userId);
 
   return (
     <div className="flex flex-col gap-3 min-h-60">

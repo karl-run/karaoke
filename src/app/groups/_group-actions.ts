@@ -1,7 +1,7 @@
 'use server';
 
 import { redirect } from 'next/navigation';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
 import { getUser } from 'server/user/user-service';
 import { createGroup, deleteGroup, getGroupById, joinGroup } from 'server/group/group-db';
@@ -29,7 +29,11 @@ export async function joinGroupAction(joinCode: string): Promise<{ id: string } 
   }
 
   try {
-    return await joinGroup(joinCode, user.userId);
+    const result = await joinGroup(joinCode, user.userId);
+
+    revalidateTag('user-groups');
+
+    return result;
   } catch (e) {
     console.error(e);
     return null;
@@ -59,6 +63,6 @@ export async function deleteGroupAction(groupId: string): Promise<boolean> {
   }
 
   await deleteGroup(groupId);
-  revalidatePath('/groups');
+  revalidateTag('user-groups');
   redirect('/groups');
 }
