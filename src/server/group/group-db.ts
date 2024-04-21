@@ -1,4 +1,6 @@
-import { client } from 'server/db';
+import { and, eq } from 'drizzle-orm';
+
+import { client, db, userToGroup } from 'server/db';
 
 import { generate16ByteHex, generate32ByteHex } from 'utils/token';
 
@@ -172,4 +174,8 @@ export async function deleteGroup(groupId: string) {
     args: [groupId],
   });
   await transaction.commit();
+}
+
+export async function leaveGroup(userId: string, groupId: string) {
+  await db.delete(userToGroup).where(and(eq(userToGroup.userId, userId), eq(userToGroup.groupId, groupId)));
 }

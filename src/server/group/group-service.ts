@@ -25,5 +25,5 @@ export async function getGroupForUser(groupId: string, _user = null) {
 
 export const getUsersGroupsCached = cache(async (userId: string) => groupDb.getUserGroups(userId), ['user-groups'], {
   revalidate: 600,
-  tags: ['groups'],
+  tags: ['user-groups'],
 });

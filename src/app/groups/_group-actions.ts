@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import { revalidatePath, revalidateTag } from 'next/cache';
 
 import { getUser } from 'server/user/user-service';
-import { createGroup, deleteGroup, getGroupById, joinGroup } from 'server/group/group-db';
+import { createGroup, deleteGroup, getGroupById, joinGroup, leaveGroup } from 'server/group/group-db';
 
 export async function createGroupAction(groupName: string, groupIcon: number): Promise<{ id: string } | null> {
   const user = await getUser();
@@ -63,6 +63,29 @@ export async function deleteGroupAction(groupId: string): Promise<boolean> {
   }
 
   await deleteGroup(groupId);
+  revalidateTag('user-groups');
+  redirect('/groups');
+}
+
+export async function leaveGroupAction(groupId: string): Promise<boolean> {
+  const user = await getUser();
+
+  if (!user) {
+    throw new Error('You must be logged in to leave a group');
+  }
+
+  const group = await getGroupById(groupId);
+  if (!group) {
+    throw new Error('Group not found');
+  }
+
+  const userMemberOfGroup = group.users.find((it) => it.userId === user.userId);
+
+  if (!userMemberOfGroup) {
+    throw new Error('User is not member of group');
+  }
+
+  await leaveGroup(user.userId, groupId);
   revalidateTag('user-groups');
   redirect('/groups');
 }

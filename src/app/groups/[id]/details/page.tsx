@@ -13,6 +13,7 @@ import CopyToClipboard from '@/components/CopyToClipboard';
 import { Button } from '@/components/ui/button';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
 import DeleteGroupButton from '@/components/DeleteGroupButton';
+import LeaveGroupButton from '@/components/LeaveGroupButton';
 
 type Props = {
   params: {
@@ -82,18 +83,30 @@ async function Group({ id }: { id: string }) {
         <CopyToClipboard value={`https://karaoke.karl.run/groups/join?code=${group.joinCode}`} />
       </div>
 
-      {userIsAdmin && (
-        <div className="mt-2 border border-dashed p-4 rounded">
-          <h2 className="text-lg mb-4">Danger zone</h2>
-          <p className="mb-4">
-            Permanently delete group. This will not delete any of your bangers, only the group and remove any members
-            from it.
-          </p>
-          <Suspense>
-            <DeleteGroupButton groupId={id} />
-          </Suspense>
-        </div>
-      )}
+      <div className="mt-2 border border-dashed p-4 rounded">
+        <h2 className="text-lg mb-4">Danger zone</h2>
+        {userIsAdmin ? (
+          <>
+            <p className="mb-4">
+              Permanently delete group. This will not delete any of your bangers, only the group and remove any members
+              from it.
+            </p>
+            <Suspense>
+              <DeleteGroupButton groupId={id} />
+            </Suspense>
+          </>
+        ) : (
+          <>
+            <p className="mb-4">
+              Feel free to leave the group if you no longer want to be a part of it. This will not delete any of your
+              personal bangers.
+            </p>
+            <Suspense>
+              <LeaveGroupButton groupId={id} />
+            </Suspense>
+          </>
+        )}
+      </div>
     </div>
   );
 }
