@@ -1,7 +1,6 @@
-import * as R from 'remeda';
 import { spotifyFetch } from 'server/spotify/auth';
 import { SpotifyTrack } from 'server/spotify/types';
-import { addNormalizedIdToTrack, spotifyTrackToTrackResult } from 'server/spotify/mapper';
+import { spotifyTrackToTrackResult } from 'server/spotify/mapper';
 
 type PlaylistResponse = {
   name: string;

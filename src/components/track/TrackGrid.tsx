@@ -1,8 +1,6 @@
 import React, { PropsWithChildren } from 'react';
 
 import { TrackSkeleton } from './Track';
-import { FullPageDescription } from '@/components/layout/Layouts';
-import { Skeleton } from '@/components/ui/skeleton';
 
 export function TrackGrid({ children }: PropsWithChildren) {
   return (

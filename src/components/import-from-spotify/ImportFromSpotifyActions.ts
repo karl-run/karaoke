@@ -37,10 +37,7 @@ export async function importFromSpotifyAction(
     return { error: playlist.errorMessage };
   }
 
-  await addBangers(
-    user.userId,
-    playlist.tracks,
-  );
+  await addBangers(user.userId, playlist.tracks);
 
   for (const track of playlist.tracks) {
     await addToCache(track);

@@ -1,4 +1,4 @@
-import React, { ReactElement, startTransition, Suspense } from 'react';
+import React, { ReactElement, Suspense } from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import * as R from 'remeda';
@@ -6,7 +6,7 @@ import * as R from 'remeda';
 import { getUser } from 'server/user/user-service';
 import { getGroupById } from 'server/group/group-db';
 
-import { FullPageDescription, SmallPage } from '@/components/layout/Layouts';
+import { SmallPage } from '@/components/layout/Layouts';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import CopyToClipboard from '@/components/CopyToClipboard';
@@ -14,8 +14,6 @@ import { Button } from '@/components/ui/button';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
 import DeleteGroupButton from '@/components/DeleteGroupButton';
 import LeaveGroupButton from '@/components/LeaveGroupButton';
-import { UpdateIcon } from '@radix-ui/react-icons';
-import { invalidateInviteLinkAction } from '@/app/groups/_group-actions';
 import InvalidateInviteLink from '@/components/InvalidateInviteLink';
 import { Skeleton } from '@/components/ui/skeleton';
 

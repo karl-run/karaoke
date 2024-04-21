@@ -34,10 +34,12 @@ function SearchBar(): ReactElement | null {
   }, []);
 
   return (
-    <div className={cn('transition-[max-height] p-3 sm:bg-blue-400 max-h-16', {
-       // Not visible because we're not in search mode on phones
-      "p-0 max-h-0 overflow-hidden": typeof query.get("q") !== "string",
-    })}>
+    <div
+      className={cn('transition-[max-height] p-3 sm:bg-blue-400 max-h-16', {
+        // Not visible because we're not in search mode on phones
+        'p-0 max-h-0 overflow-hidden': typeof query.get('q') !== 'string',
+      })}
+    >
       <Input
         id="primary-search"
         onFocus={() => {
