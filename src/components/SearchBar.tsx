@@ -35,9 +35,9 @@ function SearchBar(): ReactElement | null {
 
   return (
     <div
-      className={cn('transition-[max-height] p-3 sm:bg-blue-400 max-h-16', {
+      className={cn('transition-[max-height] p-3 max-h-16', {
         // Not visible because we're not in search mode on phones
-        'p-0 max-h-0 overflow-hidden': typeof query.get('q') !== 'string',
+        'p-0 max-h-0 overflow-hidden sm:block sm:p-3 sm:max-h-16': typeof query.get('q') !== 'string',
       })}
     >
       <Input
