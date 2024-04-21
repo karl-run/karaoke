@@ -123,7 +123,7 @@ function GroupSkeleton() {
         <div className="flex gap-3 items-center">
           <Skeleton className="w-12 h-12" />
           <div className="flex flex-col gap-1">
-            <Skeleton className="w-80 h-6" />
+            <Skeleton className="w-40 h-6" />
             <Skeleton className="w-12 h-4" />
           </div>
         </div>
