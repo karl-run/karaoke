@@ -9,6 +9,7 @@ import Track, { LazyTrack, TrackSkeleton } from '@/components/track/Track';
 import { FullPage, FullPageDescription } from '@/components/layout/Layouts';
 import { Button } from '@/components/ui/button';
 import { getUserBangersCached } from '@/server/bangers/bangers-service';
+import { Skeleton } from '@/components/ui/skeleton';
 
 function Page(): ReactElement {
   return (
@@ -32,7 +33,16 @@ function Page(): ReactElement {
         </div>
       }
     >
-      <Suspense fallback={<TrackGridSkeleton />}>
+      <Suspense
+        fallback={
+          <>
+            <FullPageDescription className="flex items-center gap-1">
+              You have <Skeleton className="h-4 w-6" /> bangers in your list!
+            </FullPageDescription>
+            <TrackGridSkeleton />
+          </>
+        }
+      >
         <BangersList />
       </Suspense>
     </FullPage>
