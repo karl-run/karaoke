@@ -10,7 +10,8 @@
     "db:gen": "bun x drizzle-kit generate:sqlite",
     "db:migrate": "bun run scripts/migrate.ts",
     "db:seed": "echo \"Not implemented yet\" && exit 1",
-    "upgrade-interactive": "bunx npm-check-updates --format group -i"
+    "upgrade-interactive": "bunx npm-check-updates --format group -i",
+    "prepare": "husky"
   },
   "dependencies": {
     "@libsql/client": "^0.6.0",
@@ -55,9 +56,15 @@
     "eslint": "^8",
     "eslint-config-next": "14.2.2",
     "eslint-plugin-import": "^2.29.1",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
     "postcss": "^8",
     "prettier": "^3.2.5",
     "tailwindcss": "^3.4.3",
     "typescript": "^5"
+  },
+  "lint-staged": {
+    "*.{md,html,css,json,graphql,graphqls}": "prettier --write",
+    "*.{ts,tsx}": "eslint --fix --max-warnings=0"
   }
 }
