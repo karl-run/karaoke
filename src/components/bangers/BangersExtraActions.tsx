@@ -3,17 +3,16 @@
 import React, { ReactElement } from 'react';
 import Link from 'next/link';
 import { EnterIcon, FileIcon } from '@radix-ui/react-icons';
+import { MoreVertical } from 'lucide-react';
+
 import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-
 import { Button } from '@/components/ui/button';
 import { DropdownMenu } from '@/components/ui/dropdown-menu';
-import { MoreVertical } from 'lucide-react';
 
 function BangersExtraActions(): ReactElement {
   return (

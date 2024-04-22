@@ -9,7 +9,7 @@ export const getUserBangersCached = cache(async (userId: string) => getUserBange
   tags: ['bangers'],
 });
 
-export { getUserBangers } from 'server/bangers/bangers-db';
+export { getUserBangers, getUserBangersCount } from 'server/bangers/bangers-db';
 
 export async function getUserBangersRecord(userId: string): Promise<Record<string, TrackResult | null>> {
   const results = await getUserBangersCached(userId);

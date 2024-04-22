@@ -1,4 +1,4 @@
-import { eq, and, sql, desc } from 'drizzle-orm';
+import { eq, and, sql, desc, count } from 'drizzle-orm';
 
 import { bangers, db, songCache } from 'server/db';
 import { TrackResult } from 'server/spotify/types';
@@ -118,4 +118,10 @@ export async function getUsersUniqueSongs(
     (row) =>
       [row.song_id as string, row.data ? JSON.parse(row.data as string) : null] satisfies [string, TrackResult | null],
   );
+}
+
+export async function getUserBangersCount(userId: string): Promise<number> {
+  const result = await db.select({ count: count() }).from(bangers).where(eq(bangers.userId, userId));
+
+  return result[0].count;
 }

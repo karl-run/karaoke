@@ -1,4 +1,4 @@
-import { and, eq } from 'drizzle-orm';
+import { and, count, eq } from 'drizzle-orm';
 
 import { client, db, userGroup, userToGroup } from 'server/db';
 
@@ -182,4 +182,10 @@ export async function leaveGroup(userId: string, groupId: string) {
 
 export async function updateInviteLink(groupId: string) {
   await db.update(userGroup).set({ joinKey: generate32ByteHex() }).where(eq(userGroup.id, groupId));
+}
+
+export async function getUserGroupCount(userId: string): Promise<number> {
+  const result = await db.select({ count: count() }).from(userToGroup).where(eq(userToGroup.userId, userId));
+
+  return result[0].count;
 }

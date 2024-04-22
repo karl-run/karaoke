@@ -1,7 +1,6 @@
 import React, { ReactElement, useState } from 'react';
-import { SearchIcon } from 'lucide-react';
 import Image from 'next/image';
-import { CardStackPlusIcon, CheckIcon } from '@radix-ui/react-icons';
+import { CardStackPlusIcon, CheckIcon, MagnifyingGlassIcon } from '@radix-ui/react-icons';
 
 import { TrackResult } from 'server/spotify/types';
 
@@ -57,7 +56,7 @@ function ArbitraryAddableTrack({ artist, name, existingSongs }: Props): ReactEle
             }
           }}
         >
-          <SearchIcon className="w-12 h-12" />
+          <MagnifyingGlassIcon className="w-12 h-12" />
         </Button>
       )}
       {!lookup && !notFound && <div className={styles.lookupText}>Find song</div>}

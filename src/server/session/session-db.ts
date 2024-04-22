@@ -1,4 +1,5 @@
 import { eq } from 'drizzle-orm';
+import UAParser from 'ua-parser-js';
 
 import { db, sessions, users } from 'server/db';
 
@@ -43,6 +44,26 @@ export async function getActiveSession(sessionId: string | null): Promise<UserSe
     created_at: session.created_at,
     last_seen: session.last_seen,
   };
+}
+
+export async function getSessionById(sessionId: string) {
+  return db.query.sessions.findFirst({
+    where: (sessions, { eq }) => eq(sessions.id, sessionId),
+  });
+}
+
+export async function deleteSessionById(sessionId: string) {
+  await db.delete(sessions).where(eq(sessions.id, sessionId));
+}
+
+export async function getAllSessions(userId: string) {
+  const result = await db.select().from(sessions).where(eq(sessions.user_id, userId));
+
+  return result.map((row) => ({
+    sessionId: row.id,
+    lastSeen: row.last_seen,
+    userAgent: new UAParser(row.ua).getResult(),
+  }));
 }
 
 export async function clearUserSession(sessionId: string) {

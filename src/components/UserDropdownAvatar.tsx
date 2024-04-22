@@ -27,6 +27,7 @@ function UserDropdownAvatar({ name, id }: Props): ReactElement {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
+        <DropdownMenuLabel>Your</DropdownMenuLabel>
         <DropdownMenuItem>
           <Link href="/bangers">Bangers</Link>
         </DropdownMenuItem>
