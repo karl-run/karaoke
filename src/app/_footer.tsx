@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 function Footer(): ReactElement {
   return (
-    <div className="border-t-2 p-4 text-sm grid gap-6 md:gap-3 grid-cols-1 md:grid-cols-3">
+    <div className="border-t-2 p-4 text-sm grid gap-6 md:gap-3 grid-cols-1 md:grid-cols-3 pb-24 sm:pb-4">
       <div className="max-w-prose">
         <div className="font-semibold">About</div>
         Karaoke Match is an open source project by Karl J. O. The source code is available on{' '}
