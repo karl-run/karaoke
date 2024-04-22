@@ -9,6 +9,8 @@ import UserBar from '@/components/user-bar/UserBar';
 import { ThemeProvider } from '@/components/theme/theme-provider';
 import MobileBar from '@/components/user-bar/MobileBar';
 
+import Footer from './_footer';
+
 import type { Metadata } from 'next';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -27,12 +29,15 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <UserBar />
-          <main>{children}</main>
-          <Suspense fallback={null}>
-            <MobileBar />
-          </Suspense>
-          <Toaster />
+          <div className="min-h-svh">
+            <UserBar />
+            <main>{children}</main>
+            <Suspense fallback={null}>
+              <MobileBar />
+            </Suspense>
+            <Toaster />
+          </div>
+          <Footer />
         </ThemeProvider>
       </body>
       <Script
