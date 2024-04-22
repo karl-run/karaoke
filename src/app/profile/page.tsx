@@ -52,8 +52,10 @@ async function Page(): Promise<ReactElement> {
       </p>
       <Suspense
         fallback={
-          <div>
-            <Skeleton className="h-8 w-20" />
+          <div className="flex flex-col gap-3">
+            <Skeleton className="h-16 w-full" />
+            <Skeleton className="h-16 w-full" />
+            <Skeleton className="h-16 w-full" />
           </div>
         }
       >
@@ -89,7 +91,7 @@ async function UserSessions({ userId, sessionId }: { userId: string; sessionId: 
   return (
     <div className="flex flex-col gap-3">
       {sorted.map((it) => (
-        <div key={it.sessionId} className="border p-2 rounded relative">
+        <div key={it.sessionId} className="border p-2 rounded relative h-16">
           <div className="text-sm">{formatDistanceToNow(it.lastSeen, { addSuffix: true })}</div>
           <div>
             {it.userAgent.browser.name} ({it.userAgent.os.name})

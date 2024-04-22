@@ -16,7 +16,7 @@ function InvalidateSessionButton({ sessionId, userId }: Props): ReactElement {
     <Button
       variant="outline"
       size="sm"
-      className="absolute top-2 right-2 h-11"
+      className="absolute top-2 right-2 h-12"
       onClick={() => {
         startTransition(() => {
           invalidateSession(userId, sessionId);
