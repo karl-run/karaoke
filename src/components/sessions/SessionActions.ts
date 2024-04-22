@@ -31,5 +31,5 @@ export async function invalidateSession(userId: string, sessionId: string) {
 
   await deleteSessionById(sessionId);
 
-  revalidatePath("/profile")
+  revalidatePath('/profile');
 }

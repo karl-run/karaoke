@@ -27,10 +27,10 @@ export async function getActiveSession(sessionId: string | null): Promise<UserSe
   if (sessionId == null) return null;
 
   const session = await db.transaction(async (tx) => {
-    const result = await db.select().from(sessions).where(eq(sessions.id, sessionId));
+    const result = await tx.select().from(sessions).where(eq(sessions.id, sessionId));
     if (result.length === 0) return null;
 
-    await db.update(sessions).set({ last_seen: new Date() }).where(eq(sessions.id, sessionId));
+    await tx.update(sessions).set({ last_seen: new Date() }).where(eq(sessions.id, sessionId));
 
     return result[0];
   });
