@@ -1,0 +1,21 @@
+.pp h2,
+.pp h3,
+.pp h4 {
+  @apply mt-8;
+}
+
+.pp h2 {
+  @apply text-xl font-semibold;
+}
+
+.pp h3 {
+  @apply text-lg font-semibold;
+}
+
+.pp h4 {
+  @apply font-semibold;
+}
+
+.pp p {
+  @apply my-3;
+}
