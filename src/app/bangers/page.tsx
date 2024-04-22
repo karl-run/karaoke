@@ -1,38 +1,17 @@
 import React, { ReactElement, Suspense } from 'react';
-import Link from 'next/link';
-import { EnterIcon, FileIcon } from '@radix-ui/react-icons';
 
 import { getUser } from 'server/user/user-service';
 
 import { TrackGrid, TrackGridSkeleton } from '@/components/track/TrackGrid';
 import Track, { LazyTrack, TrackSkeleton } from '@/components/track/Track';
 import { FullPage, FullPageDescription } from '@/components/layout/Layouts';
-import { Button } from '@/components/ui/button';
 import { getUserBangersCached } from '@/server/bangers/bangers-service';
 import { Skeleton } from '@/components/ui/skeleton';
+import BangersExtraActions from '@/components/bangers/BangersExtraActions';
 
 function Page(): ReactElement {
   return (
-    <FullPage
-      title="My bangers"
-      back="search"
-      actions={
-        <div className="flex gap-3">
-          <Button variant="outline" asChild className="hidden sm:flex gap-2">
-            <Link prefetch={false} href="/bangers/m3u8">
-              <FileIcon />
-              Import .m3u8 file
-            </Link>
-          </Button>
-          <Button variant="outline" asChild className="gap-2">
-            <Link prefetch={false} href="/bangers/import">
-              <EnterIcon />
-              Import from Spotify
-            </Link>
-          </Button>
-        </div>
-      }
-    >
+    <FullPage title="My bangers" back="search" actions={<BangersExtraActions />}>
       <Suspense
         fallback={
           <>
