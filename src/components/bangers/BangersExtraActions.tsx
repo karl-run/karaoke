@@ -31,7 +31,7 @@ function BangersExtraActions(): ReactElement {
         </Link>
       </Button>
       <DropdownMenu>
-        <DropdownMenuTrigger className="sm:hidden">
+        <DropdownMenuTrigger className="sm:hidden" asChild>
           <Button variant="outline" size="icon" aria-label="Imports">
             <MoreVertical className="h-4 w-4" />
           </Button>
