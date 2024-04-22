@@ -19,6 +19,15 @@ export const metadata: Metadata = {
   title: 'Karaoke Match - What songs do you and your friends Love?',
   description:
     'Karaoke Match lets you build your a track of your absolute favorite karaoke songs (bangers), invite your friends to a group and see what songs two or more of you love!',
+  openGraph: {
+    images: [
+      {
+        url: 'https://karaoke.karl.run/api/og',
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
