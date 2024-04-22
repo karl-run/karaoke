@@ -9,7 +9,8 @@
     "lint": "next lint",
     "db:gen": "bun x drizzle-kit generate:sqlite",
     "db:migrate": "bun run scripts/migrate.ts",
-    "db:seed": "echo \"Not implemented yet\" && exit 1"
+    "db:seed": "echo \"Not implemented yet\" && exit 1",
+    "upgrade-interactive": "bunx npm-check-updates --format group -i"
   },
   "dependencies": {
     "@libsql/client": "^0.6.0",
@@ -27,34 +28,34 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "date-fns": "^3.6.0",
-    "drizzle-orm": "^0.30.7",
-    "lucide-react": "^0.363.0",
-    "next": "14.1.4",
+    "drizzle-orm": "^0.30.9",
+    "lucide-react": "^0.372.0",
+    "next": "14.2.2",
     "next-themes": "^0.3.0",
     "nuqs": "^1.17.1",
     "react": "^18",
     "react-dom": "^18",
     "react-dropzone": "^14.2.3",
-    "remeda": "^1.60.1",
+    "remeda": "^1.61.0",
     "resend": "^3.2.0",
     "sharp": "^0.33.3",
     "sonner": "^1.4.41",
-    "tailwind-merge": "^2.2.2",
+    "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.22.4"
+    "zod": "^3.23.0"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "autoprefixer": "^10.0.1",
-    "drizzle-kit": "^0.20.14",
+    "autoprefixer": "^10.4.19",
+    "drizzle-kit": "^0.20.17",
     "eslint": "^8",
-    "eslint-config-next": "14.1.4",
+    "eslint-config-next": "14.2.2",
     "eslint-plugin-import": "^2.29.1",
     "postcss": "^8",
     "prettier": "^3.2.5",
-    "tailwindcss": "^3.3.0",
+    "tailwindcss": "^3.4.3",
     "typescript": "^5"
   }
 }
