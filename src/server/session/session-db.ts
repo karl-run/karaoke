@@ -25,16 +25,23 @@ export async function createUserSession(id: string, email: string, ua: string) {
 export async function getActiveSession(sessionId: string | null): Promise<UserSession | null> {
   if (sessionId == null) return null;
 
-  const result = await db.select().from(sessions).where(eq(sessions.id, sessionId));
-  const row = result[0] ?? null;
-  if (row == null) return null;
+  const session = await db.transaction(async (tx) => {
+    const result = await db.select().from(sessions).where(eq(sessions.id, sessionId));
+    if (result.length === 0) return null;
+
+    await db.update(sessions).set({ last_seen: new Date() }).where(eq(sessions.id, sessionId));
+
+    return result[0];
+  });
+
+  if (session == null) return null;
 
   return {
-    id: row.id as string,
-    user_id: row.user_id as string,
-    ua: row.ua as string,
-    created_at: row.created_at,
-    last_seen: row.last_seen,
+    id: session.id as string,
+    user_id: session.user_id as string,
+    ua: session.ua as string,
+    created_at: session.created_at,
+    last_seen: session.last_seen,
   };
 }
 
