@@ -1,7 +1,12 @@
 import React, { ReactElement } from 'react';
 import Link from 'next/link';
+import { Metadata } from 'next';
 
 import { SmallPage } from '@/components/layout/Layouts';
+
+export const metadata: Metadata = {
+  title: 'Karaoke Match - Error :(',
+};
 
 function Page(): ReactElement {
   return (

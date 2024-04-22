@@ -1,4 +1,5 @@
 import React, { ReactElement, Suspense } from 'react';
+import { Metadata } from 'next';
 
 import { getUser } from 'server/user/user-service';
 
@@ -8,6 +9,10 @@ import { FullPage, FullPageDescription } from '@/components/layout/Layouts';
 import { getUserBangersCached } from '@/server/bangers/bangers-service';
 import { Skeleton } from '@/components/ui/skeleton';
 import BangersExtraActions from '@/components/bangers/BangersExtraActions';
+
+export const metadata: Metadata = {
+  title: 'Karaoke Match - Bangers',
+};
 
 function Page(): ReactElement {
   return (

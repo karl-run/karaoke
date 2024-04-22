@@ -1,6 +1,7 @@
 import React, { ReactElement, Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import { unstable_noStore } from 'next/cache';
+import { Metadata } from 'next';
 
 import {
   getSpecialSongInGroup,
@@ -15,6 +16,10 @@ import { Skeleton } from '@/components/ui/skeleton';
 import ShowAfter5Seconds from '@/components/wheel/ShowAfter5Seconds';
 import Wheel from '@/components/wheel/Wheel';
 import { pickOne } from 'utils/random';
+
+export const metadata: Metadata = {
+  title: 'Karaoke Match - Spin the wheel!',
+};
 
 type Props = {
   params: {

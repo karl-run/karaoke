@@ -1,6 +1,7 @@
 import React, { ReactElement, Suspense } from 'react';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
+import { Metadata } from 'next';
 
 import { getUser } from 'server/user/user-service';
 import { isValidPlaylist } from 'server/spotify/playlist';
@@ -9,6 +10,10 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { SmallPage } from '@/components/layout/Layouts';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import ImportFromSpotify from '@/components/import-from-spotify/ImportFromSpotify';
+
+export const metadata: Metadata = {
+  title: 'Karaoke Match - Import (Spotify)',
+};
 
 type Props = {
   searchParams: {

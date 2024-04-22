@@ -1,6 +1,7 @@
 import React, { ReactElement, Suspense } from 'react';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
+import { Metadata } from 'next';
 
 import { getUserBangersRecord } from 'server/bangers/bangers-service';
 
@@ -9,6 +10,10 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import ImportFromM3U8 from '@/components/import-from-m3u8/ImportFromM3U8';
 import { Skeleton } from '@/components/ui/skeleton';
 import { getUser } from '@/server/user/user-service';
+
+export const metadata: Metadata = {
+  title: 'Karaoke Match - Import (m3u8)',
+};
 
 function Page(): ReactElement {
   return (

@@ -1,4 +1,5 @@
 import React, { ReactElement, Suspense } from 'react';
+import { Metadata } from 'next';
 
 import { getPlaylistWithTracks } from 'server/spotify/playlist';
 import { getUserBangersRecord } from 'server/bangers/bangers-service';
@@ -7,6 +8,10 @@ import { getUser } from 'server/user/user-service';
 import { FullPage, FullPageDescription } from '@/components/layout/Layouts';
 import { TrackGrid, TrackGridSkeleton } from '@/components/track/TrackGrid';
 import Track from '@/components/track/Track';
+
+export const metadata: Metadata = {
+  title: 'Karaoke Match - Playlist',
+};
 
 type Props = {
   params: {

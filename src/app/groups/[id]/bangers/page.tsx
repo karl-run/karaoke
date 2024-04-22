@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Crosshair2Icon, GearIcon, StarFilledIcon } from '@radix-ui/react-icons';
 import { MessageCircleWarningIcon } from 'lucide-react';
 import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
 
 import { getUser } from 'server/user/user-service';
 import { getGroupById } from 'server/group/group-db';
@@ -18,6 +19,10 @@ import { Button } from '@/components/ui/button';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
 import GroupMembers from '@/components/group-members/GroupMembers';
 import { Skeleton } from '@/components/ui/skeleton';
+
+export const metadata: Metadata = {
+  title: 'Karaoke Match - Group Bangers',
+};
 
 type Props = {
   params: {

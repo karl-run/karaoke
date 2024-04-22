@@ -2,6 +2,7 @@ import React, { ReactElement, Suspense } from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import * as R from 'remeda';
+import { Metadata } from 'next';
 
 import { getUser } from 'server/user/user-service';
 import { getGroupById } from 'server/group/group-db';
@@ -16,6 +17,10 @@ import DeleteGroupButton from '@/components/DeleteGroupButton';
 import LeaveGroupButton from '@/components/LeaveGroupButton';
 import InvalidateInviteLink from '@/components/InvalidateInviteLink';
 import { Skeleton } from '@/components/ui/skeleton';
+
+export const metadata: Metadata = {
+  title: 'Karaoke Match - Group Details',
+};
 
 type Props = {
   params: {

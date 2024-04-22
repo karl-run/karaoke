@@ -1,8 +1,13 @@
 import React, { ReactElement } from 'react';
+import { Metadata } from 'next';
 
 import { SmallPage } from '@/components/layout/Layouts';
 
 import styles from './page.module.css';
+
+export const metadata: Metadata = {
+  title: 'Karaoke Match - Privacy Policy',
+};
 
 function Page(): ReactElement {
   return (

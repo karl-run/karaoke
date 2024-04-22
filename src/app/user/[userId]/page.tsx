@@ -1,5 +1,6 @@
 import React, { ReactElement, Suspense } from 'react';
 import { notFound, redirect } from 'next/navigation';
+import { Metadata } from 'next';
 
 import { getOtherUser, getUser, usersShareGroup } from 'server/user/user-service';
 import { getUserBangers, getUserBangersRecord } from 'server/bangers/bangers-service';
@@ -8,6 +9,10 @@ import { FullPage, FullPageDescription } from '@/components/layout/Layouts';
 import { TrackGrid, TrackGridSkeleton } from '@/components/track/TrackGrid';
 import Track, { LazyTrack, TrackSkeleton } from '@/components/track/Track';
 import { Skeleton } from '@/components/ui/skeleton';
+
+export const metadata: Metadata = {
+  title: 'Karaoke Match - Friend',
+};
 
 type Props = {
   params: {

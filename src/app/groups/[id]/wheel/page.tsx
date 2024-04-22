@@ -1,9 +1,14 @@
 import React, { ReactElement } from 'react';
 import Link from 'next/link';
+import { Metadata } from 'next';
 
 import { SmallPage } from '@/components/layout/Layouts';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+
+export const metadata: Metadata = {
+  title: 'Karaoke Match - Spin the wheel!',
+};
 
 type Props = {
   params: {

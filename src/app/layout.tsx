@@ -16,8 +16,9 @@ import type { Metadata } from 'next';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Karaoke Match',
-  description: 'Match songs with your karaoke friends',
+  title: 'Karaoke Match - What songs do you and your friends Love?',
+  description:
+    'Karaoke Match lets you build your a track of your absolute favorite karaoke songs (bangers), invite your friends to a group and see what songs two or more of you love!',
 };
 
 export default function RootLayout({

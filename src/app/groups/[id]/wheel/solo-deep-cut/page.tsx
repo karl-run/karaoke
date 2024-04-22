@@ -2,11 +2,16 @@ import React, { ReactElement, Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { unstable_noStore } from 'next/cache';
+import { Metadata } from 'next';
 
 import { getGroupForUser } from 'server/group/group-service';
 
 import { SmallPage } from '@/components/layout/Layouts';
 import { Button } from '@/components/ui/button';
+
+export const metadata: Metadata = {
+  title: 'Karaoke Match - Spin the wheel!',
+};
 
 type Props = {
   params: {

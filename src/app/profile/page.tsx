@@ -2,6 +2,7 @@ import * as R from 'remeda';
 import React, { ReactElement, Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import { formatDistanceToNow } from 'date-fns';
+import { Metadata } from 'next';
 
 import { getUserBangersCount } from 'server/bangers/bangers-service';
 import { getUserGroupCount } from 'server/group/group-db';
@@ -12,6 +13,10 @@ import DeleteUserButton from '@/components/delete-user/DeleteUserButton';
 import { getUser } from '@/server/user/user-service';
 import { Skeleton } from '@/components/ui/skeleton';
 import InvalidateSessionButton from '@/components/sessions/InvalidateSessionButton';
+
+export const metadata: Metadata = {
+  title: 'Karaoke Match - Profile',
+};
 
 async function Page(): Promise<ReactElement> {
   const user = await getUser();

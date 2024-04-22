@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
 import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
 
 import { getTotalBangersCount, getTotalGroupCount, getTotalUserCount } from 'server/db/stats';
 
@@ -7,6 +8,10 @@ import GroupAvatar from '@/components/avatar/GroupAvatar';
 import { SmallPage } from '@/components/layout/Layouts';
 import { Label } from '@/components/ui/label';
 import { getUser } from '@/server/user/user-service';
+
+export const metadata: Metadata = {
+  title: 'Karaoke Match - Admin',
+};
 
 async function Page(): Promise<ReactElement> {
   const user = await getUser();

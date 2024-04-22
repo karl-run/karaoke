@@ -1,6 +1,11 @@
 import React, { ReactElement } from 'react';
+import { Metadata } from 'next';
 
 import { SmallPage } from '@/components/layout/Layouts';
+
+export const metadata: Metadata = {
+  title: 'Karaoke Match - Success',
+};
 
 interface Props {
   searchParams: {

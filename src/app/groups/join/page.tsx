@@ -27,7 +27,7 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
 
   if (joinCode == null) {
     return {
-      title: 'Join a group',
+      title: 'Karaoke Match - Join a group',
       description: 'Enter a join code to join a group on Karaoke Match!',
     };
   }

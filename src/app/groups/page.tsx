@@ -1,6 +1,7 @@
 import React, { ReactElement, Suspense } from 'react';
 import Link from 'next/link';
 import { Crosshair2Icon, GearIcon } from '@radix-ui/react-icons';
+import { Metadata } from 'next';
 
 import { getUser } from 'server/user/user-service';
 import { getUsersGroupsCached } from 'server/group/group-service';
@@ -8,6 +9,10 @@ import { getUsersGroupsCached } from 'server/group/group-service';
 import { SmallPage } from '@/components/layout/Layouts';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
 import { Skeleton } from '@/components/ui/skeleton';
+
+export const metadata: Metadata = {
+  title: 'Karaoke Match - Groups',
+};
 
 function Page(): ReactElement {
   return (
