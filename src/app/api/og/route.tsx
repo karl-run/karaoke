@@ -63,10 +63,10 @@ export async function GET() {
         ))}
         <div tw="flex text-gray-100">
           <div tw="flex flex-col md:flex-row w-full py-12 px-4 md:items-center justify-start gap-8 p-8">
-            <img tw="grow-0 mr-8" height={128} width={128} src={imageData as unknown as string} />
-            <h2 tw="flex flex-col text-3xl sm:text-4xl font-bold tracking-tight text-left grow">
-              <span>Karaoke Match!</span>
-              <span tw="text-2xl">The best way to find karaoke songs that you and your friends love {`❤️`}</span>
+            <img tw="grow-0 mr-8 border-4 rounded-xl -p-2" height={169} width={169} src={imageData as unknown as string} />
+            <h2 tw="flex flex-col font-bold tracking-tight text-left grow">
+              <span tw="text-4xl sm:text-6xl">Karaoke Match!</span>
+              <span tw="text-3xl max-w-2/3">The best way to find karaoke songs that you and your friends love {`❤️`}</span>
             </h2>
           </div>
         </div>
