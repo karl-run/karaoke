@@ -5,7 +5,7 @@ import { TrackResult } from 'server/spotify/types';
 import { getUser } from 'server/user/user-service';
 import { getUserBangersRecord } from 'server/bangers/bangers-service';
 
-import Landing from '@/components/Landing';
+import Landing from '@/components/landing/Landing';
 import Track, { TrackSkeleton } from '@/components/track/Track';
 import { TrackGrid } from '@/components/track/TrackGrid';
 import { FullPage } from '@/components/layout/Layouts';

@@ -1,11 +1,14 @@
 import React, { ReactElement, Suspense } from 'react';
 import { MagnifyingGlassIcon, PersonIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
+import Image from 'next/image';
 
 import { getUser } from 'server/user/user-service';
 
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
+
+import example from './example.webp';
 
 function Landing(): ReactElement {
   return (
@@ -15,11 +18,15 @@ function Landing(): ReactElement {
           <GroupAvatar iconIndex={2} />
           <h1 className="text-3xl">Karaoke Match</h1>
         </div>
-        <div className="border mt-4 max-w-96 p-4 rounded-xl relative">
+        <div className="border mt-4 sm:max-w-lg p-4 rounded-xl relative">
           <div className="text-sm absolute -top-2.5 left-1/2 -translate-x-1/2 bg-background px-2">What is it?</div>
           <p className="font-bold text-center">Build a list of your go-to karaoke bangers!</p>
           <p className="font-bold mt-4 text-center">
             Join your friends in a group and get a list of all the songs two or more of you love :-)
+          </p>
+          <Image src={example} className="mt-4 border rounded w-full" alt="a group of friends with several 'bangers'" />
+          <p className="font-bold mt-4 text-center">
+            {`When you're out singing Karaoke, you'll have a list of guaranteed hits to choose from!`}
           </p>
         </div>
       </div>
