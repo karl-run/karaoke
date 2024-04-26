@@ -30,7 +30,7 @@ async function Page(): Promise<ReactElement> {
   }
 
   return (
-    <SmallPage title="Bangscoverer!">
+    <SmallPage title="Bangscoverer!" className="overflow-hidden">
       <Swiper track={exampleBangers.tracks[Math.floor(Math.random() * exampleBangers.tracks.length)]!} />
     </SmallPage>
   );
