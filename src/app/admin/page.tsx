@@ -1,5 +1,4 @@
 import React, { ReactElement } from 'react';
-import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 
 import { getTotalBangersCount, getTotalGroupCount, getTotalUserCount } from 'server/db/stats';
@@ -7,26 +6,14 @@ import { getTotalBangersCount, getTotalGroupCount, getTotalUserCount } from 'ser
 import GroupAvatar from '@/components/avatar/GroupAvatar';
 import { SmallPage } from '@/components/layout/Layouts';
 import { Label } from '@/components/ui/label';
-import { getUser } from '@/server/user/user-service';
+import { verifyUserIsAdmin } from '@/app/admin/_admin-utils';
 
 export const metadata: Metadata = {
   title: 'Karaoke Match - Admin',
 };
 
 async function Page(): Promise<ReactElement> {
-  const user = await getUser();
-  if (!user) {
-    notFound();
-  }
-
-  if (process.env.ADMIN_ID == null) {
-    console.error('ADMIN_ID is not configured, admin page is inaccessible');
-    notFound();
-  }
-
-  if (user.userId !== process.env.ADMIN_ID) {
-    notFound();
-  }
+  await verifyUserIsAdmin();
 
   const [bangers, users, groups] = await Promise.all([
     getTotalBangersCount(),
