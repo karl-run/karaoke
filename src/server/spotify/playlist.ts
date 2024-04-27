@@ -1,5 +1,5 @@
 import { spotifyFetch } from 'server/spotify/auth';
-import { SpotifyTrack } from 'server/spotify/types';
+import { SpotifyTrack, TrackResult } from 'server/spotify/types';
 import { spotifyTrackToTrackResult } from 'server/spotify/mapper';
 
 type PlaylistResponse = {
@@ -15,7 +15,14 @@ type PlaylistResponse = {
   };
 };
 
-export async function getPlaylistWithTracks(playlistId: string) {
+export async function getPlaylistWithTracks(playlistId: string): Promise<
+  | {
+      name: string;
+      owner: string;
+      tracks: TrackResult[];
+    }
+  | { errorMessage: string }
+> {
   try {
     const playlist = await spotifyFetch<PlaylistResponse>(`/v1/playlists/${playlistId}`);
     const restOfTracks = playlist.tracks.next ? await traverseTracks(playlist.tracks.next) : [];
