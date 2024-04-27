@@ -3,7 +3,16 @@
 import React, { ReactElement, startTransition } from 'react';
 import Image from 'next/image';
 import { toast } from 'sonner';
-import { DndContext, useDraggable } from '@dnd-kit/core';
+import {
+  DndContext,
+  KeyboardSensor,
+  MouseSensor,
+  PointerSensor,
+  TouchSensor,
+  useDraggable,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
 import { restrictToHorizontalAxis } from '@dnd-kit/modifiers';
 
 import { TrackResult } from 'server/spotify/types';
@@ -19,8 +28,30 @@ type Props = {
 };
 
 function Swiper({ track }: Props): ReactElement {
+  const pointerSensor = useSensor(PointerSensor, {
+    activationConstraint: {
+      distance: 0.01,
+    },
+  });
+  const mouseSensor = useSensor(MouseSensor, {
+    // Require the mouse to move by 10 pixels before activating
+    activationConstraint: {
+      distance: 10,
+    },
+  });
+  const touchSensor = useSensor(TouchSensor, {
+    // Press delay of 250ms, with tolerance of 5px of movement
+    activationConstraint: {
+      delay: 250,
+      tolerance: 5,
+    },
+  });
+  const keyboardSensor = useSensor(KeyboardSensor);
+
+  const sensors = useSensors(pointerSensor, keyboardSensor, mouseSensor, touchSensor);
+
   return (
-    <DndContext modifiers={[restrictToHorizontalAxis]}>
+    <DndContext modifiers={[restrictToHorizontalAxis]} sensors={sensors}>
       <DraggableTrack track={track} />
     </DndContext>
   );
@@ -42,8 +73,8 @@ function DraggableTrack({ track }: Props) {
   const maxWidth = window.innerWidth < 732 ? 732 : window.innerWidth;
   const dragPercent = transform
     ? transform.x > 0
-      ? Math.min(transform.x / (maxWidth * 0.2), 1)
-      : -Math.min(Math.abs(transform.x) / (maxWidth * 0.2), 1)
+      ? Math.min(transform.x / (maxWidth * 0.1), 1)
+      : -Math.min(Math.abs(transform.x) / (maxWidth * 0.1), 1)
     : 0;
 
   return (
