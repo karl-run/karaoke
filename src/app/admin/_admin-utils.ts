@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 
 import { getUser } from 'server/user/user-service'
 
-export async function verifyUserIsAdmin() {
+export async function getVerifiedAdmin() {
   const user = await getUser()
   if (!user) {
     notFound()
@@ -16,4 +16,6 @@ export async function verifyUserIsAdmin() {
   if (user.userId !== process.env.ADMIN_ID) {
     notFound()
   }
+
+  return user;
 }

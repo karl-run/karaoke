@@ -12,14 +12,14 @@ import {
 import GroupAvatar from '@/components/avatar/GroupAvatar'
 import { SmallPage } from '@/components/layout/Layouts'
 import { Label } from '@/components/ui/label'
-import { verifyUserIsAdmin } from '@/app/admin/_admin-utils'
+import { getVerifiedAdmin } from '@/app/admin/_admin-utils'
 
 export const metadata: Metadata = {
   title: 'Karaoke Match - Admin',
 }
 
 async function Page(): Promise<ReactElement> {
-  await verifyUserIsAdmin()
+  await getVerifiedAdmin()
 
   const [bangers, users, groups, dismiss, cache] = await Promise.all([
     getTotalBangersCount(),
