@@ -41,6 +41,33 @@ export const bangers = sqliteTable(
   }),
 );
 
+export const dismissed_bangers = sqliteTable(
+  'dismissed_bangers',
+  {
+    userId: text('user_id')
+      .references(() => users.email)
+      .notNull(),
+    songId: text('song_id').notNull(),
+    dismissedAt: integer('dismissed_at', { mode: 'timestamp_ms' }).notNull(),
+  },
+  (table) => ({
+    pk: primaryKey({ columns: [table.userId, table.songId] }),
+  }),
+);
+
+export const globalBangers = sqliteTable(
+  'global_bangers',
+  {
+    songKey: text('song_key').primaryKey(),
+  },
+  (table) => ({
+    pk: primaryKey({ columns: [table.songKey] }),
+  }),
+);
+
+/**
+ * @deprecated Migrate everything to normalizedSongCache
+ */
 export const songCache = sqliteTable('song_cache', {
   songId: text('song_id').primaryKey(),
   data: text('data', { mode: 'json' }).$type<TrackResult>(),
