@@ -41,6 +41,17 @@ export const bangers = sqliteTable(
   }),
 );
 
+export const globalBangers = sqliteTable(
+  'global_bangers',
+  {
+    songKey: text('song_key').primaryKey(),
+    addedAt: integer('added_at', { mode: 'timestamp_ms' }).notNull(),
+  },
+  (table) => ({
+    pk: primaryKey({ columns: [table.songKey] }),
+  }),
+);
+
 export const songCache = sqliteTable('song_cache', {
   songId: text('song_id').primaryKey(),
   data: text('data', { mode: 'json' }).$type<TrackResult>(),
