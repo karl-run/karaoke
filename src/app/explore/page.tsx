@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
 import { getUser } from 'server/user/user-service';
-import { getPlaylistWithTracks } from 'server/spotify/playlist';
+import { getSuggestions } from 'server/bangers/suggestions-service';
 
 import Swiper from '@/components/swiper/Swiper';
 import { SmallPage } from '@/components/layout/Layouts';
@@ -18,20 +18,11 @@ async function Page(): Promise<ReactElement> {
     notFound();
   }
 
-  const exampleBangers = await getPlaylistWithTracks('2ydyIaxEYvkMtefJBIIEqK');
-
-  if ('errorMessage' in exampleBangers) {
-    return (
-      <SmallPage title="Bangscoverer!">
-        <div className="text-lg opacity-70">Error fetching possible tracks</div>
-        <p className="mt-8">{exampleBangers.errorMessage}</p>
-      </SmallPage>
-    );
-  }
-
+  // TODO: Suspense loading state
+  const trackSuggestions = await getSuggestions(user.userId, 25);
   return (
     <SmallPage title="Bangscoverer!" className="overflow-hidden">
-      <Swiper track={exampleBangers.tracks[Math.floor(Math.random() * exampleBangers.tracks.length)]!} />
+      <Swiper suggestions={trackSuggestions} />
     </SmallPage>
   );
 }

@@ -8,11 +8,16 @@ import { Button } from '@/components/ui/button';
 interface Props {
   songId: string;
   previewUrl: string;
+  autoplay?: boolean;
 }
 
-function PlaySong({ songId, previewUrl }: Props): ReactElement {
-  const [play, setPlay] = React.useState<boolean>(false);
+function PlaySong({ songId, previewUrl, autoplay }: Props): ReactElement {
+  const [play, setPlay] = React.useState<boolean>(autoplay ?? false);
   const broadcastRef = React.useRef<BroadcastChannel | null>(null);
+
+  useEffect(() => {
+    setPlay(autoplay ?? false);
+  }, [autoplay]);
 
   useEffect(() => {
     broadcastRef.current = new BroadcastChannel('playing_songs');
@@ -32,7 +37,7 @@ function PlaySong({ songId, previewUrl }: Props): ReactElement {
       <Button
         size="icon"
         variant="ghost"
-        className="rounded-full"
+        className="rounded-full h-full w-full"
         onClick={() => {
           const newPlay = !play;
           if (newPlay) {
