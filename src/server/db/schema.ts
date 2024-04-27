@@ -46,6 +46,7 @@ export const globalBangers = sqliteTable(
   {
     songKey: text('song_key').primaryKey(),
     addedAt: integer('added_at', { mode: 'timestamp_ms' }).notNull(),
+    region: text('region').notNull(),
   },
   (table) => ({
     pk: primaryKey({ columns: [table.songKey] }),

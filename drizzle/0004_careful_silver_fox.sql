@@ -1,0 +1,1 @@
+ALTER TABLE global_bangers ADD `region` text NOT NULL;
