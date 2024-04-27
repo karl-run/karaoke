@@ -4,13 +4,13 @@ import { eq } from 'drizzle-orm'
 
 import { db, globalBangers, normalizedSongCache } from 'server/db'
 
-import { verifyUserIsAdmin } from '@/app/admin/_admin-utils'
+import { getVerifiedAdmin } from '@/app/admin/_admin-utils'
 import Track from '@/components/track/Track'
 import { TrackGrid } from '@/components/track/TrackGrid'
 import { FullPage, FullPageDescription, FullPageDetails } from '@/components/layout/Layouts'
 
 async function Page(): Promise<ReactElement> {
-  await verifyUserIsAdmin()
+  await getVerifiedAdmin()
 
   const gwobby = await db
     .select()

@@ -34,6 +34,14 @@ function Page(): ReactElement {
         </Link>{' '}
         to create a new account
       </div>
+      {process.env.NODE_ENV === 'development' && (
+        <div className="bg-red-200 rounded p-2 border border-red-500">
+          <p>Local development?</p>
+          <Link className="underline" href="/login/magic-link/dev">
+            Click here to set local login cookie
+          </Link>
+        </div>
+      )}
       <Alert>
         <InfoCircledIcon className="h-4 w-4" />
         <AlertTitle>How does this work?</AlertTitle>

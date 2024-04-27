@@ -82,6 +82,7 @@ export async function getUserBangers(userId: string): Promise<[string, TrackResu
       data: songCache.data,
     })
     .from(bangers)
+    // TODO: This should use normalized cache
     .leftJoin(songCache, eq(bangers.songId, songCache.songId))
     .where(eq(bangers.userId, userId))
     .orderBy(desc(bangers.bangedAt))
