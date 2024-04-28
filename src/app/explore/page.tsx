@@ -26,10 +26,6 @@ async function Page(): Promise<ReactElement> {
     notFound();
   }
 
-  if (user.userId !== process.env.ADMIN_ID) {
-    notFound();
-  }
-
   return (
     <SmallPage
       title="Explore"
