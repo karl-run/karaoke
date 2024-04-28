@@ -12,6 +12,7 @@ import styles from './BangOrNoBangTrack.module.css';
 type Props = {
   className?: string;
   track: TrackResult;
+  suggestedBy: string[];
   autoplay: boolean;
   disabled: boolean;
   onBanger: () => void;

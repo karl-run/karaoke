@@ -17,7 +17,7 @@ import { from, hasMovedEnough, scaleFn, to } from './SwiperAnimationUtils';
 import styles from './Swiper.module.css';
 
 type Props = {
-  suggestions: TrackResult[];
+  suggestions: { track: TrackResult; suggestedBy: string[] }[];
 };
 
 const YEET_DISTANCE = 200;
@@ -41,9 +41,9 @@ function Swiper({ suggestions }: Props): ReactElement {
 
     if (!down && trigger) {
       if (direction === 1) {
-        bangTrack(index, suggestions[index].id, suggestions[index].name);
+        bangTrack(index, suggestions[index].track.id, suggestions[index].track.name);
       } else {
-        dismissTrack(index, suggestions[index].id, suggestions[index].name);
+        dismissTrack(index, suggestions[index].track.id, suggestions[index].track.name);
       }
       return;
     }
@@ -127,15 +127,16 @@ function Swiper({ suggestions }: Props): ReactElement {
             style={{ transform: interpolate([scale], scaleFn) }}
           >
             <BangOrNoBangTrack
-              track={suggestions[index]}
+              track={suggestions[index].track}
+              suggestedBy={suggestions[index].suggestedBy}
               className="absolute"
               autoplay={topDeckIndex === index && !autoplayDisabled && stackInitiated}
               disabled={!stackInitiated || topDeckIndex !== index}
               onDismiss={() => {
-                dismissTrack(index, suggestions[index].id, suggestions[index].name);
+                dismissTrack(index, suggestions[index].track.id, suggestions[index].track.name);
               }}
               onBanger={() => {
-                bangTrack(index, suggestions[index].id, suggestions[index].name);
+                bangTrack(index, suggestions[index].track.id, suggestions[index].track.name);
               }}
             />
             <animated.div

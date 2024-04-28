@@ -29,8 +29,8 @@ async function Page(): Promise<ReactElement> {
     notFound();
   }
 
-  // TODO: Suspense loading state
-  const trackSuggestions = await getSuggestions(user.userId, 25);
+  const trackSuggestions = await getSuggestions(user.userId, 30);
+
   return (
     <SmallPage
       title="Explore"
