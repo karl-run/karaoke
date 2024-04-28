@@ -1,29 +1,32 @@
-.trackRoot {
-  height: calc(100svh - 14rem);
-  max-height: 732px;
-  touch-action: none;
-
-  @apply border-2 p-2 bg-background;
-}
-
 .trackGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 3rem 3rem;
 
+  @apply border-2 p-2 bg-background;
   @apply gap-2 h-full w-full;
+}
+
+.yes,
+.no {
+  @apply transition-colors;
 }
 
 .yes {
   grid-column: 2 / 3;
   grid-row: 3 / 4;
-  @apply bg-green-500 text-lg h-full;
+  @apply bg-green-800 text-lg h-full;
 }
 
 .no {
   grid-column: 1 / 2;
   grid-row: 3 / 4;
-  @apply bg-red-500 text-lg h-full;
+  @apply bg-red-900 text-lg h-full;
+}
+
+.yes:disabled,
+.no:disabled {
+  @apply bg-transparent border;
 }
 
 .description {
@@ -60,5 +63,6 @@
 .albumArt {
   grid-column: 1 / 3;
   grid-row: 1 / 3;
+
   @apply h-full w-full object-cover;
 }

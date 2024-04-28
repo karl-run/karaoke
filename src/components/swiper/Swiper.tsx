@@ -11,28 +11,23 @@ import { TrackResult } from 'server/spotify/types';
 
 import { BangOrNoBangTrack } from '@/components/swiper/BangOrNoBangTrack';
 import { addBangerAction } from '@/components/add-track/AddTrackActions';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { SwiperLanding } from '@/components/swiper/SwiperLanding';
 
+import { from, hasMovedEnough, scaleFn, to } from './SwiperAnimationUtils';
 import styles from './Swiper.module.css';
 
 type Props = {
   suggestions: TrackResult[];
 };
 
-const to = (i: number) => ({
-  x: 0,
-  y: 0,
-  scale: 1,
-  delay: i * 69,
-});
-const from = (i: number, max: number) => ({ x: i % 2 === 0 ? -max : max, scale: 1.2, y: 0 });
-const scaleFn = (s: number) => `scale(${s})`;
+const YEET_DISTANCE = 200;
 
 function Swiper({ suggestions }: Props): ReactElement {
-  const [autoplayDisabled] = useQueryState('no-auto', parseAsBoolean.withDefault(false));
-  const maxWidth = window.innerWidth < 732 ? 732 : window.innerWidth;
   const completedMountAnimations = useRef(0);
+  const [stackInitiated, setStackInitiated] = useState<boolean>(false);
+
+  const [autoplayDisabled] = useQueryState('no-auto', parseAsBoolean.withDefault(false));
+  const maxWidth = Math.min(window.innerWidth, 520) + Math.min(window.innerWidth, 520) / 2;
 
   const [topDeckIndex, setTopDeckIndex] = useState<number>(24);
   const [gone] = useState(() => new Set()); // The set flags all the cards that are flicked out
@@ -57,7 +52,7 @@ function Swiper({ suggestions }: Props): ReactElement {
       if (index !== i) return;
 
       const isGone = gone.has(index);
-      const x = isGone ? (200 + maxWidth) * direction : down ? mx : 0;
+      const x = isGone ? (maxWidth + YEET_DISTANCE) * direction : down ? mx : 0;
 
       return {
         x,
@@ -71,7 +66,12 @@ function Swiper({ suggestions }: Props): ReactElement {
   const initStack = () => {
     api.start((i) => ({
       ...to(i),
-      onRest: () => (completedMountAnimations.current += 1),
+      onRest: () => {
+        completedMountAnimations.current += 1;
+        if (completedMountAnimations.current === suggestions.length) {
+          setStackInitiated(true);
+        }
+      },
     }));
   };
 
@@ -93,7 +93,7 @@ function Swiper({ suggestions }: Props): ReactElement {
       if (index !== i) return;
 
       return {
-        x: 200 + maxWidth,
+        x: maxWidth + YEET_DISTANCE,
       };
     });
   };
@@ -119,7 +119,7 @@ function Swiper({ suggestions }: Props): ReactElement {
       if (index !== i) return;
 
       return {
-        x: 200 + maxWidth * -1,
+        x: (maxWidth + YEET_DISTANCE) * -1,
       };
     });
   };
@@ -136,7 +136,8 @@ function Swiper({ suggestions }: Props): ReactElement {
             <BangOrNoBangTrack
               track={suggestions[index]}
               className="absolute"
-              autoplay={topDeckIndex === index && !autoplayDisabled}
+              autoplay={topDeckIndex === index && !autoplayDisabled && stackInitiated}
+              disabled={!stackInitiated || topDeckIndex !== index}
               onDismiss={() => {
                 dismissTrack(index, suggestions[index].id, suggestions[index].name);
               }}
@@ -187,34 +188,13 @@ function Swiper({ suggestions }: Props): ReactElement {
           </animated.div>
         </animated.div>
       ))}
-      <Card className="h-full w-full">
-        <CardHeader>
-          <CardTitle>Explore tracks to discover forgotten bangers!</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="mb-2">These tracks are a mix of your friends songs, and famously good karaoke tracks.</p>
-          <p>Swipe left to dismiss and swipe right bang the track, just like a certain dating app. :-)</p>
-          <div className="flex justify-center mt-8">
-            <Button
-              variant="default"
-              type="button"
-              size="lg"
-              onClick={() => {
-                initStack();
-              }}
-            >
-              Start discovering!
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+      <SwiperLanding
+        onClick={() => {
+          initStack();
+        }}
+      />
     </div>
   );
-}
-
-/** Should move at least 10% of the screen to be considered a swipe */
-function hasMovedEnough(mx: number, width: number) {
-  return Math.abs(mx) > width * 0.1;
 }
 
 export default Swiper;

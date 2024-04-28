@@ -1,5 +1,6 @@
 .swiperRootRoot {
   height: calc(100svh - 14rem);
+  max-height: 740px;
 
   @apply relative;
 }

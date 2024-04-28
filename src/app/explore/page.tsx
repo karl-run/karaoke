@@ -8,13 +8,14 @@ import { getSuggestions } from 'server/bangers/suggestions-service';
 
 import { SmallPage } from '@/components/layout/Layouts';
 import SwiperExtraActions from '@/components/swiper/SwiperExtraActions';
+import SwiperWrapper from '@/components/swiper/SwiperWrapper';
 
 const Swiper = dynamic(() => import('@/components/swiper/Swiper'), {
   ssr: false,
 });
 
 export const metadata: Metadata = {
-  title: 'Karaoke Match - Explore new',
+  title: 'Karaoke Match - Explore',
 };
 
 async function Page(): Promise<ReactElement> {
@@ -32,8 +33,7 @@ async function Page(): Promise<ReactElement> {
   const trackSuggestions = await getSuggestions(user.userId, 25);
   return (
     <SmallPage
-      title="Explore new"
-      className="overflow-hidden"
+      title="Explore"
       tightTitle
       actions={<SwiperExtraActions />}
       back={{
@@ -41,7 +41,9 @@ async function Page(): Promise<ReactElement> {
         to: '/bangers',
       }}
     >
-      <Swiper suggestions={trackSuggestions} />
+      <SwiperWrapper>
+        <Swiper suggestions={trackSuggestions} />
+      </SwiperWrapper>
     </SmallPage>
   );
 }
