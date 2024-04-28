@@ -1,7 +1,9 @@
 import React, { PropsWithChildren, ReactElement } from 'react';
 
+import styles from './SwiperWrapper.module.css';
+
 function SwiperWrapper({ children }: PropsWithChildren): ReactElement {
-  return <div className="max-w-full min-[480px]:max-w-[520px] overflow-hidden">{children}</div>;
+  return <div className={styles.swiperRoot}>{children}</div>;
 }
 
 export default SwiperWrapper;

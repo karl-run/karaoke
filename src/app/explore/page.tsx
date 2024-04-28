@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import { Metadata } from 'next';
 
@@ -9,6 +9,7 @@ import { getSuggestions } from 'server/bangers/suggestions-service';
 import { SmallPage } from '@/components/layout/Layouts';
 import SwiperExtraActions from '@/components/swiper/SwiperExtraActions';
 import SwiperWrapper from '@/components/swiper/SwiperWrapper';
+import { SwiperLanding } from '@/components/swiper/SwiperLanding';
 
 const Swiper = dynamic(() => import('@/components/swiper/Swiper'), {
   ssr: false,
@@ -29,8 +30,6 @@ async function Page(): Promise<ReactElement> {
     notFound();
   }
 
-  const trackSuggestions = await getSuggestions(user.userId, 30);
-
   return (
     <SmallPage
       title="Explore"
@@ -42,10 +41,20 @@ async function Page(): Promise<ReactElement> {
       }}
     >
       <SwiperWrapper>
-        <Swiper suggestions={trackSuggestions} />
+        <Suspense fallback={<SwiperLanding />}>
+          <SwiperWithData userId={user.userId} />
+        </Suspense>
       </SwiperWrapper>
     </SmallPage>
   );
+}
+
+async function SwiperWithData({ userId }: { userId: string }): Promise<ReactElement> {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  const trackSuggestions = await getSuggestions(userId, 30);
+
+  return <Swiper suggestions={trackSuggestions} />;
 }
 
 export default Page;
