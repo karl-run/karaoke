@@ -1,27 +1,16 @@
 'use client';
 
-import React, { PropsWithChildren, ReactElement, startTransition, useState } from 'react';
-import Image from 'next/image';
-import { toast } from 'sonner';
-import {
-  DndContext,
-  KeyboardSensor,
-  MouseSensor,
-  PointerSensor,
-  TouchSensor,
-  useDraggable,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core';
-import { restrictToHorizontalAxis } from '@dnd-kit/modifiers';
+import React, { ReactElement, startTransition, useEffect, useRef, useState } from 'react';
 import { CheckIcon, Cross2Icon } from '@radix-ui/react-icons';
+import { animated, to as interpolate, useSprings } from '@react-spring/web';
+import { useDrag } from '@use-gesture/react';
+import { toast } from 'sonner';
+import { parseAsBoolean, useQueryState } from 'nuqs';
 
 import { TrackResult } from 'server/spotify/types';
 
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { BangOrNoBangTrack } from '@/components/swiper/BangOrNoBangTrack';
 import { addBangerAction } from '@/components/add-track/AddTrackActions';
-import PlaySong from '@/components/PlaySong';
 
 import styles from './Swiper.module.css';
 
@@ -29,208 +18,176 @@ type Props = {
   suggestions: TrackResult[];
 };
 
+const to = (i: number) => ({
+  x: 0,
+  y: 0,
+  scale: 1,
+  delay: i * 100,
+});
+const from = (i: number, max: number) => ({ x: i % 2 === 0 ? -max : max, scale: 1.2, y: 0 });
+const scaleFn = (s: number) => `scale(${s})`;
+
 function Swiper({ suggestions }: Props): ReactElement {
-  const [completedIds, setCompletedIds] = useState<string[]>([]);
-  const stack = suggestions.filter((track) => !completedIds.includes(track.id)).reverse();
+  const [autoplayDisabled] = useQueryState('no-auto', parseAsBoolean.withDefault(false));
+  const maxWidth = window.innerWidth < 732 ? 732 : window.innerWidth;
+  const completedMountAnimations = useRef(0);
+
+  const [autoplayIndex, setAutoplayIndex] = useState<number>(24);
+  const [gone] = useState(() => new Set()); // The set flags all the cards that are flicked out
+  const [props, api] = useSprings(suggestions.length, (i) => ({
+    ...to(i),
+    from: from(i, maxWidth),
+  }));
+
+  useEffect(() => {
+    api.start((i) => ({
+      ...to(i),
+      onRest: () => (completedMountAnimations.current += 1),
+    }));
+  }, [api]);
+
+  const bind = useDrag(({ args: [index], down, movement: [mx], direction: [xDir], velocity: [velocity] }) => {
+    const trigger = velocity > 0.2 || hasMovedEnough(mx, maxWidth);
+    const direction = xDir !== 0 ? (xDir < 0 ? -1 : 1) : mx < 0 ? -1 : 1;
+
+    if (!down && trigger) {
+      if (direction === 1) {
+        bangTrack(index, suggestions[index].id, suggestions[index].name);
+      } else {
+        dismissTrack(index, suggestions[index].id, suggestions[index].name);
+      }
+      return;
+    }
+
+    api.start((i) => {
+      if (index !== i) return;
+
+      const isGone = gone.has(index);
+      const x = isGone ? (200 + maxWidth) * direction : down ? mx : 0;
+
+      return {
+        x,
+        scale: down ? 1.025 : 1,
+        delay: undefined,
+        config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 },
+      };
+    });
+  });
+
+  const bangTrack = (index: number, trackId: string, name: string) => {
+    gone.add(index);
+    setAutoplayIndex(index - 1);
+    toast.info(`Banged ${name}!`);
+
+    startTransition(() => {
+      addBangerAction(trackId).catch((e) => {
+        console.error(e);
+        toast.error(`Unable to add ${name} right now. :(`);
+
+        // TODO: yeet the card back? Lol
+      });
+    });
+
+    api.start((i) => {
+      if (index !== i) return;
+
+      return {
+        x: 200 + maxWidth,
+      };
+    });
+  };
+
+  const dismissTrack = (index: number, trackId: string, name: string) => {
+    gone.add(index);
+    setAutoplayIndex(index - 1);
+    toast.info(`Dismissed ${name}`);
+
+    startTransition(() => {
+      // TODO: Needs to be added to dismissed songs
+      // addBangerAction(trackId)
+      //   .then(() => {
+      //  })
+      //  .catch((e) => {
+      //    console.error(e);
+      //    toast.error(`Unable to add ${name} right now. :(`);
+      //  });
+    });
+    api.start((i) => {
+      if (index !== i) return;
+
+      return {
+        x: 200 + maxWidth * -1,
+      };
+    });
+  };
+
 
   return (
     <div className={styles.swiperRootRoot}>
-      {stack.map((track, index) => (
-        <SwipeDragContext
-          key={track.id}
-          onBang={() => {
-            setCompletedIds((ids) => [...ids, track.id]);
-
-            toast.success(`${track.name} added!`);
-          }}
-          onDismiss={() => {
-            setCompletedIds((ids) => [...ids, track.id]);
-
-            toast.info(`${track.name} dismissed!`);
-          }}
-        >
-          <DraggableTrack track={track} className="absolute" autoplay={index === stack.length - 1} />
-        </SwipeDragContext>
+      {props.map(({ x, y, scale }, index) => (
+        <animated.div className="absolute h-full w-full" key={index} style={{ x, y }}>
+          <animated.div className="h-full w-full" {...bind(index)} style={{ transform: interpolate([scale], scaleFn) }}>
+            <BangOrNoBangTrack
+              track={suggestions[index]}
+              className="absolute"
+              autoplay={autoplayIndex === index && !autoplayDisabled}
+              onDismiss={() => {
+                dismissTrack(index, suggestions[index].id, suggestions[index].name);
+              }}
+              onBanger={() => {
+                bangTrack(index, suggestions[index].id, suggestions[index].name);
+              }}
+            />
+            <animated.div
+              className={styles.bangerNotification}
+              style={{
+                opacity: x.to((val) => {
+                  if (val === 0 || completedMountAnimations.current < 25) return 0;
+                  if (val < 0) return 0;
+                  return Math.min(Math.abs(val) / (maxWidth * 0.1), 1);
+                }),
+              }}
+            >
+              <div>Banger!</div>
+              <animated.div
+                className="transition-opacity opacity-0"
+                style={{
+                  opacity: x.to((val) => (hasMovedEnough(val, maxWidth) ? 1 : 0)),
+                }}
+              >
+                <CheckIcon className="h-32 w-32 text-green-50" />
+              </animated.div>
+            </animated.div>
+            <animated.div
+              className={styles.notBangerNotification}
+              style={{
+                opacity: x.to((val) => {
+                  if (val === 0 || completedMountAnimations.current < 25) return 0;
+                  if (val > 0) return 0;
+                  return Math.min(Math.abs(val) / (maxWidth * 0.1), 1);
+                }),
+              }}
+            >
+              <div>No thanks</div>
+              <animated.div
+                className="transition-opacity opacity-0"
+                style={{
+                  opacity: x.to((val) => (hasMovedEnough(val, maxWidth) ? 1 : 0)),
+                }}
+              >
+                <Cross2Icon className="h-32 w-32 text-green-50" />
+              </animated.div>
+            </animated.div>
+          </animated.div>
+        </animated.div>
       ))}
     </div>
   );
 }
 
-type DraggableTrackProps = {
-  className?: string;
-  track: TrackResult;
-  autoplay: boolean;
-};
-
-function DraggableTrack({ className, track, autoplay }: DraggableTrackProps) {
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: 'draggable',
-  });
-  const style = transform
-    ? {
-        transform: `translate3d(${transform.x}px, ${Math.pow(transform.x / 50, 2) * 2}px, 0)`,
-      }
-    : undefined;
-
-  const meta = transform ? dragMeta(transform) : null;
-
-  return (
-    <div className={cn(className, styles.swiperRoot)} ref={setNodeRef} {...listeners} {...attributes} style={style}>
-      {autoplay ? 'auto' : 'manual'}
-      <div className={styles.trackGrid}>
-        <Image
-          unoptimized
-          className={cn(styles.albumArt)}
-          src={track.image.url}
-          alt={track.name}
-          width={200}
-          height={200}
-        />
-        <div className={styles.description}>
-          <div className={styles.trackName}>{track.name}</div>
-          <div className={styles.trackArtist}>by {track.artist}</div>
-          {track.preview_url && (
-            <div className={styles.trackPreviewButton}>
-              <PlaySong songId={track.id} previewUrl={track.preview_url} autoplay={autoplay} />
-            </div>
-          )}
-        </div>
-        <Button variant="ghost" className={styles.no}>
-          No thanks
-        </Button>
-        <Button
-          variant="ghost"
-          className={styles.yes}
-          onClick={() => {
-            startTransition(() => {
-              addBangerAction(track.id)
-                .then(() => {
-                  toast.info('Added to your bangers!');
-                })
-                .catch((e) => {
-                  console.error(e);
-                  toast.error(`Unable to add ${track.name} right now. :(`);
-                });
-            });
-          }}
-        >
-          Banger!
-        </Button>
-        <div
-          className={styles.bangerNotification}
-          style={
-            meta != null && meta?.percent > 0
-              ? {
-                  display: 'flex',
-                  opacity: meta.percent,
-                }
-              : undefined
-          }
-        >
-          <div style={meta ? { transform: `translateY(-${meta.percent * 100}%)` } : undefined} className="relative">
-            Banger!
-            {meta?.enough && (
-              <div className="absolute top-20 w-full flex justify-center">
-                <CheckIcon className="h-32 w-32 text-green-50" />
-              </div>
-            )}
-          </div>
-        </div>
-        <div
-          className={styles.notBangerNotification}
-          style={
-            meta != null && meta.percent < 0
-              ? {
-                  display: 'flex',
-                  opacity: Math.abs(meta.percent),
-                }
-              : undefined
-          }
-        >
-          <div
-            style={meta ? { transform: `translateY(-${(Math.abs(meta.percent) - 0.1) * 100}%)` } : undefined}
-            className="relative"
-          >
-            No thanks
-            {meta?.enough && (
-              <div className="absolute top-20 w-full flex justify-center">
-                <Cross2Icon className="h-32 w-32 text-green-50" />
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function SwipeDragContext({
-  children,
-  onDismiss,
-  onBang,
-}: PropsWithChildren<{
-  onDismiss: () => void;
-  onBang: () => void;
-}>) {
-  const pointerSensor = useSensor(PointerSensor, {
-    activationConstraint: {
-      distance: 0.01,
-    },
-  });
-  const mouseSensor = useSensor(MouseSensor, {
-    // Require the mouse to move by 10 pixels before activating
-    activationConstraint: {
-      distance: 10,
-    },
-  });
-  const touchSensor = useSensor(TouchSensor, {
-    // Press delay of 250ms, with tolerance of 5px of movement
-    activationConstraint: {
-      delay: 250,
-      tolerance: 5,
-    },
-  });
-  const keyboardSensor = useSensor(KeyboardSensor);
-
-  const sensors = useSensors(pointerSensor, keyboardSensor, mouseSensor, touchSensor);
-
-  return (
-    <DndContext
-      modifiers={[restrictToHorizontalAxis]}
-      sensors={sensors}
-      onDragEnd={(event) => {
-        const meta = dragMeta(event.delta);
-        if (meta.enough) {
-          if (meta.direction === 'right') {
-            onBang();
-          } else {
-            onDismiss();
-          }
-        }
-      }}
-    >
-      {children}
-    </DndContext>
-  );
-}
-
-function dragMeta(transform: { x: number }): {
-  percent: number;
-  enough: boolean;
-  direction: 'left' | 'right';
-} {
-  const maxWidth = window.innerWidth < 732 ? 732 : window.innerWidth;
-  const dragPercent = transform
-    ? transform.x > 0
-      ? Math.min(transform.x / (maxWidth * 0.1), 1)
-      : -Math.min(Math.abs(transform.x) / (maxWidth * 0.1), 1)
-    : 0;
-
-  return {
-    percent: dragPercent,
-    enough: Math.abs(dragPercent) > 0.5,
-    direction: transform.x > 0 ? 'right' : 'left',
-  };
+/** Should move at least 10% of the screen to be considered a swipe */
+function hasMovedEnough(mx: number, width: number) {
+  return Math.abs(mx) > width * 0.1;
 }
 
 export default Swiper;

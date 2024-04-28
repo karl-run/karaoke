@@ -21,7 +21,7 @@ export function FullPage({ title, back, children, actions }: PropsWithChildren<F
   return (
     <div className="container pb-8">
       {title && (
-        <div className="mt-6 my-4 ml-4 sm:ml-8 sm:mt-10 relative">
+        <div className={cn('mt-6 mb-4 ml-4 sm:ml-8 sm:mt-10 relative')}>
           {back && (
             <div className="text-xs underline absolute -top-5">
               {back === 'search' && <BackToSearch />}
@@ -48,6 +48,7 @@ export function FullPageDetails({ children, className }: PropsWithChildren<{ cla
 
 type SmallPageProps = {
   title: string;
+  tightTitle?: boolean;
   className?: string;
   back?:
     | {
@@ -61,13 +62,18 @@ type SmallPageProps = {
 export function SmallPage({
   children,
   title,
+  tightTitle = false,
   className,
   back,
   actions,
 }: PropsWithChildren<SmallPageProps>): ReactElement {
   return (
     <div className="container pb-8">
-      <div className="mt-6 my-4 ml-4 sm:ml-8 mx-8 sm:mt-10 relative">
+      <div
+        className={cn('mt-6 mb-4 ml-4 sm:ml-8 sm:mt-10 relative', {
+          'mb-1': tightTitle,
+        })}
+      >
         {back && (
           <div className="text-xs underline absolute -top-5">
             {back === 'search' && (
@@ -86,7 +92,7 @@ export function SmallPage({
           </div>
         )}
         <h1 className="text-xl">{title}</h1>
-        <div className="absolute -top-4 -right-5">{actions}</div>
+        <div className="absolute -top-4 right-3">{actions}</div>
       </div>
       <div className={cn('max-w-prose p-2 sm:p-8 sm:pt-0', className)}>{children}</div>
     </div>
