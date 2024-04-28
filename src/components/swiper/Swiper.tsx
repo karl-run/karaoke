@@ -10,7 +10,7 @@ import { parseAsBoolean, useQueryState } from 'nuqs';
 import { TrackResult } from 'server/spotify/types';
 
 import { BangOrNoBangTrack } from '@/components/swiper/BangOrNoBangTrack';
-import { addBangerAction } from '@/components/add-track/AddTrackActions';
+import { addBangerAction, dismissTrackAction } from '@/components/add-track/AddTrackActions';
 import { SwiperLanding } from '@/components/swiper/SwiperLanding';
 
 import { from, hasMovedEnough, scaleFn, to } from './SwiperAnimationUtils';
@@ -101,19 +101,12 @@ function Swiper({ suggestions }: Props): ReactElement {
   const dismissTrack = (index: number, trackId: string, name: string) => {
     gone.add(index);
     setTopDeckIndex(index - 1);
-    toast.info(`Dismissed ${name}`, {
-      duration: 1000,
-    });
 
     startTransition(() => {
-      // TODO: Needs to be added to dismissed songs
-      // addBangerAction(trackId)
-      //   .then(() => {
-      //  })
-      //  .catch((e) => {
-      //    console.error(e);
-      //    toast.error(`Unable to add ${name} right now. :(`);
-      //  });
+      dismissTrackAction(trackId).catch((e) => {
+        console.error(e);
+        toast.error(`Unable to dismiss ${name} right now. :(`);
+      });
     });
     api.start((i) => {
       if (index !== i) return;

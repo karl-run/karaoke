@@ -3,6 +3,8 @@
 import { revalidatePath, revalidateTag } from 'next/cache';
 
 import { getTrack } from 'server/spotify/track';
+import { dismissSuggestion } from 'server/bangers/suggestions-service';
+import { trackToNormalizedId } from 'server/bangers/normalization';
 
 import { getUser } from '@/server/user/user-service';
 import { addBanger, removeBanger } from '@/server/bangers/bangers-db';
@@ -20,6 +22,23 @@ export async function addBangerAction(trackId: string): Promise<{ error: 'not-lo
   await addBanger(user.userId, track);
 
   revalidateTag('bangers');
+
+  return {
+    ok: true,
+  };
+}
+
+export async function dismissTrackAction(trackId: string): Promise<{ error: 'not-logged-in' } | { ok: true }> {
+  const user = await getUser();
+
+  if (!user) {
+    return {
+      error: 'not-logged-in',
+    };
+  }
+
+  const track = await getTrack(trackId, true);
+  await dismissSuggestion(user.userId, trackToNormalizedId(track));
 
   return {
     ok: true,
