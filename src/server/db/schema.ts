@@ -41,6 +41,20 @@ export const bangers = sqliteTable(
   }),
 );
 
+export const dismissedBangers = sqliteTable(
+  'dismissed_bangers',
+  {
+    songKey: text('song_key').notNull(),
+    userId: text('user_id')
+      .references(() => users.email)
+      .notNull(),
+    dismissedAt: integer('dismissed_at', { mode: 'timestamp_ms' }).notNull(),
+  },
+  (table) => ({
+    pk: primaryKey({ columns: [table.songKey, table.userId] }),
+  }),
+);
+
 export const globalBangers = sqliteTable(
   'global_bangers',
   {
