@@ -83,7 +83,7 @@ function Swiper({ suggestions }: Props): ReactElement {
     toast.info(`Banged ${name}!`, { duration: 1000 });
 
     startTransition(() => {
-      addBangerAction(trackId).catch((e) => {
+      addBangerAction(trackId, false).catch((e) => {
         console.error(e);
         toast.error(`Unable to add ${name} right now. :(`);
 

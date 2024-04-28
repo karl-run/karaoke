@@ -9,7 +9,10 @@ import { trackToNormalizedId } from 'server/bangers/normalization';
 import { getUser } from '@/server/user/user-service';
 import { addBanger, removeBanger } from '@/server/bangers/bangers-db';
 
-export async function addBangerAction(trackId: string): Promise<{ error: 'not-logged-in' } | { ok: true }> {
+export async function addBangerAction(
+  trackId: string,
+  revalidate: boolean = true,
+): Promise<{ error: 'not-logged-in' } | { ok: true }> {
   const user = await getUser();
 
   if (!user) {
@@ -21,7 +24,9 @@ export async function addBangerAction(trackId: string): Promise<{ error: 'not-lo
   const track = await getTrack(trackId, true);
   await addBanger(user.userId, track);
 
-  revalidateTag('bangers');
+  if (revalidate) {
+    revalidateTag('bangers');
+  }
 
   return {
     ok: true,
