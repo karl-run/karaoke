@@ -12,6 +12,7 @@ import SwiperWrapper from '@/components/swiper/SwiperWrapper';
 import { SwiperLanding } from '@/components/swiper/SwiperLanding';
 
 const Swiper = dynamic(() => import('@/components/swiper/Swiper'), {
+  loading: () => <SwiperLanding />,
   ssr: false,
 });
 

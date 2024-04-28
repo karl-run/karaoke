@@ -14,7 +14,6 @@ export async function getSuggestions(
 
   const globalClean = R.pipe(
     globalSuggestions,
-    R.map((it) => it.normalized_song_cache?.data ?? null),
     R.filter(R.isTruthy),
     R.map((it) => ({
       track: it,

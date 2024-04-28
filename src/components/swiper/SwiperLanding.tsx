@@ -21,7 +21,7 @@ export function SwiperLanding({ onClick }: Props) {
               Start discovering!
             </Button>
           ) : (
-            <Skeleton className="w-44 h-12" />
+            <Skeleton className="w-44 h-[44px]" />
           )}
         </div>
       </CardContent>
