@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ReactElement, startTransition, useEffect, useRef, useState } from 'react';
+import React, { ReactElement, startTransition, useRef, useState } from 'react';
 import { CheckIcon, Cross2Icon } from '@radix-ui/react-icons';
 import { animated, to as interpolate, useSprings } from '@react-spring/web';
 import { useDrag } from '@use-gesture/react';
@@ -11,6 +11,8 @@ import { TrackResult } from 'server/spotify/types';
 
 import { BangOrNoBangTrack } from '@/components/swiper/BangOrNoBangTrack';
 import { addBangerAction } from '@/components/add-track/AddTrackActions';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 import styles from './Swiper.module.css';
 
@@ -22,7 +24,7 @@ const to = (i: number) => ({
   x: 0,
   y: 0,
   scale: 1,
-  delay: i * 100,
+  delay: i * 69,
 });
 const from = (i: number, max: number) => ({ x: i % 2 === 0 ? -max : max, scale: 1.2, y: 0 });
 const scaleFn = (s: number) => `scale(${s})`;
@@ -32,19 +34,11 @@ function Swiper({ suggestions }: Props): ReactElement {
   const maxWidth = window.innerWidth < 732 ? 732 : window.innerWidth;
   const completedMountAnimations = useRef(0);
 
-  const [autoplayIndex, setAutoplayIndex] = useState<number>(24);
+  const [topDeckIndex, setTopDeckIndex] = useState<number>(24);
   const [gone] = useState(() => new Set()); // The set flags all the cards that are flicked out
   const [props, api] = useSprings(suggestions.length, (i) => ({
-    ...to(i),
     from: from(i, maxWidth),
   }));
-
-  useEffect(() => {
-    api.start((i) => ({
-      ...to(i),
-      onRest: () => (completedMountAnimations.current += 1),
-    }));
-  }, [api]);
 
   const bind = useDrag(({ args: [index], down, movement: [mx], direction: [xDir], velocity: [velocity] }) => {
     const trigger = velocity > 0.2 || hasMovedEnough(mx, maxWidth);
@@ -74,10 +68,17 @@ function Swiper({ suggestions }: Props): ReactElement {
     });
   });
 
+  const initStack = () => {
+    api.start((i) => ({
+      ...to(i),
+      onRest: () => (completedMountAnimations.current += 1),
+    }));
+  };
+
   const bangTrack = (index: number, trackId: string, name: string) => {
     gone.add(index);
-    setAutoplayIndex(index - 1);
-    toast.info(`Banged ${name}!`);
+    setTopDeckIndex(index - 1);
+    toast.info(`Banged ${name}!`, { duration: 1000 });
 
     startTransition(() => {
       addBangerAction(trackId).catch((e) => {
@@ -99,8 +100,10 @@ function Swiper({ suggestions }: Props): ReactElement {
 
   const dismissTrack = (index: number, trackId: string, name: string) => {
     gone.add(index);
-    setAutoplayIndex(index - 1);
-    toast.info(`Dismissed ${name}`);
+    setTopDeckIndex(index - 1);
+    toast.info(`Dismissed ${name}`, {
+      duration: 1000,
+    });
 
     startTransition(() => {
       // TODO: Needs to be added to dismissed songs
@@ -121,16 +124,19 @@ function Swiper({ suggestions }: Props): ReactElement {
     });
   };
 
-
   return (
     <div className={styles.swiperRootRoot}>
       {props.map(({ x, y, scale }, index) => (
         <animated.div className="absolute h-full w-full" key={index} style={{ x, y }}>
-          <animated.div className="h-full w-full" {...bind(index)} style={{ transform: interpolate([scale], scaleFn) }}>
+          <animated.div
+            className="h-full w-full touch-none"
+            {...bind(index)}
+            style={{ transform: interpolate([scale], scaleFn) }}
+          >
             <BangOrNoBangTrack
               track={suggestions[index]}
               className="absolute"
-              autoplay={autoplayIndex === index && !autoplayDisabled}
+              autoplay={topDeckIndex === index && !autoplayDisabled}
               onDismiss={() => {
                 dismissTrack(index, suggestions[index].id, suggestions[index].name);
               }}
@@ -181,6 +187,27 @@ function Swiper({ suggestions }: Props): ReactElement {
           </animated.div>
         </animated.div>
       ))}
+      <Card className="h-full w-full">
+        <CardHeader>
+          <CardTitle>Explore tracks to discover forgotten bangers!</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="mb-2">These tracks are a mix of your friends songs, and famously good karaoke tracks.</p>
+          <p>Swipe left to dismiss and swipe right bang the track, just like a certain dating app. :-)</p>
+          <div className="flex justify-center mt-8">
+            <Button
+              variant="default"
+              type="button"
+              size="lg"
+              onClick={() => {
+                initStack();
+              }}
+            >
+              Start discovering!
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
