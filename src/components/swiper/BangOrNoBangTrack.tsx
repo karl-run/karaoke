@@ -41,6 +41,11 @@ export function BangOrNoBangTrack({ className, track, suggestedBy, disabled, aut
           />
         </div>
       )}
+      <Button asChild variant="ghost" size="sm" className="absolute top-4 left-4">
+        <a href={track.spotify_url} target="_blank" rel="noreferrer">
+          Open in spotify
+        </a>
+      </Button>
       <Image
         unoptimized
         className={cn(styles.albumArt, 'pointer-events-none')}
