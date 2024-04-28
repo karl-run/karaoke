@@ -23,13 +23,15 @@ type Props = {
 const YEET_DISTANCE = 200;
 
 function Swiper({ suggestions }: Props): ReactElement {
+  const stackSize = suggestions.length;
+
   const completedMountAnimations = useRef(0);
   const [stackInitiated, setStackInitiated] = useState<boolean>(false);
 
   const [autoplayDisabled] = useQueryState('no-auto', parseAsBoolean.withDefault(false));
   const maxWidth = Math.min(window.innerWidth, 520) + Math.min(window.innerWidth, 520) / 2;
 
-  const [topDeckIndex, setTopDeckIndex] = useState<number>(24);
+  const [topDeckIndex, setTopDeckIndex] = useState<number>(stackSize - 1);
   const [gone] = useState(() => new Set()); // The set flags all the cards that are flicked out
   const [props, api] = useSprings(suggestions.length, (i) => ({
     from: from(i, maxWidth),
@@ -143,7 +145,7 @@ function Swiper({ suggestions }: Props): ReactElement {
               className={styles.bangerNotification}
               style={{
                 opacity: x.to((val) => {
-                  if (val === 0 || completedMountAnimations.current < 25) return 0;
+                  if (val === 0 || completedMountAnimations.current < stackSize) return 0;
                   if (val < 0) return 0;
                   return Math.min(Math.abs(val) / (maxWidth * 0.1), 1);
                 }),
@@ -163,7 +165,7 @@ function Swiper({ suggestions }: Props): ReactElement {
               className={styles.notBangerNotification}
               style={{
                 opacity: x.to((val) => {
-                  if (val === 0 || completedMountAnimations.current < 25) return 0;
+                  if (val === 0 || completedMountAnimations.current < stackSize) return 0;
                   if (val > 0) return 0;
                   return Math.min(Math.abs(val) / (maxWidth * 0.1), 1);
                 }),
