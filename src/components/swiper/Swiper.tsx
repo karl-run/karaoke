@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ReactElement, startTransition, useRef, useState } from 'react';
+import React, { ReactElement, startTransition, useCallback, useEffect, useRef, useState } from 'react';
 import { CheckIcon, Cross2Icon } from '@radix-ui/react-icons';
 import { animated, to as interpolate, useSprings } from '@react-spring/web';
 import { useDrag } from '@use-gesture/react';
@@ -22,12 +22,19 @@ type Props = {
 
 const YEET_DISTANCE = 200;
 
+/**
+ * TODO: This needs to be simplified/refactored
+ */
 function Swiper({ suggestions }: Props): ReactElement {
   const stackSize = suggestions.length;
 
   const completedMountAnimations = useRef(0);
   const [stackInitiated, setStackInitiated] = useState<boolean>(false);
 
+  const [more] = useQueryState('more', {
+    defaultValue: '0',
+  });
+  const initialMore = useRef(more);
   const [autoplayDisabled] = useQueryState('no-auto', parseAsBoolean.withDefault(false));
   const maxWidth = Math.min(window.innerWidth, 520) + Math.min(window.innerWidth, 520) / 2;
 
@@ -65,7 +72,7 @@ function Swiper({ suggestions }: Props): ReactElement {
     });
   });
 
-  const initStack = () => {
+  const initStack = useCallback(() => {
     api.start((i) => ({
       ...to(i),
       onRest: () => {
@@ -75,7 +82,7 @@ function Swiper({ suggestions }: Props): ReactElement {
         }
       },
     }));
-  };
+  }, [api, suggestions.length]);
 
   const bangTrack = (index: number, trackId: string, name: string) => {
     gone.add(index);
@@ -118,6 +125,13 @@ function Swiper({ suggestions }: Props): ReactElement {
       };
     });
   };
+
+  useEffect(() => {
+    // Component has mounted with more, init the stack without user interactiong
+    if (more != null && +more > 0 && initialMore.current === more) {
+      initStack();
+    }
+  }, [initStack, more]);
 
   return (
     <div className={styles.swiperRootRoot}>
@@ -185,6 +199,7 @@ function Swiper({ suggestions }: Props): ReactElement {
         </animated.div>
       ))}
       <SwiperLanding
+        mode={stackInitiated ? 'reset' : 'landing'}
         onClick={() => {
           initStack();
         }}

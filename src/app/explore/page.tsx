@@ -12,7 +12,7 @@ import SwiperWrapper from '@/components/swiper/SwiperWrapper';
 import { SwiperLanding } from '@/components/swiper/SwiperLanding';
 
 const Swiper = dynamic(() => import('@/components/swiper/Swiper'), {
-  loading: () => <SwiperLanding />,
+  loading: () => <SwiperLanding mode="landing" />,
   ssr: false,
 });
 
@@ -20,7 +20,13 @@ export const metadata: Metadata = {
   title: 'Karaoke Match - Explore',
 };
 
-async function Page(): Promise<ReactElement> {
+type Props = {
+  searchParams: {
+    more: string;
+  };
+};
+
+async function Page({ searchParams: { more } }: Props): Promise<ReactElement> {
   const user = await getUser();
 
   if (!user) {
@@ -38,7 +44,7 @@ async function Page(): Promise<ReactElement> {
       }}
     >
       <SwiperWrapper>
-        <Suspense fallback={<SwiperLanding />}>
+        <Suspense key={more ?? '0'} fallback={<SwiperLanding mode="landing" />}>
           <SwiperWithData userId={user.userId} />
         </Suspense>
       </SwiperWrapper>
@@ -47,9 +53,11 @@ async function Page(): Promise<ReactElement> {
 }
 
 async function SwiperWithData({ userId }: { userId: string }): Promise<ReactElement> {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-
   const trackSuggestions = await getSuggestions(userId, 30);
+
+  if (trackSuggestions.length === 0) {
+    return <SwiperLanding mode="empty" />;
+  }
 
   return <Swiper suggestions={trackSuggestions} />;
 }
