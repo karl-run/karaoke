@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import React from 'react';
+import { StarFilledIcon } from '@radix-ui/react-icons';
 
 import { TrackResult } from 'server/spotify/types';
 
@@ -19,9 +20,27 @@ type Props = {
   onDismiss: () => void;
 };
 
-export function BangOrNoBangTrack({ className, track, disabled, autoplay, onBanger, onDismiss }: Props) {
+export function BangOrNoBangTrack({ className, track, suggestedBy, disabled, autoplay, onBanger, onDismiss }: Props) {
   return (
-    <div className={cn(className, styles.trackGrid, styles.trackRoot)}>
+    <div className={cn(className, styles.trackGrid)}>
+      {suggestedBy.includes('global') ? (
+        <div className="absolute top-4 right-4">
+          <StarFilledIcon className={cn('h-6 w-6 stroke-1 stroke-gray-500 text-gray-300')} />
+        </div>
+      ) : (
+        <div className="absolute top-4 right-4">
+          <StarFilledIcon
+            className={cn('h-6 w-6 stroke-1 absolute', {
+              'stroke-amber-400 text-amber-300': true,
+            })}
+          />
+          <StarFilledIcon
+            className={cn('h-6 w-6 stroke-1', {
+              'stroke-amber-400 text-amber-300 animate-ping': true,
+            })}
+          />
+        </div>
+      )}
       <Image
         unoptimized
         className={cn(styles.albumArt, 'pointer-events-none')}
