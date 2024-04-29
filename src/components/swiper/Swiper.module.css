@@ -4,7 +4,7 @@
 
 .bangerNotification,
 .notBangerNotification {
-  @apply text-white pointer-events-none text-6xl font-bold flex flex-col justify-center items-center w-full h-full opacity-0 absolute top-0 bottom-0 left-0 right-0;
+  @apply rounded-lg text-white pointer-events-none text-6xl font-bold flex flex-col justify-center items-center w-full h-full opacity-0 absolute top-0 bottom-0 left-0 right-0;
 }
 
 .bangerNotification {

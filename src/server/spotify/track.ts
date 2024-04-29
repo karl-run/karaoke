@@ -25,7 +25,9 @@ export async function getTrack(trackId: string, alsoCache: true): Promise<TrackR
 }
 
 export async function searchTracks(search: string) {
-  const result = await spotifyFetch<SpotifyTracksResponse>(`/v1/search?q=${buildSearchQuery(search)}&type=track`);
+  const result = await spotifyFetch<SpotifyTracksResponse>(
+    `/v1/search?q=${buildSearchQuery(search)}&type=track&market=NO`,
+  );
 
   return R.pipe(
     result.tracks.items,

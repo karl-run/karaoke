@@ -1,4 +1,5 @@
 import React, { Suspense } from 'react';
+import Link from 'next/link';
 
 import { searchTracks } from 'server/spotify/track';
 import { TrackResult } from 'server/spotify/types';
@@ -9,6 +10,7 @@ import Landing from '@/components/landing/Landing';
 import Track, { TrackSkeleton } from '@/components/track/Track';
 import { TrackGrid } from '@/components/track/TrackGrid';
 import { FullPage } from '@/components/layout/Layouts';
+import { Button } from '@/components/ui/button';
 
 interface Props {
   searchParams: {
@@ -40,8 +42,11 @@ async function TrackSearch({ query }: { query: string }) {
           <TrackSkeleton />
           <TrackSkeleton />
         </TrackGrid>
-        <div className="absolute top-0 h-64 p-8 w-full bg-gradient-to-b from-transparent to-background flex items-center justify-center">
+        <div className="absolute top-0 h-72 p-8 w-full bg-gradient-to-b from-transparent to-background flex items-center justify-center flex-col gap-16">
           <div className="text-xl opacity-70 text-center">Start typing to search for new bangers...</div>
+          <Button size="lg" className="animate-bounce" asChild>
+            <Link href="/explore">Or explore...</Link>
+          </Button>
         </div>
       </div>
     );
