@@ -1,7 +1,13 @@
 import React, { ReactElement } from 'react';
 import { Metadata } from 'next';
 
-import { getTotalBangersCount, getTotalGroupCount, getTotalUserCount } from 'server/db/stats';
+import {
+  getTotalBangersCount,
+  getTotalCacheCount,
+  getTotalDismissCount,
+  getTotalGroupCount,
+  getTotalUserCount,
+} from 'server/db/stats';
 
 import GroupAvatar from '@/components/avatar/GroupAvatar';
 import { SmallPage } from '@/components/layout/Layouts';
@@ -15,10 +21,12 @@ export const metadata: Metadata = {
 async function Page(): Promise<ReactElement> {
   await verifyUserIsAdmin();
 
-  const [bangers, users, groups] = await Promise.all([
+  const [bangers, users, groups, dismiss, cache] = await Promise.all([
     getTotalBangersCount(),
     getTotalUserCount(),
     getTotalGroupCount(),
+    getTotalDismissCount(),
+    getTotalCacheCount(),
   ]);
 
   return (
@@ -27,6 +35,9 @@ async function Page(): Promise<ReactElement> {
         <StatWithAvatar iconIndex={32} label="Total bangers" value={bangers} />
         <StatWithAvatar iconIndex={29} label="Total users" value={users} />
         <StatWithAvatar iconIndex={28} label="Total groups" value={groups} />
+        <div className="border-b-2" />
+        <StatWithAvatar iconIndex={27} label="Dismissed explores" value={dismiss} />
+        <StatWithAvatar iconIndex={26} label="Normalized cache size" value={cache} />
       </div>
     </SmallPage>
   );

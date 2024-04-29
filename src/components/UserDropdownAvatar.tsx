@@ -55,11 +55,6 @@ function UserDropdownAvatar({ name, id }: Props): ReactElement {
                 Admin stats
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Link href="/explore" prefetch={false}>
-                Explore feature
-              </Link>
-            </DropdownMenuItem>
           </>
         )}
       </DropdownMenuContent>
