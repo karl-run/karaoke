@@ -1,9 +1,3 @@
-export const to = (i: number) => ({
-  x: 0,
-  y: 0,
-  scale: 1,
-  delay: i * 45,
-});
 
 export const from = (i: number, max: number) => ({
   x: i % 2 === 0 ? -max : max,

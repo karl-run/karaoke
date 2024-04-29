@@ -53,7 +53,7 @@ async function Page({ searchParams: { more } }: Props): Promise<ReactElement> {
 }
 
 async function SwiperWithData({ userId }: { userId: string }): Promise<ReactElement> {
-  const trackSuggestions = await getSuggestions(userId, 30);
+  const trackSuggestions = await getSuggestions(userId, 100);
 
   if (trackSuggestions.length === 0) {
     return <SwiperLanding mode="empty" />;

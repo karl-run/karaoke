@@ -13,7 +13,7 @@ import { BangOrNoBangTrack } from '@/components/swiper/BangOrNoBangTrack';
 import { addBangerAction, dismissTrackAction } from '@/components/add-track/AddTrackActions';
 import { SwiperLanding } from '@/components/swiper/SwiperLanding';
 
-import { from, hasMovedEnough, scaleFn, to } from './SwiperAnimationUtils';
+import { from, hasMovedEnough, scaleFn } from './SwiperAnimationUtils';
 import styles from './Swiper.module.css';
 
 type Props = {
@@ -73,16 +73,26 @@ function Swiper({ suggestions }: Props): ReactElement {
   });
 
   const initStack = useCallback(() => {
-    api.start((i) => ({
-      ...to(i),
-      onRest: () => {
-        completedMountAnimations.current += 1;
-        if (completedMountAnimations.current === suggestions.length) {
-          setStackInitiated(true);
-        }
-      },
-    }));
-  }, [api, suggestions.length]);
+    api.start((i) => {
+      const normalizedIndex = i >= stackSize - 10 ? i - (stackSize - 10) : -1;
+
+      return {
+        x: 0,
+        y: 0,
+        scale: 1,
+        // Only animate in top 10 cards, rest should be instantly, but delayed 200ms to allow
+        // a few cards to enter on top
+        delay: normalizedIndex === -1 ? 1000 + i : normalizedIndex * 120,
+        immediate: normalizedIndex === -1,
+        onRest: () => {
+          completedMountAnimations.current += 1;
+          if (completedMountAnimations.current === stackSize) {
+            setStackInitiated(true);
+          }
+        },
+      };
+    });
+  }, [api, stackSize]);
 
   const bangTrack = (index: number, trackId: string, name: string) => {
     gone.add(index);
