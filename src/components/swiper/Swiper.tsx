@@ -73,25 +73,18 @@ function Swiper({ suggestions }: Props): ReactElement {
   });
 
   const initStack = useCallback(() => {
-    api.start((i) => {
-      const normalizedIndex = i >= stackSize - 10 ? i - (stackSize - 10) : -1;
-
-      return {
-        x: 0,
-        y: 0,
-        scale: 1,
-        // Only animate in top 10 cards, rest should be instantly, but delayed 200ms to allow
-        // a few cards to enter on top
-        delay: normalizedIndex === -1 ? 1000 + i : normalizedIndex * 120,
-        immediate: normalizedIndex === -1,
-        onRest: () => {
-          completedMountAnimations.current += 1;
-          if (completedMountAnimations.current === stackSize) {
-            setStackInitiated(true);
-          }
-        },
-      };
-    });
+    api.start((i) => ({
+      x: 0,
+      y: 0,
+      scale: 1,
+      delay: i * 100,
+      onRest: () => {
+        completedMountAnimations.current += 1;
+        if (completedMountAnimations.current === stackSize) {
+          setStackInitiated(true);
+        }
+      },
+    }));
   }, [api, stackSize]);
 
   const bangTrack = (index: number, trackId: string, name: string) => {
@@ -148,15 +141,14 @@ function Swiper({ suggestions }: Props): ReactElement {
   return (
     <div className={styles.swiperRootRoot}>
       {props.map(({ x, y, scale }, index) => (
-        <animated.div className="absolute h-full w-full" key={index} style={{ x, y, zIndex: index }}>
+        <animated.div className="absolute h-full w-full" key={index} style={{ x, y }}>
           <animated.div
             className="h-full w-full touch-none"
             {...bind(index)}
             style={{ transform: interpolate([scale], scaleFn) }}
           >
             <BangOrNoBangTrack
-              // Load image if card is within 10 of top deck
-              loadImage={index >= topDeckIndex - 10}
+              loadImage
               track={suggestions[index].track}
               suggestedBy={suggestions[index].suggestedBy}
               autoplay={topDeckIndex === index && !autoplayDisabled && stackInitiated}
