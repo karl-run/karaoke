@@ -113,6 +113,7 @@ function Swiper({ suggestions }: Props): ReactElement {
 
       return {
         x: maxWidth + YEET_DISTANCE,
+        config: { friction: 50, tension: 200 },
       };
     });
   };
@@ -132,6 +133,7 @@ function Swiper({ suggestions }: Props): ReactElement {
 
       return {
         x: (maxWidth + YEET_DISTANCE) * -1,
+        config: { friction: 50, tension: 200 },
       };
     });
   };
@@ -146,7 +148,7 @@ function Swiper({ suggestions }: Props): ReactElement {
   return (
     <div className={styles.swiperRootRoot}>
       {props.map(({ x, y, scale }, index) => (
-        <animated.div className="absolute h-full w-full" key={index} style={{ x, y }}>
+        <animated.div className="absolute h-full w-full" key={index} style={{ x, y, zIndex: index }}>
           <animated.div
             className="h-full w-full touch-none"
             {...bind(index)}
