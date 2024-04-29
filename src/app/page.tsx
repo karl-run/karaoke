@@ -41,10 +41,11 @@ async function TrackSearch({ query }: { query: string }) {
           <TrackSkeleton />
           <TrackSkeleton />
           <TrackSkeleton />
+          <TrackSkeleton />
         </TrackGrid>
         <div className="absolute top-0 h-72 p-8 w-full bg-gradient-to-b from-transparent to-background flex items-center justify-center flex-col gap-16">
           <div className="text-xl opacity-70 text-center">Start typing to search for new bangers...</div>
-          <Button size="lg" className="animate-bounce" asChild>
+          <Button size="lg" asChild>
             <Link href="/explore">Or explore...</Link>
           </Button>
         </div>

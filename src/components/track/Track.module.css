@@ -15,17 +15,22 @@
 .name {
   grid-column: 2 / 3;
   grid-row: 1;
+
+  @apply h-4;
 }
 
 .artist {
   grid-column: 2 / 3;
   grid-row: 2;
+
+  @apply h-4;
 }
 
 .previewPlay {
   grid-column: 1 / 2;
   grid-row: 1 / 3;
-  @apply flex justify-center items-center aspect-square -mt-1;
+
+  @apply flex justify-center items-center aspect-square;
 }
 
 .interactive {

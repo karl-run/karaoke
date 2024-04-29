@@ -69,14 +69,16 @@ export async function LazyTrack({
 
 export function TrackSkeleton() {
   return (
-    <div className="flex flex-col">
-      <Skeleton className="aspect-square max-w-full" />
-      <div className="flex items-center p-1 gap-1">
-        <div className="grow flex flex-col gap-1">
-          <Skeleton className="h-4" />
-          <Skeleton className="h-4" />
-        </div>
-        <Skeleton className="h-10 w-10" />
+    <div className={styles.trackGrid}>
+      <Skeleton className={styles.image} />
+      <div className={styles.name}>
+        <Skeleton className="h-5" />
+      </div>
+      <div className={styles.artist}>
+        <Skeleton className="h-5" />
+      </div>
+      <div className={styles.interactive}>
+        <Skeleton className="h-full w-full" />
       </div>
     </div>
   );
