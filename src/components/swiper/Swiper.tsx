@@ -153,9 +153,10 @@ function Swiper({ suggestions }: Props): ReactElement {
             style={{ transform: interpolate([scale], scaleFn) }}
           >
             <BangOrNoBangTrack
+              // Load image if card is within 10 of top deck
+              loadImage={index >= topDeckIndex - 10}
               track={suggestions[index].track}
               suggestedBy={suggestions[index].suggestedBy}
-              className="absolute"
               autoplay={topDeckIndex === index && !autoplayDisabled && stackInitiated}
               disabled={!stackInitiated || topDeckIndex !== index}
               onDismiss={() => {

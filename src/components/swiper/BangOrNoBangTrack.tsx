@@ -18,9 +18,19 @@ type Props = {
   disabled: boolean;
   onBanger: () => void;
   onDismiss: () => void;
+  loadImage: boolean;
 };
 
-export function BangOrNoBangTrack({ className, track, suggestedBy, disabled, autoplay, onBanger, onDismiss }: Props) {
+export function BangOrNoBangTrack({
+  className,
+  track,
+  suggestedBy,
+  disabled,
+  autoplay,
+  onBanger,
+  onDismiss,
+  loadImage,
+}: Props) {
   const noRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     if (!disabled) {
@@ -59,14 +69,18 @@ export function BangOrNoBangTrack({ className, track, suggestedBy, disabled, aut
       >
         Open in spotify
       </a>
-      <Image
-        unoptimized
-        className={cn(styles.albumArt, 'pointer-events-none')}
-        src={track.image.url}
-        alt={track.name}
-        width={200}
-        height={200}
-      />
+      {loadImage ? (
+        <Image
+          unoptimized
+          className={cn(styles.albumArt, 'pointer-events-none')}
+          src={track.image.url}
+          alt={track.name}
+          width={200}
+          height={200}
+        />
+      ) : (
+        <div className={cn(styles.albumArt, 'pointer-events-none')} />
+      )}
       <div className={styles.description}>
         <div className={styles.trackName}>{track.name}</div>
         <div className={styles.trackArtist}>by {track.artist}</div>
