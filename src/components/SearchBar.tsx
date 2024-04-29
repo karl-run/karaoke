@@ -33,20 +33,18 @@ function SearchBar(): ReactElement | null {
     };
   }, []);
 
+  const invisible = typeof query.get('q') !== 'string';
+
   return (
     <div
       className={cn('transition-[max-height] p-3 max-h-16', {
         // Not visible because we're not in search mode on phones
-        'p-0 max-h-0 overflow-hidden sm:block sm:p-3 sm:max-h-16': typeof query.get('q') !== 'string',
+        'p-0 max-h-0 overflow-hidden sm:block sm:p-3 sm:max-h-16': invisible,
       })}
+      hidden={invisible}
     >
       <Input
         id="primary-search"
-        onFocus={() => {
-          if (path !== '/') {
-            router.push('/?focus=true&q=');
-          }
-        }}
         autoFocus={path === '/' && query.has('focus')}
         ref={searchRef}
         placeholder="Search for a song"

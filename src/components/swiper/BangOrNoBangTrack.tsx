@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { StarFilledIcon } from '@radix-ui/react-icons';
 
 import { TrackResult } from 'server/spotify/types';
@@ -21,6 +21,15 @@ type Props = {
 };
 
 export function BangOrNoBangTrack({ className, track, suggestedBy, disabled, autoplay, onBanger, onDismiss }: Props) {
+  const noRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (!disabled) {
+      requestAnimationFrame(() => {
+        noRef.current?.focus();
+      });
+    }
+  }, [disabled]);
+
   return (
     <div className={cn(className, styles.trackGrid)}>
       {suggestedBy.includes('global') ? (
@@ -41,11 +50,15 @@ export function BangOrNoBangTrack({ className, track, suggestedBy, disabled, aut
           />
         </div>
       )}
-      <Button asChild variant="ghost" size="sm" className="absolute top-4 left-4">
-        <a href={track.spotify_url} target="_blank" rel="noreferrer">
-          Open in spotify
-        </a>
-      </Button>
+      <a
+        href={track.spotify_url}
+        target="_blank"
+        rel="noreferrer"
+        className="absolute top-4 left-4"
+        tabIndex={disabled ? -1 : undefined}
+      >
+        Open in spotify
+      </a>
       <Image
         unoptimized
         className={cn(styles.albumArt, 'pointer-events-none')}
@@ -63,10 +76,16 @@ export function BangOrNoBangTrack({ className, track, suggestedBy, disabled, aut
           </div>
         )}
       </div>
-      <Button variant="ghost" className={styles.no} onClick={onDismiss} disabled={disabled}>
+      <Button
+        variant="ghost"
+        className={cn('dismiss-button', styles.no)}
+        onClick={onDismiss}
+        disabled={disabled}
+        ref={noRef}
+      >
         No thanks
       </Button>
-      <Button variant="ghost" className={styles.yes} onClick={onBanger} disabled={disabled}>
+      <Button variant="ghost" className={cn(styles.yes)} onClick={onBanger} disabled={disabled}>
         Banger!
       </Button>
     </div>

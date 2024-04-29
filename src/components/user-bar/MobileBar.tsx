@@ -38,6 +38,13 @@ function MobileBar(): ReactElement {
             onClick={() => {
               document.getElementById('primary-search')?.focus();
             }}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                setTimeout(() => {
+                  document.getElementById('primary-search')?.focus();
+                }, 100);
+              }
+            }}
           >
             <MagnifyingGlassIcon className="h-8 w-8" />
           </Link>
