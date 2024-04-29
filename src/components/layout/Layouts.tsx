@@ -68,7 +68,7 @@ export function SmallPage({
   actions,
 }: PropsWithChildren<SmallPageProps>): ReactElement {
   return (
-    <div className="container pb-8">
+    <div className="container pb-8 overflow-hidden">
       <div
         className={cn('mt-6 mb-4 ml-4 sm:ml-8 sm:mt-10 relative', {
           'mb-1': tightTitle,

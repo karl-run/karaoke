@@ -13,7 +13,7 @@ import { BangOrNoBangTrack } from '@/components/swiper/BangOrNoBangTrack';
 import { addBangerAction, dismissTrackAction } from '@/components/add-track/AddTrackActions';
 import { SwiperLanding } from '@/components/swiper/SwiperLanding';
 
-import { from, hasMovedEnough, scaleFn } from './SwiperAnimationUtils';
+import { from, hasMovedEnough, trans } from './SwiperAnimationUtils';
 import styles from './Swiper.module.css';
 
 type Props = {
@@ -65,8 +65,9 @@ function Swiper({ suggestions }: Props): ReactElement {
 
       return {
         x,
-        scale: down ? 1.025 : 1,
+        scale: down ? 1.05 : 1,
         delay: undefined,
+        rot: mx / 100 + (isGone ? direction * 20 * velocity : 0),
         config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 },
       };
     });
@@ -140,12 +141,12 @@ function Swiper({ suggestions }: Props): ReactElement {
 
   return (
     <div className={styles.swiperRootRoot}>
-      {props.map(({ x, y, scale }, index) => (
+      {props.map(({ x, y, scale, rot }, index) => (
         <animated.div className="absolute h-full w-full" key={index} style={{ x, y }}>
           <animated.div
             className="h-full w-full touch-none"
             {...bind(index)}
-            style={{ transform: interpolate([scale], scaleFn) }}
+            style={{ transform: interpolate([rot, scale], trans) }}
           >
             <BangOrNoBangTrack
               loadImage
