@@ -12,6 +12,7 @@ import { TrackResult } from 'server/spotify/types';
 import { BangOrNoBangTrack } from '@/components/swiper/BangOrNoBangTrack';
 import { addBangerAction, dismissTrackAction } from '@/components/add-track/AddTrackActions';
 import { SwiperLanding } from '@/components/swiper/SwiperLanding';
+import VibrationTrigger from '@/components/swiper/VibrationTrigger';
 
 import { from, hasMovedEnough, trans } from './SwiperAnimationUtils';
 import styles from './Swiper.module.css';
@@ -200,6 +201,7 @@ function Swiper({ suggestions }: Props): ReactElement {
               >
                 <Cross2Icon className="h-32 w-32 text-green-50" />
               </animated.div>
+              {stackInitiated && <VibrationTrigger maxWidth={maxWidth} trigger={x} />}
             </animated.div>
           </animated.div>
         </animated.div>
