@@ -6,7 +6,7 @@ export const users = sqliteTable('users', {
   email: text('email').primaryKey(),
   safeId: text('safeId').unique().notNull(),
   name: text('name').notNull(),
-  joinedAt: integer('joined_at', { mode: 'timestamp_ms' }),
+  joinedAt: integer('joined_at', { mode: 'timestamp_ms' }).notNull(),
   verified: integer('verified', {
     mode: 'boolean',
   })
