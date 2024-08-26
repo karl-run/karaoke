@@ -1,6 +1,6 @@
 import * as R from 'remeda';
 
-export type ArtistSongTuple = [artist: string, name: string];
+export type ArtistSongTuple = readonly [artist: string, name: string];
 
 export function parseM3U(m3u: string): ArtistSongTuple[] {
   const lines: string[] = m3u.split('\n');
@@ -12,6 +12,6 @@ export function parseM3U(m3u: string): ArtistSongTuple[] {
     R.filter((it) => it.startsWith('#EXTINF')),
     R.map((it) => it.replace(/#EXTINF:\d+,/, '')),
     R.map((it) => it.split(' - ')),
-    R.map(([artist, name]) => [artist, name]),
+    R.map(([artist, name]) => [artist, name] as const),
   );
 }

@@ -57,7 +57,7 @@ async function Group({ groupId }: { groupId: string }) {
   }
 
   const userIsAdmin = group.users.find((it) => it.role === 'admin')?.userId === user?.userId;
-  const sortedUsers = R.sortBy.strict(group.users, [(it) => it.role === 'admin', 'desc'], [(it) => it.count, 'desc']);
+  const sortedUsers = R.sortBy(group.users, [(it) => it.role === 'admin', 'desc'], [(it) => it.count, 'desc']);
 
   return (
     <div>
