@@ -36,7 +36,9 @@ function MobileBar(): ReactElement {
           <Link
             href="/?focus=true&q="
             onClick={() => {
-              document.getElementById('primary-search')?.focus()
+              setTimeout(() => {
+                document.getElementById('primary-search')?.focus()
+              }, 100)
             }}
             onKeyDown={(event) => {
               if (event.key === 'Enter') {
