@@ -1,8 +1,8 @@
-'use client';
+'use client'
 
-import React, { ReactElement } from 'react';
+import React, { ReactElement } from 'react'
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/button'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,12 +13,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
+} from '@/components/ui/alert-dialog'
 
-import { deleteUserAction } from './DeleteUserAction';
+import { deleteUserAction } from './DeleteUserAction'
 
 function DeleteUserButton(): ReactElement {
-  const [transition, startTransition] = React.useTransition();
+  const [transition, startTransition] = React.useTransition()
 
   return (
     <AlertDialog>
@@ -38,8 +38,8 @@ function DeleteUserButton(): ReactElement {
             disabled={transition}
             onClick={() => {
               startTransition(async () => {
-                await deleteUserAction();
-              });
+                await deleteUserAction()
+              })
             }}
           >
             Continue
@@ -47,7 +47,7 @@ function DeleteUserButton(): ReactElement {
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  );
+  )
 }
 
-export default DeleteUserButton;
+export default DeleteUserButton

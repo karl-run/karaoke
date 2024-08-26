@@ -1,23 +1,23 @@
-import React, { ReactElement, Suspense } from 'react';
-import { Metadata } from 'next';
+import React, { ReactElement, Suspense } from 'react'
+import { Metadata } from 'next'
 
-import { getPlaylistWithTracks } from 'server/spotify/playlist';
-import { getUserBangersRecord } from 'server/bangers/bangers-service';
-import { getUser } from 'server/user/user-service';
+import { getPlaylistWithTracks } from 'server/spotify/playlist'
+import { getUserBangersRecord } from 'server/bangers/bangers-service'
+import { getUser } from 'server/user/user-service'
 
-import { FullPage, FullPageDescription } from '@/components/layout/Layouts';
-import { TrackGrid, TrackGridSkeleton } from '@/components/track/TrackGrid';
-import Track from '@/components/track/Track';
+import { FullPage, FullPageDescription } from '@/components/layout/Layouts'
+import { TrackGrid, TrackGridSkeleton } from '@/components/track/TrackGrid'
+import Track from '@/components/track/Track'
 
 export const metadata: Metadata = {
   title: 'Karaoke Match - Playlist',
-};
+}
 
 type Props = {
   params: {
-    pid: string;
-  };
-};
+    pid: string
+  }
+}
 
 function Page({ params }: Props): ReactElement {
   return (
@@ -26,14 +26,14 @@ function Page({ params }: Props): ReactElement {
         <Playlist playlistId={params.pid} />
       </Suspense>
     </FullPage>
-  );
+  )
 }
 
 async function Playlist({ playlistId }: { playlistId: string }): Promise<ReactElement> {
   const [playlist, userTracks] = await Promise.all([
     getPlaylistWithTracks(playlistId),
     getUser().then((it) => (it ? getUserBangersRecord(it.userId) : null)),
-  ]);
+  ])
 
   if ('errorMessage' in playlist) {
     return (
@@ -41,7 +41,7 @@ async function Playlist({ playlistId }: { playlistId: string }): Promise<ReactEl
         <div className="text-lg opacity-70">Error fetching playlist</div>
         <p className="mt-8">{playlist.errorMessage}</p>
       </FullPageDescription>
-    );
+    )
   }
 
   if (playlist.tracks.length === 0) {
@@ -50,7 +50,7 @@ async function Playlist({ playlistId }: { playlistId: string }): Promise<ReactEl
         <div className="text-lg opacity-70">No songs in playlist found</div>
         <p className="mt-8">Make sure the linked playlist contains songs!</p>
       </FullPageDescription>
-    );
+    )
   }
 
   return (
@@ -66,7 +66,7 @@ async function Playlist({ playlistId }: { playlistId: string }): Promise<ReactEl
         ))}
       </TrackGrid>
     </>
-  );
+  )
 }
 
-export default Page;
+export default Page

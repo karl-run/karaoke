@@ -1,34 +1,34 @@
-'use client';
+'use client'
 
-import React, { ReactElement, useState, useTransition } from 'react';
-import { useFormState } from 'react-dom';
-import { CheckIcon, InfoCircledIcon } from '@radix-ui/react-icons';
-import Link from 'next/link';
-import { useQueryState } from 'nuqs';
+import React, { ReactElement, useState, useTransition } from 'react'
+import { useFormState } from 'react-dom'
+import { CheckIcon, InfoCircledIcon } from '@radix-ui/react-icons'
+import Link from 'next/link'
+import { useQueryState } from 'nuqs'
 
-import { Button, buttonVariants } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { importFromSpotifyAction } from '@/components/import-from-spotify/ImportFromSpotifyActions';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Label } from '@/components/ui/label';
-import { cn } from '@/lib/utils';
+import { Button, buttonVariants } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { importFromSpotifyAction } from '@/components/import-from-spotify/ImportFromSpotifyActions'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { Label } from '@/components/ui/label'
+import { cn } from '@/lib/utils'
 
-import { getIdFromUrl } from './spotify-url-utils';
+import { getIdFromUrl } from './spotify-url-utils'
 
 type Props = {
-  validPlaylistSongCount: number | null;
-};
+  validPlaylistSongCount: number | null
+}
 
 function ImportFromSpotify({ validPlaylistSongCount }: Props): ReactElement {
-  const [transition, startTransition] = useTransition();
+  const [transition, startTransition] = useTransition()
   const [initialPid, setPid] = useQueryState('pid', {
     throttleMs: 1500,
     startTransition: startTransition,
-  });
-  const [url, setUrl] = useState(initialPid ?? '');
-  const extractedUrl = getIdFromUrl(url);
-  const [state, formAction] = useFormState(importFromSpotifyAction, {});
-  const disabled = transition || validPlaylistSongCount == null;
+  })
+  const [url, setUrl] = useState(initialPid ?? '')
+  const extractedUrl = getIdFromUrl(url)
+  const [state, formAction] = useFormState(importFromSpotifyAction, {})
+  const disabled = transition || validPlaylistSongCount == null
 
   return (
     <div>
@@ -42,11 +42,11 @@ function ImportFromSpotify({ validPlaylistSongCount }: Props): ReactElement {
             disabled={transition}
             value={url}
             onChange={(event) => {
-              setUrl(event.currentTarget.value);
+              setUrl(event.currentTarget.value)
 
-              const extractedPid = getIdFromUrl(event.currentTarget.value);
+              const extractedPid = getIdFromUrl(event.currentTarget.value)
 
-              setPid(extractedPid);
+              setPid(extractedPid)
             }}
             required
             placeholder="https://open.spotify.com/playlist/your-play-list"
@@ -91,7 +91,7 @@ function ImportFromSpotify({ validPlaylistSongCount }: Props): ReactElement {
         )}
       </div>
     </div>
-  );
+  )
 }
 
-export default ImportFromSpotify;
+export default ImportFromSpotify

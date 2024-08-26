@@ -1,21 +1,21 @@
-import React, { Suspense } from 'react';
-import Link from 'next/link';
+import React, { Suspense } from 'react'
+import Link from 'next/link'
 
-import { searchTracks } from 'server/spotify/track';
-import { TrackResult } from 'server/spotify/types';
-import { getUser } from 'server/user/user-service';
-import { getUserBangersRecord } from 'server/bangers/bangers-service';
+import { searchTracks } from 'server/spotify/track'
+import { TrackResult } from 'server/spotify/types'
+import { getUser } from 'server/user/user-service'
+import { getUserBangersRecord } from 'server/bangers/bangers-service'
 
-import Landing from '@/components/landing/Landing';
-import Track, { TrackSkeleton } from '@/components/track/Track';
-import { TrackGrid } from '@/components/track/TrackGrid';
-import { FullPage } from '@/components/layout/Layouts';
-import { Button } from '@/components/ui/button';
+import Landing from '@/components/landing/Landing'
+import Track, { TrackSkeleton } from '@/components/track/Track'
+import { TrackGrid } from '@/components/track/TrackGrid'
+import { FullPage } from '@/components/layout/Layouts'
+import { Button } from '@/components/ui/button'
 
 interface Props {
   searchParams: {
-    q: string;
-  };
+    q: string
+  }
 }
 
 export default async function Home({ searchParams }: Props) {
@@ -29,7 +29,7 @@ export default async function Home({ searchParams }: Props) {
         </Suspense>
       )}
     </FullPage>
-  );
+  )
 }
 
 async function TrackSearch({ query }: { query: string }) {
@@ -50,22 +50,22 @@ async function TrackSearch({ query }: { query: string }) {
           </Button>
         </div>
       </div>
-    );
+    )
 
-  const user = await getUser();
+  const user = await getUser()
   const cachePromise: Promise<Record<string, TrackResult | null>> = user
     ? getUserBangersRecord(user.userId)
-    : Promise.resolve({});
+    : Promise.resolve({})
 
-  const searchPromise = searchTracks(query);
-  const [result, cache] = await Promise.all([searchPromise, cachePromise]);
+  const searchPromise = searchTracks(query)
+  const [result, cache] = await Promise.all([searchPromise, cachePromise])
 
   if (result.length === 0) {
     return (
       <div className="p-20 flex justify-center items-center">
         <div className="text-xl opacity-70">No songs found matching &quot;{query}&quot;</div>
       </div>
-    );
+    )
   }
 
   return (
@@ -74,7 +74,7 @@ async function TrackSearch({ query }: { query: string }) {
         <Track key={track.id} track={track} action={cache[track.id] != null ? 'already-added' : 'addable'} />
       ))}
     </TrackGrid>
-  );
+  )
 }
 
 function TrackSearchSkeleton() {
@@ -84,5 +84,5 @@ function TrackSearchSkeleton() {
         <TrackSkeleton key={index} />
       ))}
     </TrackGrid>
-  );
+  )
 }

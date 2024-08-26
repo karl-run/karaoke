@@ -1,39 +1,39 @@
-'use client';
+'use client'
 
-import { ReactElement, useEffect, useRef, useTransition } from 'react';
-import { useQueryState } from 'nuqs';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { ReactElement, useEffect, useRef, useTransition } from 'react'
+import { useQueryState } from 'nuqs'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
-import { Input } from '@/components/ui/input';
-import { cn } from '@/lib/utils';
+import { Input } from '@/components/ui/input'
+import { cn } from '@/lib/utils'
 
 function SearchBar(): ReactElement | null {
-  const [, startTransition] = useTransition();
-  const path = usePathname();
-  const router = useRouter();
-  const query = useSearchParams();
-  const searchRef = useRef<HTMLInputElement>(null);
+  const [, startTransition] = useTransition()
+  const path = usePathname()
+  const router = useRouter()
+  const query = useSearchParams()
+  const searchRef = useRef<HTMLInputElement>(null)
   const [search, setSearch] = useQueryState('q', {
     startTransition,
     throttleMs: 1500,
-  });
+  })
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'k' && (e.ctrlKey || e.metaKey)) {
-        e.preventDefault();
-        searchRef.current?.focus();
+        e.preventDefault()
+        searchRef.current?.focus()
       }
-    };
+    }
 
-    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('keydown', handleKeyDown)
 
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [])
 
-  const invisible = typeof query.get('q') !== 'string';
+  const invisible = typeof query.get('q') !== 'string'
 
   return (
     <div
@@ -50,16 +50,16 @@ function SearchBar(): ReactElement | null {
         placeholder="Search for a song"
         onChange={(e) => {
           if (path !== '/') {
-            router.push(`/?focus=true&q=${e.target.value}`);
-            return;
+            router.push(`/?focus=true&q=${e.target.value}`)
+            return
           }
 
-          return setSearch(e.target.value);
+          return setSearch(e.target.value)
         }}
         value={search || ''}
       />
     </div>
-  );
+  )
 }
 
-export default SearchBar;
+export default SearchBar

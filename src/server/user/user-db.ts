@@ -1,8 +1,8 @@
-import { eq, sql } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm'
 
-import { bangers, db, sessions, users, userToGroup } from 'server/db';
+import { bangers, db, sessions, users, userToGroup } from 'server/db'
 
-import { generate16ByteHex } from 'utils/token';
+import { generate16ByteHex } from 'utils/token'
 
 /**
  * This is the entire user object, including login state. This should generally not be used, see `user-service.ts@getUser` instead.
@@ -10,7 +10,7 @@ import { generate16ByteHex } from 'utils/token';
 export async function getFullLoginUserByEmail(email: string) {
   return await db.query.users.findFirst({
     where: (users, { eq }) => eq(users.email, email),
-  });
+  })
 }
 
 export async function getUserBySafeId(safeId: string) {
@@ -21,7 +21,7 @@ export async function getUserBySafeId(safeId: string) {
       name: true,
       safeId: true,
     },
-  });
+  })
 }
 
 export async function updateUserLoginState(email: string, hash: string, salt: string) {
@@ -32,7 +32,7 @@ export async function updateUserLoginState(email: string, hash: string, salt: st
       loginSalt: salt,
       loginTimestamp: new Date(),
     })
-    .where(eq(users.email, email));
+    .where(eq(users.email, email))
 }
 
 export async function clearUserLoginState(email: string) {
@@ -43,7 +43,7 @@ export async function clearUserLoginState(email: string) {
       loginSalt: null,
       loginTimestamp: null,
     })
-    .where(eq(users.email, email));
+    .where(eq(users.email, email))
 }
 
 export async function createUser(email: string, displayName: string, hash: string, salt: string) {
@@ -54,7 +54,7 @@ export async function createUser(email: string, displayName: string, hash: strin
     loginSalt: salt,
     loginTimestamp: new Date(),
     safeId: generate16ByteHex(),
-  });
+  })
 }
 
 /**
@@ -62,11 +62,11 @@ export async function createUser(email: string, displayName: string, hash: strin
  */
 export async function deleteUserCascading(userId: string) {
   await db.transaction(async (tx) => {
-    await tx.delete(bangers).where(eq(bangers.userId, userId));
-    await tx.delete(userToGroup).where(eq(userToGroup.userId, userId));
-    await tx.delete(sessions).where(eq(sessions.user_id, userId));
-    await tx.delete(users).where(eq(users.email, userId));
-  });
+    await tx.delete(bangers).where(eq(bangers.userId, userId))
+    await tx.delete(userToGroup).where(eq(userToGroup.userId, userId))
+    await tx.delete(sessions).where(eq(sessions.user_id, userId))
+    await tx.delete(users).where(eq(users.email, userId))
+  })
 }
 
 export async function usersShareGroup(userIdA: string, userIdB: string): Promise<boolean> {
@@ -77,7 +77,7 @@ export async function usersShareGroup(userIdA: string, userIdB: string): Promise
           AND group_id IN (SELECT group_id
                            FROM user_to_group
                            WHERE user_id = ${userIdB})
-    `);
+    `)
 
-  return result.count > 0;
+  return result.count > 0
 }

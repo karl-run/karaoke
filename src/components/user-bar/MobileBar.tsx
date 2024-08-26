@@ -1,18 +1,18 @@
-'use client';
+'use client'
 
-import React, { ReactElement } from 'react';
-import { useSearchParams, useSelectedLayoutSegment } from 'next/navigation';
-import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
-import Link from 'next/link';
+import React, { ReactElement } from 'react'
+import { useSearchParams, useSelectedLayoutSegment } from 'next/navigation'
+import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
+import Link from 'next/link'
 
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 
-import styles from './MobileBar.module.css';
+import styles from './MobileBar.module.css'
 
 function MobileBar(): ReactElement {
-  const query = useSearchParams().get('q');
-  const route = useSelectedLayoutSegment();
+  const query = useSearchParams().get('q')
+  const route = useSelectedLayoutSegment()
 
   return (
     <nav className={cn(styles.nav)}>
@@ -36,13 +36,13 @@ function MobileBar(): ReactElement {
           <Link
             href="/?focus=true&q="
             onClick={() => {
-              document.getElementById('primary-search')?.focus();
+              document.getElementById('primary-search')?.focus()
             }}
             onKeyDown={(event) => {
               if (event.key === 'Enter') {
                 setTimeout(() => {
-                  document.getElementById('primary-search')?.focus();
-                }, 100);
+                  document.getElementById('primary-search')?.focus()
+                }, 100)
               }
             }}
           >
@@ -60,7 +60,7 @@ function MobileBar(): ReactElement {
         <Link href="/groups">Groups</Link>
       </Button>
     </nav>
-  );
+  )
 }
 
-export default MobileBar;
+export default MobileBar

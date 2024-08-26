@@ -1,33 +1,33 @@
-import { and, count, eq } from 'drizzle-orm';
+import { and, count, eq } from 'drizzle-orm'
 
-import { client, db, userGroup, userToGroup } from 'server/db';
+import { client, db, userGroup, userToGroup } from 'server/db'
 
-import { generate16ByteHex, generate32ByteHex } from 'utils/token';
+import { generate16ByteHex, generate32ByteHex } from 'utils/token'
 
 export async function createGroup(userId: string, groupName: string, iconIndex: number) {
-  const id = generate16ByteHex();
-  const joinCode = generate32ByteHex();
+  const id = generate16ByteHex()
+  const joinCode = generate32ByteHex()
 
-  const transaction = await client.transaction('write');
+  const transaction = await client.transaction('write')
   await transaction.execute({
     sql: `
             INSERT INTO user_group (id, join_key, name, icon_index, description)
             VALUES (?, ?, ?, ?, '')
         `,
     args: [id, joinCode, groupName, iconIndex],
-  });
+  })
   await transaction.execute({
     sql: `
             INSERT INTO user_to_group (user_id, group_id, role)
             VALUES (?, ?, 'admin')
         `,
     args: [userId, id],
-  });
-  await transaction.commit();
+  })
+  await transaction.commit()
 
   return {
     id,
-  };
+  }
 }
 
 export async function getUserGroups(userId: string) {
@@ -42,7 +42,7 @@ export async function getUserGroups(userId: string) {
         WHERE user_to_group.user_id = ?
     `,
     args: [userId],
-  });
+  })
 
   return groups.rows.map((group) => ({
     id: group.id as string,
@@ -50,7 +50,7 @@ export async function getUserGroups(userId: string) {
     joinKey: group.join_key as string,
     iconIndex: group.icon_index as number,
     memberCount: group.member_count as number,
-  }));
+  }))
 }
 
 export async function getGroupById(id: string) {
@@ -74,10 +74,10 @@ export async function getGroupById(id: string) {
 
     `,
     args: [id],
-  });
+  })
 
   if (group.rows.length === 0) {
-    return null;
+    return null
   }
 
   return {
@@ -91,7 +91,7 @@ export async function getGroupById(id: string) {
       safeId: user.safeId as string,
       count: user.bangers_count as number,
     })),
-  };
+  }
 }
 
 export async function getGroupByJoinCode(code: string) {
@@ -101,23 +101,23 @@ export async function getGroupByJoinCode(code: string) {
       WHERE join_key = ?
     `,
     args: [code],
-  });
+  })
 
   if (group.rows.length === 0) {
-    return null;
+    return null
   }
 
   return {
     name: group.rows[0].name as string,
     iconIndex: group.rows[0].icon_index as number,
-  };
+  }
 }
 
 export async function joinGroup(code: string, userId: string) {
-  const group = await getGroupByJoinCode(code);
+  const group = await getGroupByJoinCode(code)
 
   if (!group) {
-    return null;
+    return null
   }
 
   const result = await client.execute({
@@ -129,11 +129,11 @@ export async function joinGroup(code: string, userId: string) {
         RETURNING group_id
       `,
     args: [userId, code],
-  });
+  })
 
   return {
     id: result.rows[0].group_id as string,
-  };
+  }
 }
 
 export async function isUserInGroup(userId: string, code: string) {
@@ -146,46 +146,46 @@ export async function isUserInGroup(userId: string, code: string) {
         AND user_group.join_key = ?
     `,
     args: [userId, code],
-  });
+  })
 
   if (result.rows.length === 0) {
-    return null;
+    return null
   }
 
   return {
     id: result.rows[0].group_id as string,
-  };
+  }
 }
 
 export async function deleteGroup(groupId: string) {
-  const transaction = await client.transaction('write');
+  const transaction = await client.transaction('write')
   await transaction.execute({
     sql: `
         DELETE FROM user_to_group
         WHERE group_id = ?
         `,
     args: [groupId],
-  });
+  })
   await transaction.execute({
     sql: `
       DELETE FROM user_group
       WHERE id = ?
     `,
     args: [groupId],
-  });
-  await transaction.commit();
+  })
+  await transaction.commit()
 }
 
 export async function leaveGroup(userId: string, groupId: string) {
-  await db.delete(userToGroup).where(and(eq(userToGroup.userId, userId), eq(userToGroup.groupId, groupId)));
+  await db.delete(userToGroup).where(and(eq(userToGroup.userId, userId), eq(userToGroup.groupId, groupId)))
 }
 
 export async function updateInviteLink(groupId: string) {
-  await db.update(userGroup).set({ joinKey: generate32ByteHex() }).where(eq(userGroup.id, groupId));
+  await db.update(userGroup).set({ joinKey: generate32ByteHex() }).where(eq(userGroup.id, groupId))
 }
 
 export async function getUserGroupCount(userId: string): Promise<number> {
-  const result = await db.select({ count: count() }).from(userToGroup).where(eq(userToGroup.userId, userId));
+  const result = await db.select({ count: count() }).from(userToGroup).where(eq(userToGroup.userId, userId))
 
-  return result[0].count;
+  return result[0].count
 }

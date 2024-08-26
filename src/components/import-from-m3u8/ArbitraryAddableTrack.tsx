@@ -1,29 +1,29 @@
-import React, { ReactElement, useState } from 'react';
-import Image from 'next/image';
-import { CardStackPlusIcon, CheckIcon, MagnifyingGlassIcon } from '@radix-ui/react-icons';
+import React, { ReactElement, useState } from 'react'
+import Image from 'next/image'
+import { CardStackPlusIcon, CheckIcon, MagnifyingGlassIcon } from '@radix-ui/react-icons'
 
-import { TrackResult } from 'server/spotify/types';
+import { TrackResult } from 'server/spotify/types'
 
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { addSongAction, tryToFindSongAction } from '@/components/import-from-m3u8/ArbitraryAddableTrackActions';
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
+import { addSongAction, tryToFindSongAction } from '@/components/import-from-m3u8/ArbitraryAddableTrackActions'
 
-import styles from './ArbitraryAddableTrack.module.css';
+import styles from './ArbitraryAddableTrack.module.css'
 
 type Props = {
-  artist: string;
-  name: string;
-  existingSongs: Record<string, TrackResult | null>;
-};
+  artist: string
+  name: string
+  existingSongs: Record<string, TrackResult | null>
+}
 
 function ArbitraryAddableTrack({ artist, name, existingSongs }: Props): ReactElement {
-  const [loading, setLoading] = useState(false);
-  const [lookup, setLookup] = useState<TrackResult | null>(null);
-  const [adding, setAdding] = useState(false);
-  const [added, setAdded] = useState(false);
-  const [notFound, setNotFound] = useState(false);
+  const [loading, setLoading] = useState(false)
+  const [lookup, setLookup] = useState<TrackResult | null>(null)
+  const [adding, setAdding] = useState(false)
+  const [added, setAdded] = useState(false)
+  const [notFound, setNotFound] = useState(false)
 
-  const alreadyAdded = lookup?.id ? existingSongs[lookup.id] != null : false;
+  const alreadyAdded = lookup?.id ? existingSongs[lookup.id] != null : false
 
   return (
     <div className={styles.root}>
@@ -46,13 +46,13 @@ function ArbitraryAddableTrack({ artist, name, existingSongs }: Props): ReactEle
           className={cn(styles.searchButton, 'p-2')}
           disabled={loading}
           onClick={async () => {
-            setLoading(true);
-            const result = await tryToFindSongAction(`track:${name} artist:${artist}`);
-            setLoading(false);
-            setLookup(result);
+            setLoading(true)
+            const result = await tryToFindSongAction(`track:${name} artist:${artist}`)
+            setLoading(false)
+            setLookup(result)
 
             if (result == null) {
-              setNotFound(true);
+              setNotFound(true)
             }
           }}
         >
@@ -69,10 +69,10 @@ function ArbitraryAddableTrack({ artist, name, existingSongs }: Props): ReactEle
           className={cn(styles.addButton, 'p-2')}
           disabled={loading || adding || added}
           onClick={async () => {
-            setAdding(true);
-            await addSongAction(lookup?.id ?? 'unknown');
-            setAdding(false);
-            setAdded(true);
+            setAdding(true)
+            await addSongAction(lookup?.id ?? 'unknown')
+            setAdding(false)
+            setAdded(true)
           }}
         >
           <CardStackPlusIcon className="w-6 h-6" />
@@ -80,7 +80,7 @@ function ArbitraryAddableTrack({ artist, name, existingSongs }: Props): ReactEle
       )}
       {lookup && added && <CheckIcon className={cn(styles.addButton, 'w-6 h-6')} />}
     </div>
-  );
+  )
 }
 
-export default ArbitraryAddableTrack;
+export default ArbitraryAddableTrack

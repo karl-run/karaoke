@@ -1,43 +1,43 @@
-import * as R from 'remeda';
-import { z } from 'zod';
-import React, { ReactElement, Suspense } from 'react';
-import Link from 'next/link';
-import { Crosshair2Icon, GearIcon, StarFilledIcon } from '@radix-ui/react-icons';
-import { MessageCircleWarningIcon } from 'lucide-react';
-import { notFound } from 'next/navigation';
-import { Metadata } from 'next';
+import * as R from 'remeda'
+import { z } from 'zod'
+import React, { ReactElement, Suspense } from 'react'
+import Link from 'next/link'
+import { Crosshair2Icon, GearIcon, StarFilledIcon } from '@radix-ui/react-icons'
+import { MessageCircleWarningIcon } from 'lucide-react'
+import { notFound } from 'next/navigation'
+import { Metadata } from 'next'
 
-import { getUser } from 'server/user/user-service';
-import { getGroupById } from 'server/group/group-db';
-import { getGroupBangers } from 'server/bangers/bangers-db';
+import { getUser } from 'server/user/user-service'
+import { getGroupById } from 'server/group/group-db'
+import { getGroupBangers } from 'server/bangers/bangers-db'
 
-import { FullPage, FullPageDescription, FullPageDetails } from '@/components/layout/Layouts';
-import { TrackGrid, TrackGridSkeleton } from '@/components/track/TrackGrid';
-import Track, { LazyTrack, TrackSkeleton } from '@/components/track/Track';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
-import GroupAvatar from '@/components/avatar/GroupAvatar';
-import GroupMembers from '@/components/group-members/GroupMembers';
-import { Skeleton } from '@/components/ui/skeleton';
+import { FullPage, FullPageDescription, FullPageDetails } from '@/components/layout/Layouts'
+import { TrackGrid, TrackGridSkeleton } from '@/components/track/TrackGrid'
+import Track, { LazyTrack, TrackSkeleton } from '@/components/track/Track'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { Button } from '@/components/ui/button'
+import GroupAvatar from '@/components/avatar/GroupAvatar'
+import GroupMembers from '@/components/group-members/GroupMembers'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export const metadata: Metadata = {
   title: 'Karaoke Match - Group Bangers',
-};
+}
 
 type Props = {
   params: {
-    id: string;
-  };
+    id: string
+  }
   searchParams: {
     // List of safeId of users that should be ignored from bangers
-    ignored?: string;
-  };
-};
+    ignored?: string
+  }
+}
 
-const SearchParamsArraySchema = z.array(z.string());
+const SearchParamsArraySchema = z.array(z.string())
 
 function Page({ params: { id }, searchParams }: Props): ReactElement {
-  const parsedParams = SearchParamsArraySchema.safeParse(searchParams.ignored?.split(',') ?? []);
+  const parsedParams = SearchParamsArraySchema.safeParse(searchParams.ignored?.split(',') ?? [])
 
   return (
     <FullPage
@@ -59,21 +59,21 @@ function Page({ params: { id }, searchParams }: Props): ReactElement {
         <GroupBangers id={id} ignored={parsedParams.success ? parsedParams.data : []} />
       </Suspense>
     </FullPage>
-  );
+  )
 }
 
 async function GroupBangers({ id, ignored }: { id: string; ignored: string[] }) {
-  const [group, bangers, user] = await Promise.all([getGroupById(id), getGroupBangers(id, ignored), getUser()]);
+  const [group, bangers, user] = await Promise.all([getGroupById(id), getGroupBangers(id, ignored), getUser()])
 
   if (!user) {
-    notFound();
+    notFound()
   }
 
   if (group == null || group.users.find((u) => u.userId === user?.userId) == null) {
-    notFound();
+    notFound()
   }
 
-  const biggestBangerCount = R.firstBy(bangers, [(banger) => banger.userCount, 'desc'])?.userCount ?? 0;
+  const biggestBangerCount = R.firstBy(bangers, [(banger) => banger.userCount, 'desc'])?.userCount ?? 0
 
   return (
     <div>
@@ -145,7 +145,7 @@ async function GroupBangers({ id, ignored }: { id: string; ignored: string[] }) 
         </TrackGrid>
       )}
     </div>
-  );
+  )
 }
 
 function GroupBangersSkeleton(): ReactElement {
@@ -170,7 +170,7 @@ function GroupBangersSkeleton(): ReactElement {
       </FullPageDetails>
       <TrackGridSkeleton />
     </div>
-  );
+  )
 }
 
-export default Page;
+export default Page

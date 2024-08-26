@@ -1,18 +1,18 @@
-import React, { ReactElement } from 'react';
-import { redirect } from 'next/navigation';
-import { InfoCircledIcon } from '@radix-ui/react-icons';
-import { Metadata } from 'next';
+import React, { ReactElement } from 'react'
+import { redirect } from 'next/navigation'
+import { InfoCircledIcon } from '@radix-ui/react-icons'
+import { Metadata } from 'next'
 
-import { signup } from 'server/user/user-login-service';
+import { signup } from 'server/user/user-login-service'
 
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { SmallPage } from '@/components/layout/Layouts';
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { SmallPage } from '@/components/layout/Layouts'
 
 export const metadata: Metadata = {
   title: 'Karaoke Match - Register',
-};
+}
 
 function Page(): ReactElement {
   return (
@@ -26,18 +26,18 @@ function Page(): ReactElement {
     >
       <form
         action={async (data) => {
-          'use server';
+          'use server'
 
-          const email = data.get('email')?.toString();
-          const name = data.get('name')?.toString();
+          const email = data.get('email')?.toString()
+          const name = data.get('name')?.toString()
 
           if (!email || !name) {
-            throw new Error('Email and name is required');
+            throw new Error('Email and name is required')
           }
 
-          await signup(email, name);
+          await signup(email, name)
 
-          redirect('/login/success?new=true');
+          redirect('/login/success?new=true')
         }}
         className="flex flex-col xs:flex-row gap-3"
       >
@@ -51,7 +51,7 @@ function Page(): ReactElement {
         <AlertDescription>Once you register you will receive a magic link to verify and log in.</AlertDescription>
       </Alert>
     </SmallPage>
-  );
+  )
 }
 
-export default Page;
+export default Page

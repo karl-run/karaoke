@@ -1,8 +1,8 @@
-import { eq, and, sql, desc, count } from 'drizzle-orm';
+import { eq, and, sql, desc, count } from 'drizzle-orm'
 
-import { bangers, db, songCache } from 'server/db';
-import { TrackResult } from 'server/spotify/types';
-import { trackToNormalizedId } from 'server/bangers/normalization';
+import { bangers, db, songCache } from 'server/db'
+import { TrackResult } from 'server/spotify/types'
+import { trackToNormalizedId } from 'server/bangers/normalization'
 
 export async function addBanger(userId: string, track: TrackResult) {
   await db.insert(bangers).values({
@@ -10,7 +10,7 @@ export async function addBanger(userId: string, track: TrackResult) {
     songId: track.id,
     songKey: trackToNormalizedId(track),
     bangedAt: new Date(),
-  });
+  })
 }
 
 export async function addBangers(userId: string, tracks: TrackResult[]) {
@@ -24,13 +24,13 @@ export async function addBangers(userId: string, tracks: TrackResult[]) {
           songKey: trackToNormalizedId(track),
           bangedAt: new Date(),
         })
-        .onConflictDoNothing();
+        .onConflictDoNothing()
     }
-  });
+  })
 }
 
 export async function removeBanger(userId: string, trackId: string) {
-  await db.delete(bangers).where(and(eq(bangers.userId, userId), eq(bangers.songId, trackId)));
+  await db.delete(bangers).where(and(eq(bangers.userId, userId), eq(bangers.songId, trackId)))
 }
 
 /**
@@ -38,11 +38,11 @@ export async function removeBanger(userId: string, trackId: string) {
  */
 export async function getGroupBangers(groupId: string, ignored: string[]) {
   const result = await db.all<{
-    song_id: string;
-    song_key: string;
-    data: string;
-    user_count: number;
-    user_names_json: string;
+    song_id: string
+    song_key: string
+    data: string
+    user_count: number
+    user_names_json: string
   }>(sql`
       SELECT b.song_key,
              sc.data,
@@ -60,10 +60,10 @@ export async function getGroupBangers(groupId: string, ignored: string[]) {
       GROUP BY b.song_key
       HAVING COUNT(DISTINCT b.user_id) >= 2
       ORDER BY user_count DESC;
-  `);
+  `)
 
   if (result.length === 0) {
-    return [];
+    return []
   }
 
   return result.map((row) => ({
@@ -72,7 +72,7 @@ export async function getGroupBangers(groupId: string, ignored: string[]) {
     track: (row.data ? JSON.parse(row.data as string) : null) as TrackResult | null,
     userCount: row.user_count as number,
     users: JSON.parse(row.user_names_json as string) as string[],
-  }));
+  }))
 }
 
 export async function getUserBangers(userId: string): Promise<[string, TrackResult | null][]> {
@@ -84,13 +84,13 @@ export async function getUserBangers(userId: string): Promise<[string, TrackResu
     .from(bangers)
     .leftJoin(songCache, eq(bangers.songId, songCache.songId))
     .where(eq(bangers.userId, userId))
-    .orderBy(desc(bangers.bangedAt));
+    .orderBy(desc(bangers.bangedAt))
 
   if (result.length == 0) {
-    return [];
+    return []
   }
 
-  return result.map((row) => [row.songId as string, row.data]);
+  return result.map((row) => [row.songId as string, row.data])
 }
 
 export async function getUsersUniqueSongs(
@@ -108,20 +108,20 @@ export async function getUsersUniqueSongs(
                               WHERE utg.group_id = ${uniqueInGroupId}
                                 AND b2.user_id != ${userId})
       GROUP BY b.song_id;
-  `);
+  `)
 
   if (result.length == 0) {
-    return [];
+    return []
   }
 
   return result.map(
     (row) =>
       [row.song_id as string, row.data ? JSON.parse(row.data as string) : null] satisfies [string, TrackResult | null],
-  );
+  )
 }
 
 export async function getUserBangersCount(userId: string): Promise<number> {
-  const result = await db.select({ count: count() }).from(bangers).where(eq(bangers.userId, userId));
+  const result = await db.select({ count: count() }).from(bangers).where(eq(bangers.userId, userId))
 
-  return result[0].count;
+  return result[0].count
 }

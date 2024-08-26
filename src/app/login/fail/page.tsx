@@ -1,12 +1,12 @@
-import React, { ReactElement } from 'react';
-import Link from 'next/link';
-import { Metadata } from 'next';
+import React, { ReactElement } from 'react'
+import Link from 'next/link'
+import { Metadata } from 'next'
 
-import { SmallPage } from '@/components/layout/Layouts';
+import { SmallPage } from '@/components/layout/Layouts'
 
 export const metadata: Metadata = {
   title: 'Karaoke Match - Error :(',
-};
+}
 
 function Page(): ReactElement {
   return (
@@ -22,7 +22,7 @@ function Page(): ReactElement {
       <p>Please try logging in again to receive a new magic link. If you have any issues, please contact support.</p>
       <Link href="/login">Go back to login</Link>
     </SmallPage>
-  );
+  )
 }
 
-export default Page;
+export default Page

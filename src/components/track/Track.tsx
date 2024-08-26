@@ -1,22 +1,22 @@
-import React, { ReactElement } from 'react';
-import Image from 'next/image';
-import { CheckIcon } from '@radix-ui/react-icons';
+import React, { ReactElement } from 'react'
+import Image from 'next/image'
+import { CheckIcon } from '@radix-ui/react-icons'
 
-import { TrackResult } from 'server/spotify/types';
-import { getTrack } from 'server/spotify/track';
+import { TrackResult } from 'server/spotify/types'
+import { getTrack } from 'server/spotify/track'
 
-import PlaySong from '@/components/PlaySong';
-import AddTrack from '@/components/add-track/AddTrack';
-import RemoveTrack from '@/components/RemoveTrack';
-import { Skeleton } from '@/components/ui/skeleton';
-import { cn } from '@/lib/utils';
+import PlaySong from '@/components/PlaySong'
+import AddTrack from '@/components/add-track/AddTrack'
+import RemoveTrack from '@/components/RemoveTrack'
+import { Skeleton } from '@/components/ui/skeleton'
+import { cn } from '@/lib/utils'
 
-import styles from './Track.module.css';
+import styles from './Track.module.css'
 
 type Props = {
-  track: TrackResult;
-  action: 'addable' | 'removable' | 'already-added' | 'none';
-};
+  track: TrackResult
+  action: 'addable' | 'removable' | 'already-added' | 'none'
+}
 
 function Track({ track, action }: Props): ReactElement {
   return (
@@ -55,16 +55,16 @@ function Track({ track, action }: Props): ReactElement {
         </div>
       )}
     </div>
-  );
+  )
 }
 
 export async function LazyTrack({
   trackId,
   action,
 }: { trackId: string } & Pick<Props, 'action'>): Promise<ReactElement> {
-  const track = await getTrack(trackId, true);
+  const track = await getTrack(trackId, true)
 
-  return <Track track={track} action={action} />;
+  return <Track track={track} action={action} />
 }
 
 export function TrackSkeleton() {
@@ -81,7 +81,7 @@ export function TrackSkeleton() {
         <Skeleton className="h-full w-full" />
       </div>
     </div>
-  );
+  )
 }
 
-export default Track;
+export default Track

@@ -1,19 +1,19 @@
-'use client';
+'use client'
 
-import { useEffect } from 'react';
+import { useEffect } from 'react'
 
-import { setReturnToGroupCookie } from '@/app/groups/_group-actions';
+import { setReturnToGroupCookie } from '@/app/groups/_group-actions'
 
 type Props = {
-  joinCode: string;
-};
+  joinCode: string
+}
 
 function LazyJoinCookie({ joinCode }: Props): null {
   useEffect(() => {
-    setReturnToGroupCookie(joinCode);
-  }, [joinCode]);
+    setReturnToGroupCookie(joinCode)
+  }, [joinCode])
 
-  return null;
+  return null
 }
 
-export default LazyJoinCookie;
+export default LazyJoinCookie

@@ -1,19 +1,19 @@
-'use client';
+'use client'
 
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useState } from 'react'
 
-import { TrackResult } from 'server/spotify/types';
-import { ArtistSongTuple } from 'server/spotify/m3u-parser';
+import { TrackResult } from 'server/spotify/types'
+import { ArtistSongTuple } from 'server/spotify/m3u-parser'
 
-import FileDropZone from '@/components/FileDropZone';
-import ArbitraryAddableTrack from '@/components/import-from-m3u8/ArbitraryAddableTrack';
+import FileDropZone from '@/components/FileDropZone'
+import ArbitraryAddableTrack from '@/components/import-from-m3u8/ArbitraryAddableTrack'
 
 type Props = {
-  existingSongs: Record<string, TrackResult | null>;
-};
+  existingSongs: Record<string, TrackResult | null>
+}
 
 function ImportFromM3U8({ existingSongs }: Props): ReactElement {
-  const [songs, setSongs] = useState<ArtistSongTuple[] | null>(null);
+  const [songs, setSongs] = useState<ArtistSongTuple[] | null>(null)
   return (
     <div>
       <div className="max-w-prose">
@@ -30,7 +30,7 @@ function ImportFromM3U8({ existingSongs }: Props): ReactElement {
         ))}
       </div>
     </div>
-  );
+  )
 }
 
-export default ImportFromM3U8;
+export default ImportFromM3U8

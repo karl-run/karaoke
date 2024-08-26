@@ -1,15 +1,15 @@
-'use client';
+'use client'
 
-import React, { ReactElement, startTransition } from 'react';
+import React, { ReactElement, startTransition } from 'react'
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/button'
 
-import { invalidateSession } from './SessionActions';
+import { invalidateSession } from './SessionActions'
 
 type Props = {
-  userId: string;
-  sessionId: string;
-};
+  userId: string
+  sessionId: string
+}
 
 function InvalidateSessionButton({ sessionId, userId }: Props): ReactElement {
   return (
@@ -19,13 +19,13 @@ function InvalidateSessionButton({ sessionId, userId }: Props): ReactElement {
       className="absolute top-2 right-2 h-12"
       onClick={() => {
         startTransition(() => {
-          invalidateSession(userId, sessionId);
-        });
+          invalidateSession(userId, sessionId)
+        })
       }}
     >
       Log out
     </Button>
-  );
+  )
 }
 
-export default InvalidateSessionButton;
+export default InvalidateSessionButton

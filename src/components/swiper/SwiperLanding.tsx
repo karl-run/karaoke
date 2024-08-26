@@ -1,14 +1,14 @@
-import React from 'react';
+import React from 'react'
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
-import SwiperMoreButton from '@/components/swiper/SwiperMoreButton';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
+import SwiperMoreButton from '@/components/swiper/SwiperMoreButton'
 
 type Props = {
-  mode: 'reset' | 'landing' | 'empty';
-  onClick?: () => void;
-};
+  mode: 'reset' | 'landing' | 'empty'
+  onClick?: () => void
+}
 
 export function SwiperLanding({ mode, onClick }: Props) {
   return (
@@ -47,5 +47,5 @@ export function SwiperLanding({ mode, onClick }: Props) {
         </div>
       </CardContent>
     </Card>
-  );
+  )
 }

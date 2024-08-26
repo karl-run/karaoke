@@ -1,8 +1,8 @@
-'use client';
+'use client'
 
-import React, { ReactElement } from 'react';
+import React, { ReactElement } from 'react'
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/button'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,15 +13,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import { deleteGroupAction } from '@/app/groups/_group-actions';
+} from '@/components/ui/alert-dialog'
+import { deleteGroupAction } from '@/app/groups/_group-actions'
 
 type Props = {
-  groupId: string;
-};
+  groupId: string
+}
 
 function DeleteGroupButton({ groupId }: Props): ReactElement {
-  const [transition, startTransition] = React.useTransition();
+  const [transition, startTransition] = React.useTransition()
 
   return (
     <AlertDialog>
@@ -41,8 +41,8 @@ function DeleteGroupButton({ groupId }: Props): ReactElement {
             disabled={transition}
             onClick={() => {
               startTransition(async () => {
-                await deleteGroupAction(groupId);
-              });
+                await deleteGroupAction(groupId)
+              })
             }}
           >
             Continue
@@ -50,7 +50,7 @@ function DeleteGroupButton({ groupId }: Props): ReactElement {
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  );
+  )
 }
 
-export default DeleteGroupButton;
+export default DeleteGroupButton

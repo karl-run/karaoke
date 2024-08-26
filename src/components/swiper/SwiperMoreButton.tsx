@@ -1,17 +1,17 @@
-'use client';
+'use client'
 
-import React, { ReactElement, useTransition } from 'react';
-import { useQueryState } from 'nuqs';
+import React, { ReactElement, useTransition } from 'react'
+import { useQueryState } from 'nuqs'
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/button'
 
 function SwiperMoreButton(): ReactElement {
-  const [pending, startTransition] = useTransition();
+  const [pending, startTransition] = useTransition()
   const [more, setMore] = useQueryState('more', {
     startTransition,
     defaultValue: '0',
     clearOnDefault: true,
-  });
+  })
 
   return (
     <Button
@@ -21,12 +21,12 @@ function SwiperMoreButton(): ReactElement {
       className="bg-green-200"
       disabled={pending}
       onClick={() => {
-        setMore(`${+more + 1}`);
+        setMore(`${+more + 1}`)
       }}
     >
       Give me more!
     </Button>
-  );
+  )
 }
 
-export default SwiperMoreButton;
+export default SwiperMoreButton

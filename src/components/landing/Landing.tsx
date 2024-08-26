@@ -1,14 +1,14 @@
-import React, { ReactElement, Suspense } from 'react';
-import { MagnifyingGlassIcon, PersonIcon } from '@radix-ui/react-icons';
-import Link from 'next/link';
-import Image from 'next/image';
+import React, { ReactElement, Suspense } from 'react'
+import { MagnifyingGlassIcon, PersonIcon } from '@radix-ui/react-icons'
+import Link from 'next/link'
+import Image from 'next/image'
 
-import { getUser } from 'server/user/user-service';
+import { getUser } from 'server/user/user-service'
 
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import GroupAvatar from '@/components/avatar/GroupAvatar';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import GroupAvatar from '@/components/avatar/GroupAvatar'
 
-import example from './example.webp';
+import example from './example.webp'
 
 function Landing(): ReactElement {
   return (
@@ -73,11 +73,11 @@ function Landing(): ReactElement {
         </Suspense>
       </div>
     </div>
-  );
+  )
 }
 
 async function LogInNowCard() {
-  const user = await getUser();
+  const user = await getUser()
   if (user != null) {
     return (
       <Card className="col-span-1 sm:col-span-2 lg:col-span-1">
@@ -101,7 +101,7 @@ async function LogInNowCard() {
           <p className="mt-4">You can always find these in the top right corner menu.</p>
         </CardContent>
       </Card>
-    );
+    )
   }
 
   return (
@@ -122,7 +122,7 @@ async function LogInNowCard() {
         </div>
       </CardContent>
     </Card>
-  );
+  )
 }
 
-export default Landing;
+export default Landing

@@ -1,7 +1,7 @@
-import { sql } from 'drizzle-orm';
+import { sql } from 'drizzle-orm'
 
-import { db, dismissedBangers } from 'server/db';
-import { TrackResult } from 'server/spotify/types';
+import { db, dismissedBangers } from 'server/db'
+import { TrackResult } from 'server/spotify/types'
 
 export async function getGlobalBangers(excludeUserId: string, limit: number) {
   const result = await db.all<{ data: string }>(sql`
@@ -20,9 +20,9 @@ export async function getGlobalBangers(excludeUserId: string, limit: number) {
           b.song_key IS NULL AND db.song_key IS NULL
       ORDER BY RANDOM()
       LIMIT ${limit};
-`);
+`)
 
-  return result.map((it) => JSON.parse(it.data) as TrackResult);
+  return result.map((it) => JSON.parse(it.data) as TrackResult)
 }
 
 export async function getCoGroupMemberBangers(userId: string, limit: number) {
@@ -49,12 +49,12 @@ export async function getCoGroupMemberBangers(userId: string, limit: number) {
       GROUP BY b2.song_key, nsc.data
       ORDER BY RANDOM()
       LIMIT ${limit};
-  `);
+  `)
 
   return result.map((it) => ({
     track: JSON.parse(it.data) as TrackResult,
     suggestedBy: JSON.parse(it.overlapping_users) as string[],
-  }));
+  }))
 }
 
 export async function dismissSuggestion(userId: string, songKey: string): Promise<void> {
@@ -65,5 +65,5 @@ export async function dismissSuggestion(userId: string, songKey: string): Promis
       songKey,
       dismissedAt: new Date(),
     })
-    .onConflictDoNothing();
+    .onConflictDoNothing()
 }

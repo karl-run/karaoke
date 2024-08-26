@@ -1,8 +1,8 @@
-import React, { CSSProperties, PropsWithChildren, ReactElement } from 'react';
+import React, { CSSProperties, PropsWithChildren, ReactElement } from 'react'
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils'
 
-import styles from './Wheel.module.css';
+import styles from './Wheel.module.css'
 
 function Wheel({ children, skip }: PropsWithChildren<{ skip?: boolean }>): ReactElement {
   return (
@@ -81,7 +81,7 @@ function Wheel({ children, skip }: PropsWithChildren<{ skip?: boolean }>): React
       ></div>
       {children}
     </div>
-  );
+  )
 }
 
-export default Wheel;
+export default Wheel

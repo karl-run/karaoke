@@ -1,21 +1,21 @@
-import React, { PropsWithChildren, ReactElement, ReactNode } from 'react';
-import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import React, { PropsWithChildren, ReactElement, ReactNode } from 'react'
+import Link from 'next/link'
+import { ArrowLeft } from 'lucide-react'
 
-import { cn } from '@/lib/utils';
-import { BackLink, BackToSearch } from '@/components/layout/BackLinks';
+import { cn } from '@/lib/utils'
+import { BackLink, BackToSearch } from '@/components/layout/BackLinks'
 
 type FullPageProps = {
-  title?: string;
-  className?: string;
+  title?: string
+  className?: string
   back?:
     | {
-        text: string;
-        to: string;
+        text: string
+        to: string
       }
-    | 'search';
-  actions?: ReactNode;
-};
+    | 'search'
+  actions?: ReactNode
+}
 
 export function FullPage({ title, back, children, actions }: PropsWithChildren<FullPageProps>): ReactElement {
   return (
@@ -35,29 +35,29 @@ export function FullPage({ title, back, children, actions }: PropsWithChildren<F
       )}
       {children}
     </div>
-  );
+  )
 }
 
 export function FullPageDescription({ children, className }: PropsWithChildren<{ className?: string }>) {
-  return <div className={cn(className, 'ml-2 pt-2 sm:ml-8')}>{children}</div>;
+  return <div className={cn(className, 'ml-2 pt-2 sm:ml-8')}>{children}</div>
 }
 
 export function FullPageDetails({ children, className }: PropsWithChildren<{ className?: string }>) {
-  return <div className={cn(className, 'mx-2 sm:mx-8')}>{children}</div>;
+  return <div className={cn(className, 'mx-2 sm:mx-8')}>{children}</div>
 }
 
 type SmallPageProps = {
-  title: string;
-  tightTitle?: boolean;
-  className?: string;
+  title: string
+  tightTitle?: boolean
+  className?: string
   back?:
     | {
-        text: string;
-        to: string;
+        text: string
+        to: string
       }
-    | 'search';
-  actions?: ReactNode;
-};
+    | 'search'
+  actions?: ReactNode
+}
 
 export function SmallPage({
   children,
@@ -96,5 +96,5 @@ export function SmallPage({
       </div>
       <div className={cn('max-w-prose p-2 sm:p-8 sm:pt-0', className)}>{children}</div>
     </div>
-  );
+  )
 }

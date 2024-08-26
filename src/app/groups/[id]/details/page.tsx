@@ -1,32 +1,32 @@
-import React, { ReactElement, Suspense } from 'react';
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
-import * as R from 'remeda';
-import { Metadata } from 'next';
+import React, { ReactElement, Suspense } from 'react'
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
+import * as R from 'remeda'
+import { Metadata } from 'next'
 
-import { getUser } from 'server/user/user-service';
-import { getGroupById } from 'server/group/group-db';
+import { getUser } from 'server/user/user-service'
+import { getGroupById } from 'server/group/group-db'
 
-import { SmallPage } from '@/components/layout/Layouts';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import CopyToClipboard from '@/components/CopyToClipboard';
-import { Button } from '@/components/ui/button';
-import GroupAvatar from '@/components/avatar/GroupAvatar';
-import DeleteGroupButton from '@/components/DeleteGroupButton';
-import LeaveGroupButton from '@/components/LeaveGroupButton';
-import InvalidateInviteLink from '@/components/InvalidateInviteLink';
-import { Skeleton } from '@/components/ui/skeleton';
+import { SmallPage } from '@/components/layout/Layouts'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
+import CopyToClipboard from '@/components/CopyToClipboard'
+import { Button } from '@/components/ui/button'
+import GroupAvatar from '@/components/avatar/GroupAvatar'
+import DeleteGroupButton from '@/components/DeleteGroupButton'
+import LeaveGroupButton from '@/components/LeaveGroupButton'
+import InvalidateInviteLink from '@/components/InvalidateInviteLink'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export const metadata: Metadata = {
   title: 'Karaoke Match - Group Details',
-};
+}
 
 type Props = {
   params: {
-    id: string;
-  };
-};
+    id: string
+  }
+}
 
 function Page({ params: { id } }: Props): ReactElement {
   return (
@@ -46,18 +46,18 @@ function Page({ params: { id } }: Props): ReactElement {
         <Group groupId={id} />
       </Suspense>
     </SmallPage>
-  );
+  )
 }
 
 async function Group({ groupId }: { groupId: string }) {
-  const [group, user] = await Promise.all([getGroupById(groupId), getUser()]);
+  const [group, user] = await Promise.all([getGroupById(groupId), getUser()])
 
   if (group == null || group.users.find((u) => u.userId === user?.userId) == null) {
-    notFound();
+    notFound()
   }
 
-  const userIsAdmin = group.users.find((it) => it.role === 'admin')?.userId === user?.userId;
-  const sortedUsers = R.sortBy(group.users, [(it) => it.role === 'admin', 'desc'], [(it) => it.count, 'desc']);
+  const userIsAdmin = group.users.find((it) => it.role === 'admin')?.userId === user?.userId
+  const sortedUsers = R.sortBy(group.users, [(it) => it.role === 'admin', 'desc'], [(it) => it.count, 'desc'])
 
   return (
     <div>
@@ -118,7 +118,7 @@ async function Group({ groupId }: { groupId: string }) {
         )}
       </div>
     </div>
-  );
+  )
 }
 
 function GroupSkeleton() {
@@ -148,7 +148,7 @@ function GroupSkeleton() {
         <div className="bg-gradient-to-b from-transparent to-background absolute w-full h-full" />
       </ul>
     </div>
-  );
+  )
 }
 
-export default Page;
+export default Page

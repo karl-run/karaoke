@@ -1,36 +1,36 @@
-import { notFound } from 'next/navigation';
-import React, { ReactElement, Suspense } from 'react';
-import dynamic from 'next/dynamic';
-import { Metadata } from 'next';
+import { notFound } from 'next/navigation'
+import React, { ReactElement, Suspense } from 'react'
+import dynamic from 'next/dynamic'
+import { Metadata } from 'next'
 
-import { getUser } from 'server/user/user-service';
-import { getSuggestions } from 'server/bangers/suggestions-service';
+import { getUser } from 'server/user/user-service'
+import { getSuggestions } from 'server/bangers/suggestions-service'
 
-import { SmallPage } from '@/components/layout/Layouts';
-import SwiperExtraActions from '@/components/swiper/SwiperExtraActions';
-import SwiperWrapper from '@/components/swiper/SwiperWrapper';
-import { SwiperLanding } from '@/components/swiper/SwiperLanding';
+import { SmallPage } from '@/components/layout/Layouts'
+import SwiperExtraActions from '@/components/swiper/SwiperExtraActions'
+import SwiperWrapper from '@/components/swiper/SwiperWrapper'
+import { SwiperLanding } from '@/components/swiper/SwiperLanding'
 
 const Swiper = dynamic(() => import('@/components/swiper/Swiper'), {
   loading: () => <SwiperLanding mode="landing" />,
   ssr: false,
-});
+})
 
 export const metadata: Metadata = {
   title: 'Karaoke Match - Explore',
-};
+}
 
 type Props = {
   searchParams: {
-    more: string;
-  };
-};
+    more: string
+  }
+}
 
 async function Page({ searchParams: { more } }: Props): Promise<ReactElement> {
-  const user = await getUser();
+  const user = await getUser()
 
   if (!user) {
-    notFound();
+    notFound()
   }
 
   return (
@@ -49,17 +49,17 @@ async function Page({ searchParams: { more } }: Props): Promise<ReactElement> {
         </Suspense>
       </SwiperWrapper>
     </SmallPage>
-  );
+  )
 }
 
 async function SwiperWithData({ userId }: { userId: string }): Promise<ReactElement> {
-  const trackSuggestions = await getSuggestions(userId, 30);
+  const trackSuggestions = await getSuggestions(userId, 30)
 
   if (trackSuggestions.length === 0) {
-    return <SwiperLanding mode="empty" />;
+    return <SwiperLanding mode="empty" />
   }
 
-  return <Swiper suggestions={trackSuggestions} />;
+  return <Swiper suggestions={trackSuggestions} />
 }
 
-export default Page;
+export default Page

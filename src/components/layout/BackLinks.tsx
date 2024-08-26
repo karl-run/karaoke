@@ -1,6 +1,6 @@
-import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
-import React from 'react';
+import Link from 'next/link'
+import { ArrowLeft } from 'lucide-react'
+import React from 'react'
 
 export function BackLink(props: { href: string; text: string }) {
   return (
@@ -9,9 +9,9 @@ export function BackLink(props: { href: string; text: string }) {
       <ArrowLeft className="h-4 w-4" />
       {props.text}
     </Link>
-  );
+  )
 }
 
 export function BackToSearch() {
-  return <BackLink href="/?focus=true&q=" text="Back to search" />;
+  return <BackLink href="/?focus=true&q=" text="Back to search" />
 }

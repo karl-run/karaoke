@@ -1,56 +1,56 @@
-import React, { ReactElement, Suspense } from 'react';
-import { InfoCircledIcon } from '@radix-ui/react-icons';
-import Link from 'next/link';
-import { redirect } from 'next/navigation';
-import { Metadata } from 'next';
+import React, { ReactElement, Suspense } from 'react'
+import { InfoCircledIcon } from '@radix-ui/react-icons'
+import Link from 'next/link'
+import { redirect } from 'next/navigation'
+import { Metadata } from 'next'
 
-import { getUser } from 'server/user/user-service';
-import { getGroupByJoinCode, isUserInGroup } from 'server/group/group-db';
+import { getUser } from 'server/user/user-service'
+import { getGroupByJoinCode, isUserInGroup } from 'server/group/group-db'
 
-import { SmallPage } from '@/components/layout/Layouts';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Skeleton } from '@/components/ui/skeleton';
-import { joinGroupAction } from '@/app/groups/_group-actions';
-import GroupAvatar from '@/components/avatar/GroupAvatar';
+import { SmallPage } from '@/components/layout/Layouts'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { Skeleton } from '@/components/ui/skeleton'
+import { joinGroupAction } from '@/app/groups/_group-actions'
+import GroupAvatar from '@/components/avatar/GroupAvatar'
 
-import LazyJoinCookie from './lazy-join-cookie';
+import LazyJoinCookie from './lazy-join-cookie'
 
 type Props = {
   searchParams: {
-    code: string;
-  };
-};
+    code: string
+  }
+}
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-  const joinCode = searchParams.code;
+  const joinCode = searchParams.code
 
   if (joinCode == null) {
     return {
       title: 'Karaoke Match - Join a group',
       description: 'Enter a join code to join a group on Karaoke Match!',
-    };
+    }
   }
 
-  const group = await getGroupByJoinCode(joinCode);
+  const group = await getGroupByJoinCode(joinCode)
 
   if (group == null) {
     return {
       title: 'Join a group',
       description: 'Enter a join code to join a group on Karaoke Match!',
-    };
+    }
   }
 
   return {
     title: `You've been invited to join ${group.name}!`,
     description: `Share your favorite songs with your friends in ${group.name} on Karaoke Match!`,
-  };
+  }
 }
 
 function Page({ searchParams }: Props): ReactElement {
-  const code = searchParams.code ?? null;
+  const code = searchParams.code ?? null
 
   return (
     <SmallPage
@@ -76,7 +76,7 @@ function Page({ searchParams }: Props): ReactElement {
         </Suspense>
       )}
     </SmallPage>
-  );
+  )
 }
 
 function JoinForm(): ReactElement {
@@ -84,18 +84,18 @@ function JoinForm(): ReactElement {
     <>
       <form
         action={async (data) => {
-          'use server';
+          'use server'
 
-          const code = data.get('join-code')?.toString() as string;
+          const code = data.get('join-code')?.toString() as string
 
-          const result = await joinGroupAction(code);
+          const result = await joinGroupAction(code)
 
           if (result == null) {
-            console.error('Unable to join group');
-            return;
+            console.error('Unable to join group')
+            return
           }
 
-          redirect(`/groups/${result.id}/details`);
+          redirect(`/groups/${result.id}/details`)
         }}
         className="flex items-end gap-3"
       >
@@ -128,11 +128,11 @@ function JoinForm(): ReactElement {
         </AlertDescription>
       </Alert>
     </>
-  );
+  )
 }
 
 async function JoinInvite({ code }: { code: string }): Promise<ReactElement> {
-  const [group, user] = await Promise.all([getGroupByJoinCode(code), getUser()]);
+  const [group, user] = await Promise.all([getGroupByJoinCode(code), getUser()])
 
   if (group == null) {
     return (
@@ -143,7 +143,7 @@ async function JoinInvite({ code }: { code: string }): Promise<ReactElement> {
         </AlertDescription>
         <AlertDescription className="mt-4">The code might be expired.</AlertDescription>
       </Alert>
-    );
+    )
   }
 
   if (user == null) {
@@ -163,10 +163,10 @@ async function JoinInvite({ code }: { code: string }): Promise<ReactElement> {
         </AlertDescription>
         <LazyJoinCookie joinCode={code} />
       </Alert>
-    );
+    )
   }
 
-  const userInGroup = await isUserInGroup(user.userId, code);
+  const userInGroup = await isUserInGroup(user.userId, code)
   if (userInGroup != null) {
     return (
       <Alert>
@@ -178,7 +178,7 @@ async function JoinInvite({ code }: { code: string }): Promise<ReactElement> {
           </Link>
         </AlertDescription>
       </Alert>
-    );
+    )
   }
 
   return (
@@ -192,22 +192,22 @@ async function JoinInvite({ code }: { code: string }): Promise<ReactElement> {
       </div>
       <form
         action={async () => {
-          'use server';
+          'use server'
 
-          const result = await joinGroupAction(code);
+          const result = await joinGroupAction(code)
 
           if (result == null) {
-            console.error('Unable to join group');
-            return;
+            console.error('Unable to join group')
+            return
           }
 
-          redirect(`/groups/${result.id}/details`);
+          redirect(`/groups/${result.id}/details`)
         }}
       >
         <Button>Join {group.name}</Button>
       </form>
     </>
-  );
+  )
 }
 
-export default Page;
+export default Page

@@ -1,19 +1,19 @@
-import './globals.css';
+import './globals.css'
 
-import React, { Suspense } from 'react';
-import { Inter } from 'next/font/google';
-import Script from 'next/script';
+import React, { Suspense } from 'react'
+import { Inter } from 'next/font/google'
+import Script from 'next/script'
 
-import { Toaster } from '@/components/ui/sonner';
-import UserBar from '@/components/user-bar/UserBar';
-import { ThemeProvider } from '@/components/theme/theme-provider';
-import MobileBar from '@/components/user-bar/MobileBar';
+import { Toaster } from '@/components/ui/sonner'
+import UserBar from '@/components/user-bar/UserBar'
+import { ThemeProvider } from '@/components/theme/theme-provider'
+import MobileBar from '@/components/user-bar/MobileBar'
 
-import Footer from './_footer';
+import Footer from './_footer'
 
-import type { Metadata } from 'next';
+import type { Metadata } from 'next'
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Karaoke Match - What songs do you and your friends Love?',
@@ -28,12 +28,12 @@ export const metadata: Metadata = {
       },
     ],
   },
-};
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="en">
@@ -56,5 +56,5 @@ export default function RootLayout({
         data-cf-beacon='{"token": "b5b39f9a6c334feebd09ae642c9a9f1e"}'
       />
     </html>
-  );
+  )
 }

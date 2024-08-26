@@ -1,68 +1,68 @@
-'use client';
+'use client'
 
-import React, { ReactElement, startTransition, useCallback, useEffect, useRef, useState } from 'react';
-import { CheckIcon, Cross2Icon } from '@radix-ui/react-icons';
-import { animated, to as interpolate, useSprings } from '@react-spring/web';
-import { useDrag } from '@use-gesture/react';
-import { toast } from 'sonner';
-import { parseAsBoolean, useQueryState } from 'nuqs';
+import React, { ReactElement, startTransition, useCallback, useEffect, useRef, useState } from 'react'
+import { CheckIcon, Cross2Icon } from '@radix-ui/react-icons'
+import { animated, to as interpolate, useSprings } from '@react-spring/web'
+import { useDrag } from '@use-gesture/react'
+import { toast } from 'sonner'
+import { parseAsBoolean, useQueryState } from 'nuqs'
 
-import { TrackResult } from 'server/spotify/types';
+import { TrackResult } from 'server/spotify/types'
 
-import { BangOrNoBangTrack } from '@/components/swiper/BangOrNoBangTrack';
-import { addBangerAction, dismissTrackAction } from '@/components/add-track/AddTrackActions';
-import { SwiperLanding } from '@/components/swiper/SwiperLanding';
-import VibrationTrigger from '@/components/swiper/VibrationTrigger';
+import { BangOrNoBangTrack } from '@/components/swiper/BangOrNoBangTrack'
+import { addBangerAction, dismissTrackAction } from '@/components/add-track/AddTrackActions'
+import { SwiperLanding } from '@/components/swiper/SwiperLanding'
+import VibrationTrigger from '@/components/swiper/VibrationTrigger'
 
-import { from, hasMovedEnough, trans } from './SwiperAnimationUtils';
-import styles from './Swiper.module.css';
+import { from, hasMovedEnough, trans } from './SwiperAnimationUtils'
+import styles from './Swiper.module.css'
 
 type Props = {
-  suggestions: { track: TrackResult; suggestedBy: string[] }[];
-};
+  suggestions: { track: TrackResult; suggestedBy: string[] }[]
+}
 
-const YEET_DISTANCE = 200;
+const YEET_DISTANCE = 200
 
 /**
  * TODO: This needs to be simplified/refactored
  */
 function Swiper({ suggestions }: Props): ReactElement {
-  const stackSize = suggestions.length;
+  const stackSize = suggestions.length
 
-  const completedMountAnimations = useRef(0);
-  const [stackInitiated, setStackInitiated] = useState<boolean>(false);
+  const completedMountAnimations = useRef(0)
+  const [stackInitiated, setStackInitiated] = useState<boolean>(false)
 
   const [more] = useQueryState('more', {
     defaultValue: '0',
-  });
-  const initialMore = useRef(more);
-  const [autoplayDisabled] = useQueryState('no-auto', parseAsBoolean.withDefault(false));
-  const maxWidth = Math.min(window.innerWidth, 520) + Math.min(window.innerWidth, 520) / 2;
+  })
+  const initialMore = useRef(more)
+  const [autoplayDisabled] = useQueryState('no-auto', parseAsBoolean.withDefault(false))
+  const maxWidth = Math.min(window.innerWidth, 520) + Math.min(window.innerWidth, 520) / 2
 
-  const [topDeckIndex, setTopDeckIndex] = useState<number>(stackSize - 1);
-  const [gone] = useState(() => new Set()); // The set flags all the cards that are flicked out
+  const [topDeckIndex, setTopDeckIndex] = useState<number>(stackSize - 1)
+  const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
   const [props, api] = useSprings(suggestions.length, (i) => ({
     from: from(i, maxWidth),
-  }));
+  }))
 
   const bind = useDrag(({ args: [index], down, movement: [mx], direction: [xDir], velocity: [velocity] }) => {
-    const trigger = velocity > 0.2 || hasMovedEnough(mx, maxWidth);
-    const direction = xDir !== 0 ? (xDir < 0 ? -1 : 1) : mx < 0 ? -1 : 1;
+    const trigger = velocity > 0.2 || hasMovedEnough(mx, maxWidth)
+    const direction = xDir !== 0 ? (xDir < 0 ? -1 : 1) : mx < 0 ? -1 : 1
 
     if (!down && trigger) {
       if (direction === 1) {
-        bangTrack(index, suggestions[index].track.id, suggestions[index].track.name);
+        bangTrack(index, suggestions[index].track.id, suggestions[index].track.name)
       } else {
-        dismissTrack(index, suggestions[index].track.id, suggestions[index].track.name);
+        dismissTrack(index, suggestions[index].track.id, suggestions[index].track.name)
       }
-      return;
+      return
     }
 
     api.start((i) => {
-      if (index !== i) return;
+      if (index !== i) return
 
-      const isGone = gone.has(index);
-      const x = isGone ? (maxWidth + YEET_DISTANCE) * direction : down ? mx : 0;
+      const isGone = gone.has(index)
+      const x = isGone ? (maxWidth + YEET_DISTANCE) * direction : down ? mx : 0
 
       return {
         x,
@@ -70,9 +70,9 @@ function Swiper({ suggestions }: Props): ReactElement {
         delay: undefined,
         rot: mx / 100 + (isGone ? direction * 20 * velocity : 0),
         config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 },
-      };
-    });
-  });
+      }
+    })
+  })
 
   const initStack = useCallback(() => {
     api.start((i) => ({
@@ -81,64 +81,64 @@ function Swiper({ suggestions }: Props): ReactElement {
       scale: 1,
       delay: i * 100,
       onRest: () => {
-        completedMountAnimations.current += 1;
+        completedMountAnimations.current += 1
         if (completedMountAnimations.current === stackSize) {
-          setStackInitiated(true);
+          setStackInitiated(true)
         }
       },
-    }));
-  }, [api, stackSize]);
+    }))
+  }, [api, stackSize])
 
   const bangTrack = (index: number, trackId: string, name: string) => {
-    gone.add(index);
-    setTopDeckIndex(index - 1);
-    toast.info(`Banged ${name}!`, { duration: 1000 });
+    gone.add(index)
+    setTopDeckIndex(index - 1)
+    toast.info(`Banged ${name}!`, { duration: 1000 })
 
     startTransition(() => {
       addBangerAction(trackId, false).catch((e) => {
-        console.error(e);
-        toast.error(`Unable to add ${name} right now. :(`);
+        console.error(e)
+        toast.error(`Unable to add ${name} right now. :(`)
 
         // TODO: yeet the card back? Lol
-      });
-    });
+      })
+    })
 
     api.start((i) => {
-      if (index !== i) return;
+      if (index !== i) return
 
       return {
         x: maxWidth + YEET_DISTANCE,
         config: { friction: 50, tension: 200 },
-      };
-    });
-  };
+      }
+    })
+  }
 
   const dismissTrack = (index: number, trackId: string, name: string) => {
-    gone.add(index);
-    setTopDeckIndex(index - 1);
+    gone.add(index)
+    setTopDeckIndex(index - 1)
 
     startTransition(() => {
       dismissTrackAction(trackId).catch((e) => {
-        console.error(e);
-        toast.error(`Unable to dismiss ${name} right now. :(`);
-      });
-    });
+        console.error(e)
+        toast.error(`Unable to dismiss ${name} right now. :(`)
+      })
+    })
     api.start((i) => {
-      if (index !== i) return;
+      if (index !== i) return
 
       return {
         x: (maxWidth + YEET_DISTANCE) * -1,
         config: { friction: 50, tension: 200 },
-      };
-    });
-  };
+      }
+    })
+  }
 
   useEffect(() => {
     // Component has mounted with more, init the stack without user interactiong
     if (more != null && +more > 0 && initialMore.current === more) {
-      initStack();
+      initStack()
     }
-  }, [initStack, more]);
+  }, [initStack, more])
 
   return (
     <div className={styles.swiperRootRoot}>
@@ -156,19 +156,19 @@ function Swiper({ suggestions }: Props): ReactElement {
               autoplay={topDeckIndex === index && !autoplayDisabled && stackInitiated}
               disabled={!stackInitiated || topDeckIndex !== index}
               onDismiss={() => {
-                dismissTrack(index, suggestions[index].track.id, suggestions[index].track.name);
+                dismissTrack(index, suggestions[index].track.id, suggestions[index].track.name)
               }}
               onBanger={() => {
-                bangTrack(index, suggestions[index].track.id, suggestions[index].track.name);
+                bangTrack(index, suggestions[index].track.id, suggestions[index].track.name)
               }}
             />
             <animated.div
               className={styles.bangerNotification}
               style={{
                 opacity: x.to((val) => {
-                  if (val === 0 || completedMountAnimations.current < stackSize) return 0;
-                  if (val < 0) return 0;
-                  return Math.min(Math.abs(val) / (maxWidth * 0.1), 1);
+                  if (val === 0 || completedMountAnimations.current < stackSize) return 0
+                  if (val < 0) return 0
+                  return Math.min(Math.abs(val) / (maxWidth * 0.1), 1)
                 }),
               }}
             >
@@ -186,9 +186,9 @@ function Swiper({ suggestions }: Props): ReactElement {
               className={styles.notBangerNotification}
               style={{
                 opacity: x.to((val) => {
-                  if (val === 0 || completedMountAnimations.current < stackSize) return 0;
-                  if (val > 0) return 0;
-                  return Math.min(Math.abs(val) / (maxWidth * 0.1), 1);
+                  if (val === 0 || completedMountAnimations.current < stackSize) return 0
+                  if (val > 0) return 0
+                  return Math.min(Math.abs(val) / (maxWidth * 0.1), 1)
                 }),
               }}
             >
@@ -209,11 +209,11 @@ function Swiper({ suggestions }: Props): ReactElement {
       <SwiperLanding
         mode={stackInitiated ? 'reset' : 'landing'}
         onClick={() => {
-          initStack();
+          initStack()
         }}
       />
     </div>
-  );
+  )
 }
 
-export default Swiper;
+export default Swiper

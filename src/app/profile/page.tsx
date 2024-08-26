@@ -1,28 +1,28 @@
-import * as R from 'remeda';
-import React, { ReactElement, Suspense } from 'react';
-import { notFound } from 'next/navigation';
-import { formatDistanceToNow } from 'date-fns';
-import { Metadata } from 'next';
+import * as R from 'remeda'
+import React, { ReactElement, Suspense } from 'react'
+import { notFound } from 'next/navigation'
+import { formatDistanceToNow } from 'date-fns'
+import { Metadata } from 'next'
 
-import { getUserBangersCount } from 'server/bangers/bangers-service';
-import { getUserGroupCount } from 'server/group/group-db';
-import { getAllSessions } from 'server/session/session-db';
+import { getUserBangersCount } from 'server/bangers/bangers-service'
+import { getUserGroupCount } from 'server/group/group-db'
+import { getAllSessions } from 'server/session/session-db'
 
-import { SmallPage } from '@/components/layout/Layouts';
-import DeleteUserButton from '@/components/delete-user/DeleteUserButton';
-import { getUser } from '@/server/user/user-service';
-import { Skeleton } from '@/components/ui/skeleton';
-import InvalidateSessionButton from '@/components/sessions/InvalidateSessionButton';
+import { SmallPage } from '@/components/layout/Layouts'
+import DeleteUserButton from '@/components/delete-user/DeleteUserButton'
+import { getUser } from '@/server/user/user-service'
+import { Skeleton } from '@/components/ui/skeleton'
+import InvalidateSessionButton from '@/components/sessions/InvalidateSessionButton'
 
 export const metadata: Metadata = {
   title: 'Karaoke Match - Profile',
-};
+}
 
 async function Page(): Promise<ReactElement> {
-  const user = await getUser();
+  const user = await getUser()
 
   if (user == null) {
-    return notFound();
+    return notFound()
   }
 
   return (
@@ -75,23 +75,23 @@ async function Page(): Promise<ReactElement> {
         </Suspense>
       </div>
     </SmallPage>
-  );
+  )
 }
 
 async function SongCount({ className, userId }: { className?: string; userId: string }): Promise<ReactElement> {
-  return <span className={className}>{await getUserBangersCount(userId)}</span>;
+  return <span className={className}>{await getUserBangersCount(userId)}</span>
 }
 
 async function GroupCount({ className, userId }: { className?: string; userId: string }): Promise<ReactElement> {
-  return <span className={className}>{await getUserGroupCount(userId)}</span>;
+  return <span className={className}>{await getUserGroupCount(userId)}</span>
 }
 
 async function UserSessions({ userId, sessionId }: { userId: string; sessionId: string }): Promise<ReactElement> {
-  const allSessions = await getAllSessions(userId);
+  const allSessions = await getAllSessions(userId)
   const sorted = R.pipe(
     allSessions,
     R.sortBy([(it) => it.sessionId === sessionId, 'desc'], [(it) => it.lastSeen, 'desc']),
-  );
+  )
 
   return (
     <div className="flex flex-col gap-3">
@@ -109,7 +109,7 @@ async function UserSessions({ userId, sessionId }: { userId: string; sessionId: 
         </div>
       ))}
     </div>
-  );
+  )
 }
 
-export default Page;
+export default Page

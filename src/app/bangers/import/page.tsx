@@ -1,25 +1,25 @@
-import React, { ReactElement, Suspense } from 'react';
-import { InfoCircledIcon } from '@radix-ui/react-icons';
-import Link from 'next/link';
-import { Metadata } from 'next';
+import React, { ReactElement, Suspense } from 'react'
+import { InfoCircledIcon } from '@radix-ui/react-icons'
+import Link from 'next/link'
+import { Metadata } from 'next'
 
-import { getUser } from 'server/user/user-service';
-import { isValidPlaylist } from 'server/spotify/playlist';
+import { getUser } from 'server/user/user-service'
+import { isValidPlaylist } from 'server/spotify/playlist'
 
-import { Skeleton } from '@/components/ui/skeleton';
-import { SmallPage } from '@/components/layout/Layouts';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import ImportFromSpotify from '@/components/import-from-spotify/ImportFromSpotify';
+import { Skeleton } from '@/components/ui/skeleton'
+import { SmallPage } from '@/components/layout/Layouts'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import ImportFromSpotify from '@/components/import-from-spotify/ImportFromSpotify'
 
 export const metadata: Metadata = {
   title: 'Karaoke Match - Import (Spotify)',
-};
+}
 
 type Props = {
   searchParams: {
-    pid?: string;
-  };
-};
+    pid?: string
+  }
+}
 
 function Page({ searchParams }: Props): ReactElement {
   return (
@@ -40,11 +40,11 @@ function Page({ searchParams }: Props): ReactElement {
         <SpotifyImporter pid={searchParams.pid} />
       </Suspense>
     </SmallPage>
-  );
+  )
 }
 
 async function SpotifyImporter({ pid }: { pid?: string | null }) {
-  const user = await getUser();
+  const user = await getUser()
 
   if (!user) {
     return (
@@ -55,16 +55,16 @@ async function SpotifyImporter({ pid }: { pid?: string | null }) {
           <Link href="/login">Login</Link> to import playlists.
         </AlertDescription>
       </Alert>
-    );
+    )
   }
 
-  const playlistSize = pid && pid.length >= 20 ? await isValidPlaylist(pid) : null;
+  const playlistSize = pid && pid.length >= 20 ? await isValidPlaylist(pid) : null
 
   return (
     <div>
       <ImportFromSpotify validPlaylistSongCount={playlistSize} />
     </div>
-  );
+  )
 }
 
-export default Page;
+export default Page

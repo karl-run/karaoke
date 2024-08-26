@@ -1,6 +1,6 @@
-import { integer, sqliteTable, text, primaryKey } from 'drizzle-orm/sqlite-core';
+import { integer, sqliteTable, text, primaryKey } from 'drizzle-orm/sqlite-core'
 
-import { TrackResult } from 'server/spotify/types';
+import { TrackResult } from 'server/spotify/types'
 
 export const users = sqliteTable('users', {
   email: text('email').primaryKey(),
@@ -16,7 +16,7 @@ export const users = sqliteTable('users', {
   loginTimestamp: integer('login_timestamp', {
     mode: 'timestamp_ms',
   }),
-});
+})
 
 export const sessions = sqliteTable('sessions', {
   id: text('id').primaryKey(),
@@ -24,7 +24,7 @@ export const sessions = sqliteTable('sessions', {
   created_at: integer('created_at', { mode: 'timestamp_ms' }).notNull(),
   last_seen: integer('last_seen', { mode: 'timestamp_ms' }).notNull(),
   ua: text('ua').notNull(),
-});
+})
 
 export const bangers = sqliteTable(
   'bangers',
@@ -39,7 +39,7 @@ export const bangers = sqliteTable(
   (table) => ({
     pk: primaryKey({ columns: [table.songId, table.userId] }),
   }),
-);
+)
 
 export const dismissedBangers = sqliteTable(
   'dismissed_bangers',
@@ -53,7 +53,7 @@ export const dismissedBangers = sqliteTable(
   (table) => ({
     pk: primaryKey({ columns: [table.songKey, table.userId] }),
   }),
-);
+)
 
 export const globalBangers = sqliteTable(
   'global_bangers',
@@ -65,17 +65,17 @@ export const globalBangers = sqliteTable(
   (table) => ({
     pk: primaryKey({ columns: [table.songKey] }),
   }),
-);
+)
 
 export const songCache = sqliteTable('song_cache', {
   songId: text('song_id').primaryKey(),
   data: text('data', { mode: 'json' }).$type<TrackResult>(),
-});
+})
 
 export const normalizedSongCache = sqliteTable('normalized_song_cache', {
   songKey: text('song_key').primaryKey(),
   data: text('data', { mode: 'json' }).$type<TrackResult>(),
-});
+})
 
 export const userGroup = sqliteTable('user_group', {
   id: text('id').primaryKey(),
@@ -83,7 +83,7 @@ export const userGroup = sqliteTable('user_group', {
   iconIndex: integer('icon_index').notNull(),
   name: text('name').notNull(),
   description: text('description'),
-});
+})
 
 export const userToGroup = sqliteTable(
   'user_to_group',
@@ -95,4 +95,4 @@ export const userToGroup = sqliteTable(
   (table) => ({
     pk: primaryKey({ columns: [table.userId, table.groupId] }),
   }),
-);
+)

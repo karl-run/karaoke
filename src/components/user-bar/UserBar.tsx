@@ -1,17 +1,17 @@
-import React, { ReactElement, Suspense } from 'react';
-import Link from 'next/link';
+import React, { ReactElement, Suspense } from 'react'
+import Link from 'next/link'
 
-import { getUser } from 'server/user/user-service';
+import { getUser } from 'server/user/user-service'
 
-import { cn } from '@/lib/utils';
-import SearchBar from '@/components/SearchBar';
-import { Skeleton } from '@/components/ui/skeleton';
-import UserDropdownAvatar from '@/components/UserDropdownAvatar';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import GroupAvatar from '@/components/avatar/GroupAvatar';
+import { cn } from '@/lib/utils'
+import SearchBar from '@/components/SearchBar'
+import { Skeleton } from '@/components/ui/skeleton'
+import UserDropdownAvatar from '@/components/UserDropdownAvatar'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
+import GroupAvatar from '@/components/avatar/GroupAvatar'
 
-import styles from './UserBar.module.css';
+import styles from './UserBar.module.css'
 
 function UserBar(): ReactElement {
   return (
@@ -38,13 +38,13 @@ function UserBar(): ReactElement {
         </Suspense>
       </div>
     </div>
-  );
+  )
 }
 
 async function UserDetails() {
-  const user = await getUser();
+  const user = await getUser()
 
-  if (!user) return <NotLoggedIn />;
+  if (!user) return <NotLoggedIn />
 
   return (
     <div className="flex gap-3 items-center justify-end h-full p-3 shrink-0">
@@ -54,7 +54,7 @@ async function UserDetails() {
       </div>
       <UserDropdownAvatar name={user.name} id={user.userId} />
     </div>
-  );
+  )
 }
 
 function UserDetailsSkeleton() {
@@ -68,7 +68,7 @@ function UserDetailsSkeleton() {
         <AvatarFallback />
       </Avatar>
     </div>
-  );
+  )
 }
 
 function NotLoggedIn() {
@@ -81,7 +81,7 @@ function NotLoggedIn() {
         Register
       </Link>
     </div>
-  );
+  )
 }
 
-export default UserBar;
+export default UserBar

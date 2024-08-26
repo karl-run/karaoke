@@ -1,31 +1,31 @@
-'use client';
+'use client'
 
-import React, { PropsWithChildren, ReactElement } from 'react';
-import Image from 'next/image';
+import React, { PropsWithChildren, ReactElement } from 'react'
+import Image from 'next/image'
 
-import { TrackResult } from 'server/spotify/types';
+import { TrackResult } from 'server/spotify/types'
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils'
 
-import styles from './ShowAfter5Seconds.module.css';
+import styles from './ShowAfter5Seconds.module.css'
 
 type Props = {
-  track: TrackResult;
-};
+  track: TrackResult
+}
 
 function ShowAfter5Seconds({ track, children }: PropsWithChildren<Props>): ReactElement | null {
-  const [show, setShow] = React.useState(false);
+  const [show, setShow] = React.useState(false)
 
   React.useEffect(() => {
     const timeout = setTimeout(() => {
-      setShow(true);
-    }, 3500);
-    return () => clearTimeout(timeout);
-  }, []);
+      setShow(true)
+    }, 3500)
+    return () => clearTimeout(timeout)
+  }, [])
 
   if (!show) {
     // Preload image
-    return <Image unoptimized className="hidden" src={track.image.url} alt={track.name} width={200} height={200} />;
+    return <Image unoptimized className="hidden" src={track.image.url} alt={track.name} width={200} height={200} />
   }
 
   return (
@@ -48,7 +48,7 @@ function ShowAfter5Seconds({ track, children }: PropsWithChildren<Props>): React
         {children && <div className="text-center font-bold">{children}</div>}
       </div>
     </div>
-  );
+  )
 }
 
-export default ShowAfter5Seconds;
+export default ShowAfter5Seconds

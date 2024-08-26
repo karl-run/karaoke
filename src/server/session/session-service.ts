@@ -1,13 +1,13 @@
-import { cookies } from 'next/headers';
+import { cookies } from 'next/headers'
 
-import { getActiveSession } from 'server/session/session-db';
+import { getActiveSession } from 'server/session/session-db'
 
-export { getSessionById } from 'server/session/session-db';
+export { getSessionById } from 'server/session/session-db'
 
 export function getSession() {
-  return getActiveSession(getSessionId());
+  return getActiveSession(getSessionId())
 }
 
 function getSessionId() {
-  return cookies().get('session')?.value ?? null;
+  return cookies().get('session')?.value ?? null
 }

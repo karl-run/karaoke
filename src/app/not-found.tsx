@@ -1,7 +1,7 @@
-import Link from 'next/link';
+import Link from 'next/link'
 
-import { SmallPage } from '@/components/layout/Layouts';
-import GroupAvatar from '@/components/avatar/GroupAvatar';
+import { SmallPage } from '@/components/layout/Layouts'
+import GroupAvatar from '@/components/avatar/GroupAvatar'
 
 export default function NotFound() {
   return (
@@ -22,5 +22,5 @@ export default function NotFound() {
         Return Home
       </Link>
     </SmallPage>
-  );
+  )
 }

@@ -1,12 +1,12 @@
-import * as R from 'remeda';
-import React, { ReactElement } from 'react';
-import { notFound } from 'next/navigation';
+import * as R from 'remeda'
+import React, { ReactElement } from 'react'
+import { notFound } from 'next/navigation'
 
-import GroupAvatar from '@/components/avatar/GroupAvatar';
+import GroupAvatar from '@/components/avatar/GroupAvatar'
 
 function Page(): ReactElement {
   if (process.env.NODE_ENV !== 'development') {
-    notFound();
+    notFound()
   }
 
   return (
@@ -17,7 +17,7 @@ function Page(): ReactElement {
         ))}
       </div>
     </div>
-  );
+  )
 }
 
-export default Page;
+export default Page

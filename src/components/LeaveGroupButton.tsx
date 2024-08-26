@@ -1,8 +1,8 @@
-'use client';
+'use client'
 
-import React, { ReactElement } from 'react';
+import React, { ReactElement } from 'react'
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/button'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,15 +13,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import { leaveGroupAction } from '@/app/groups/_group-actions';
+} from '@/components/ui/alert-dialog'
+import { leaveGroupAction } from '@/app/groups/_group-actions'
 
 type Props = {
-  groupId: string;
-};
+  groupId: string
+}
 
 function LeaveGroupButton({ groupId }: Props): ReactElement {
-  const [transition, startTransition] = React.useTransition();
+  const [transition, startTransition] = React.useTransition()
 
   return (
     <AlertDialog>
@@ -44,8 +44,8 @@ function LeaveGroupButton({ groupId }: Props): ReactElement {
             disabled={transition}
             onClick={() => {
               startTransition(async () => {
-                await leaveGroupAction(groupId);
-              });
+                await leaveGroupAction(groupId)
+              })
             }}
           >
             Yes, leave group
@@ -53,7 +53,7 @@ function LeaveGroupButton({ groupId }: Props): ReactElement {
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  );
+  )
 }
 
-export default LeaveGroupButton;
+export default LeaveGroupButton

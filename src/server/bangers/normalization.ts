@@ -1,4 +1,4 @@
-import * as R from 'remeda';
+import * as R from 'remeda'
 
 const replaceList: (string | RegExp)[] = [
   /Live in .*/gi,
@@ -31,16 +31,16 @@ const replaceList: (string | RegExp)[] = [
   /- Live/gi,
   /\s\s+/gi,
   /-Version/gi,
-];
+]
 
-const clean = new RegExp('[^a-zA-Z0-9]', 'g');
+const clean = new RegExp('[^a-zA-Z0-9]', 'g')
 
 export function trackToNormalizedId(track: { artist: string; name: string }): string {
-  const baseKey = `${track.artist}-${track.name}`;
+  const baseKey = `${track.artist}-${track.name}`
   const replaced = R.pipe(
     replaceList,
     R.reduce((acc, it) => acc.replace(it, ''), baseKey),
-  );
+  )
 
-  return replaced.replace(clean, '').toLocaleLowerCase();
+  return replaced.replace(clean, '').toLocaleLowerCase()
 }

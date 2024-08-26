@@ -1,9 +1,9 @@
-import React, { PropsWithChildren, ReactElement } from 'react';
+import React, { PropsWithChildren, ReactElement } from 'react'
 
-import styles from './SwiperWrapper.module.css';
+import styles from './SwiperWrapper.module.css'
 
 function SwiperWrapper({ children }: PropsWithChildren): ReactElement {
-  return <div className={styles.swiperRoot}>{children}</div>;
+  return <div className={styles.swiperRoot}>{children}</div>
 }
 
-export default SwiperWrapper;
+export default SwiperWrapper

@@ -1,13 +1,13 @@
-'use client';
+'use client'
 
-import { useEffect } from 'react';
+import { useEffect } from 'react'
 
-import { SmallPage } from '@/components/layout/Layouts';
+import { SmallPage } from '@/components/layout/Layouts'
 
 export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   useEffect(() => {
-    console.error(error);
-  }, [error]);
+    console.error(error)
+  }, [error])
 
   return (
     <SmallPage
@@ -20,5 +20,5 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
       <h2>Something went wrong!</h2>
       <button onClick={() => reset()}>Try again</button>
     </SmallPage>
-  );
+  )
 }

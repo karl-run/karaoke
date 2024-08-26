@@ -1,23 +1,23 @@
-import * as R from 'remeda';
-import React, { ReactElement } from 'react';
-import { eq } from 'drizzle-orm';
+import * as R from 'remeda'
+import React, { ReactElement } from 'react'
+import { eq } from 'drizzle-orm'
 
-import { db, globalBangers, normalizedSongCache } from 'server/db';
+import { db, globalBangers, normalizedSongCache } from 'server/db'
 
-import { verifyUserIsAdmin } from '@/app/admin/_admin-utils';
-import Track from '@/components/track/Track';
-import { TrackGrid } from '@/components/track/TrackGrid';
-import { FullPage, FullPageDescription, FullPageDetails } from '@/components/layout/Layouts';
+import { verifyUserIsAdmin } from '@/app/admin/_admin-utils'
+import Track from '@/components/track/Track'
+import { TrackGrid } from '@/components/track/TrackGrid'
+import { FullPage, FullPageDescription, FullPageDetails } from '@/components/layout/Layouts'
 
 async function Page(): Promise<ReactElement> {
-  await verifyUserIsAdmin();
+  await verifyUserIsAdmin()
 
   const gwobby = await db
     .select()
     .from(globalBangers)
-    .leftJoin(normalizedSongCache, eq(globalBangers.songKey, normalizedSongCache.songKey));
+    .leftJoin(normalizedSongCache, eq(globalBangers.songKey, normalizedSongCache.songKey))
 
-  const grouped = R.groupBy(gwobby, (it) => it.global_bangers.region);
+  const grouped = R.groupBy(gwobby, (it) => it.global_bangers.region)
 
   return (
     <FullPage title="Global bangers admin page">
@@ -34,7 +34,7 @@ async function Page(): Promise<ReactElement> {
           <TrackGrid>
             {R.sortBy(songs, [(it) => it.global_bangers.region, 'desc']).map((it) => {
               if (!it.normalized_song_cache?.data) {
-                return <div key={it.global_bangers.songKey}>Missing data for {it.global_bangers.songKey}</div>;
+                return <div key={it.global_bangers.songKey}>Missing data for {it.global_bangers.songKey}</div>
               }
 
               return (
@@ -42,13 +42,13 @@ async function Page(): Promise<ReactElement> {
                   <div className="text-xs">{it.global_bangers.region}</div>
                   <Track track={it.normalized_song_cache.data} action="none" />
                 </div>
-              );
+              )
             })}
           </TrackGrid>
         </details>
       ))}
     </FullPage>
-  );
+  )
 }
 
-export default Page;
+export default Page

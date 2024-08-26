@@ -1,20 +1,20 @@
-import React, { ReactElement } from 'react';
-import Link from 'next/link';
-import { Metadata } from 'next';
+import React, { ReactElement } from 'react'
+import Link from 'next/link'
+import { Metadata } from 'next'
 
-import { SmallPage } from '@/components/layout/Layouts';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
+import { SmallPage } from '@/components/layout/Layouts'
+import { Button } from '@/components/ui/button'
+import { Label } from '@/components/ui/label'
 
 export const metadata: Metadata = {
   title: 'Karaoke Match - Spin the wheel!',
-};
+}
 
 type Props = {
   params: {
-    id: string;
-  };
-};
+    id: string
+  }
+}
 
 function Page({ params }: Props): ReactElement {
   return (
@@ -52,7 +52,7 @@ function Page({ params }: Props): ReactElement {
         </div>
       </div>
     </SmallPage>
-  );
+  )
 }
 
-export default Page;
+export default Page

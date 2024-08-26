@@ -1,6 +1,6 @@
-import { TrackResult } from 'server/spotify/types';
-import { db, normalizedSongCache, songCache } from 'server/db';
-import { trackToNormalizedId } from 'server/bangers/normalization';
+import { TrackResult } from 'server/spotify/types'
+import { db, normalizedSongCache, songCache } from 'server/db'
+import { trackToNormalizedId } from 'server/bangers/normalization'
 
 export async function addToCache(song: TrackResult) {
   await db
@@ -9,12 +9,12 @@ export async function addToCache(song: TrackResult) {
       songId: song.id,
       data: song,
     })
-    .onConflictDoNothing();
+    .onConflictDoNothing()
   await db
     .insert(normalizedSongCache)
     .values({
       songKey: trackToNormalizedId(song),
       data: song,
     })
-    .onConflictDoNothing();
+    .onConflictDoNothing()
 }

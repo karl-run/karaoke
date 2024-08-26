@@ -1,5 +1,5 @@
-import React, { ReactElement } from 'react';
-import { Metadata } from 'next';
+import React, { ReactElement } from 'react'
+import { Metadata } from 'next'
 
 import {
   getTotalBangersCount,
@@ -7,19 +7,19 @@ import {
   getTotalDismissCount,
   getTotalGroupCount,
   getTotalUserCount,
-} from 'server/db/stats';
+} from 'server/db/stats'
 
-import GroupAvatar from '@/components/avatar/GroupAvatar';
-import { SmallPage } from '@/components/layout/Layouts';
-import { Label } from '@/components/ui/label';
-import { verifyUserIsAdmin } from '@/app/admin/_admin-utils';
+import GroupAvatar from '@/components/avatar/GroupAvatar'
+import { SmallPage } from '@/components/layout/Layouts'
+import { Label } from '@/components/ui/label'
+import { verifyUserIsAdmin } from '@/app/admin/_admin-utils'
 
 export const metadata: Metadata = {
   title: 'Karaoke Match - Admin',
-};
+}
 
 async function Page(): Promise<ReactElement> {
-  await verifyUserIsAdmin();
+  await verifyUserIsAdmin()
 
   const [bangers, users, groups, dismiss, cache] = await Promise.all([
     getTotalBangersCount(),
@@ -27,7 +27,7 @@ async function Page(): Promise<ReactElement> {
     getTotalGroupCount(),
     getTotalDismissCount(),
     getTotalCacheCount(),
-  ]);
+  ])
 
   return (
     <SmallPage title="Hidden admin stats">
@@ -40,7 +40,7 @@ async function Page(): Promise<ReactElement> {
         <StatWithAvatar iconIndex={26} label="Normalized cache size" value={cache} />
       </div>
     </SmallPage>
-  );
+  )
 }
 
 function StatWithAvatar({
@@ -48,9 +48,9 @@ function StatWithAvatar({
   label,
   value,
 }: {
-  iconIndex: number;
-  label: string;
-  value: number;
+  iconIndex: number
+  label: string
+  value: number
 }): ReactElement {
   return (
     <div className="flex gap-3 items-center">
@@ -60,7 +60,7 @@ function StatWithAvatar({
         <div>{value}</div>
       </div>
     </div>
-  );
+  )
 }
 
-export default Page;
+export default Page

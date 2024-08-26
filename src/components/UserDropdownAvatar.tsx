@@ -1,5 +1,5 @@
-import React, { ReactElement } from 'react';
-import Link from 'next/link';
+import React, { ReactElement } from 'react'
+import Link from 'next/link'
 
 import {
   DropdownMenu,
@@ -8,15 +8,15 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+} from '@/components/ui/dropdown-menu'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 
-import ThemeToggler from './theme/ThemeToggler';
+import ThemeToggler from './theme/ThemeToggler'
 
 type Props = {
-  name: string;
-  id: string;
-};
+  name: string
+  id: string
+}
 
 function UserDropdownAvatar({ name, id }: Props): ReactElement {
   return (
@@ -59,7 +59,7 @@ function UserDropdownAvatar({ name, id }: Props): ReactElement {
         )}
       </DropdownMenuContent>
     </DropdownMenu>
-  );
+  )
 }
 
-export default UserDropdownAvatar;
+export default UserDropdownAvatar

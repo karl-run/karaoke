@@ -1,19 +1,19 @@
-import React, { ReactElement, Suspense } from 'react';
-import { InfoCircledIcon } from '@radix-ui/react-icons';
-import Link from 'next/link';
-import { Metadata } from 'next';
+import React, { ReactElement, Suspense } from 'react'
+import { InfoCircledIcon } from '@radix-ui/react-icons'
+import Link from 'next/link'
+import { Metadata } from 'next'
 
-import { getUserBangersRecord } from 'server/bangers/bangers-service';
+import { getUserBangersRecord } from 'server/bangers/bangers-service'
 
-import { SmallPage } from '@/components/layout/Layouts';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import ImportFromM3U8 from '@/components/import-from-m3u8/ImportFromM3U8';
-import { Skeleton } from '@/components/ui/skeleton';
-import { getUser } from '@/server/user/user-service';
+import { SmallPage } from '@/components/layout/Layouts'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import ImportFromM3U8 from '@/components/import-from-m3u8/ImportFromM3U8'
+import { Skeleton } from '@/components/ui/skeleton'
+import { getUser } from '@/server/user/user-service'
 
 export const metadata: Metadata = {
   title: 'Karaoke Match - Import (m3u8)',
-};
+}
 
 function Page(): ReactElement {
   return (
@@ -34,11 +34,11 @@ function Page(): ReactElement {
         <ImporterWithUserBangers />
       </Suspense>
     </SmallPage>
-  );
+  )
 }
 
 async function ImporterWithUserBangers() {
-  const user = await getUser();
+  const user = await getUser()
 
   if (!user) {
     return (
@@ -49,12 +49,12 @@ async function ImporterWithUserBangers() {
           <Link href="/login">Login</Link> to import playlists.
         </AlertDescription>
       </Alert>
-    );
+    )
   }
 
-  const bangers = await getUserBangersRecord(user.userId);
+  const bangers = await getUserBangersRecord(user.userId)
 
-  return <ImportFromM3U8 existingSongs={bangers} />;
+  return <ImportFromM3U8 existingSongs={bangers} />
 }
 
-export default Page;
+export default Page

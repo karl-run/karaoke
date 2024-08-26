@@ -1,2 +1,2 @@
-export { db, disconnect, client } from './client';
-export * from './schema';
+export { db, disconnect, client } from './client'
+export * from './schema'

@@ -1,5 +1,5 @@
-import React, { ReactElement } from 'react';
-import Link from 'next/link';
+import React, { ReactElement } from 'react'
+import Link from 'next/link'
 
 function Footer(): ReactElement {
   return (
@@ -31,7 +31,7 @@ function Footer(): ReactElement {
         <p className="mt-2">Alternatively, you can reach out at k@rl.run.</p>
       </div>
     </div>
-  );
+  )
 }
 
-export default Footer;
+export default Footer

@@ -1,17 +1,17 @@
-import React, { ReactElement } from 'react';
-import { InfoCircledIcon } from '@radix-ui/react-icons';
-import Link from 'next/link';
-import { Metadata } from 'next';
+import React, { ReactElement } from 'react'
+import { InfoCircledIcon } from '@radix-ui/react-icons'
+import Link from 'next/link'
+import { Metadata } from 'next'
 
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { SmallPage } from '@/components/layout/Layouts';
-import { magicLoginLinkAction } from '@/app/login/_login-actions';
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { SmallPage } from '@/components/layout/Layouts'
+import { magicLoginLinkAction } from '@/app/login/_login-actions'
 
 export const metadata: Metadata = {
   title: 'Karaoke Match - Log in',
-};
+}
 
 function Page(): ReactElement {
   return (
@@ -43,7 +43,7 @@ function Page(): ReactElement {
         </AlertDescription>
       </Alert>
     </SmallPage>
-  );
+  )
 }
 
-export default Page;
+export default Page

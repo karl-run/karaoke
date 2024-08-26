@@ -1,25 +1,25 @@
-import Image from 'next/image';
-import React, { useEffect, useRef } from 'react';
-import { StarFilledIcon } from '@radix-ui/react-icons';
+import Image from 'next/image'
+import React, { useEffect, useRef } from 'react'
+import { StarFilledIcon } from '@radix-ui/react-icons'
 
-import { TrackResult } from 'server/spotify/types';
+import { TrackResult } from 'server/spotify/types'
 
-import { cn } from '@/lib/utils';
-import PlaySong from '@/components/PlaySong';
-import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils'
+import PlaySong from '@/components/PlaySong'
+import { Button } from '@/components/ui/button'
 
-import styles from './BangOrNoBangTrack.module.css';
+import styles from './BangOrNoBangTrack.module.css'
 
 type Props = {
-  className?: string;
-  track: TrackResult;
-  suggestedBy: string[];
-  autoplay: boolean;
-  disabled: boolean;
-  onBanger: () => void;
-  onDismiss: () => void;
-  loadImage: boolean;
-};
+  className?: string
+  track: TrackResult
+  suggestedBy: string[]
+  autoplay: boolean
+  disabled: boolean
+  onBanger: () => void
+  onDismiss: () => void
+  loadImage: boolean
+}
 
 export function BangOrNoBangTrack({
   className,
@@ -31,14 +31,14 @@ export function BangOrNoBangTrack({
   onDismiss,
   loadImage,
 }: Props) {
-  const noRef = useRef<HTMLButtonElement>(null);
+  const noRef = useRef<HTMLButtonElement>(null)
   useEffect(() => {
     if (!disabled) {
       requestAnimationFrame(() => {
-        noRef.current?.focus();
-      });
+        noRef.current?.focus()
+      })
     }
-  }, [disabled]);
+  }, [disabled])
 
   return (
     <div className={cn(className, styles.trackGrid)}>
@@ -103,5 +103,5 @@ export function BangOrNoBangTrack({
         Banger!
       </Button>
     </div>
-  );
+  )
 }

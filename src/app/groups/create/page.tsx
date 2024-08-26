@@ -1,14 +1,14 @@
-import React, { ReactElement } from 'react';
-import { redirect } from 'next/navigation';
-import { InfoCircledIcon } from '@radix-ui/react-icons';
+import React, { ReactElement } from 'react'
+import { redirect } from 'next/navigation'
+import { InfoCircledIcon } from '@radix-ui/react-icons'
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { SmallPage } from '@/components/layout/Layouts';
-import { createGroupAction } from '@/app/groups/_group-actions';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import GroupAvatar from '@/components/avatar/GroupAvatar';
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { SmallPage } from '@/components/layout/Layouts'
+import { createGroupAction } from '@/app/groups/_group-actions'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import GroupAvatar from '@/components/avatar/GroupAvatar'
 
 function Page(): ReactElement {
   return (
@@ -22,21 +22,21 @@ function Page(): ReactElement {
     >
       <form
         action={async (data) => {
-          'use server';
+          'use server'
 
-          const groupName = data.get('group-name')?.toString();
-          const groupIcon = data.get('group-icon')?.toString();
+          const groupName = data.get('group-name')?.toString()
+          const groupIcon = data.get('group-icon')?.toString()
 
           if (!groupName || !groupIcon) {
-            throw new Error('Group name and icon is required');
+            throw new Error('Group name and icon is required')
           }
 
-          const newGroup = await createGroupAction(groupName, +groupIcon);
+          const newGroup = await createGroupAction(groupName, +groupIcon)
           if (newGroup?.id) {
-            redirect(`/groups/${newGroup.id}/details`);
+            redirect(`/groups/${newGroup.id}/details`)
           }
 
-          console.error('Unable to create group');
+          console.error('Unable to create group')
         }}
         className="flex gap-3"
       >
@@ -64,7 +64,7 @@ function Page(): ReactElement {
         </AlertDescription>
       </Alert>
     </SmallPage>
-  );
+  )
 }
 
-export default Page;
+export default Page

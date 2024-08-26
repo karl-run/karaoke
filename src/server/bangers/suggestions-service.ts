@@ -1,7 +1,7 @@
-import * as R from 'remeda';
+import * as R from 'remeda'
 
-import { TrackResult } from 'server/spotify/types';
-import { getCoGroupMemberBangers, getGlobalBangers } from 'server/bangers/suggestions-db';
+import { TrackResult } from 'server/spotify/types'
+import { getCoGroupMemberBangers, getGlobalBangers } from 'server/bangers/suggestions-db'
 
 export async function getSuggestions(
   userId: string,
@@ -10,7 +10,7 @@ export async function getSuggestions(
   const [globalSuggestions, coMemberBangers] = await Promise.all([
     getGlobalBangers(userId, count / 2),
     getCoGroupMemberBangers(userId, count / 2),
-  ]);
+  ])
 
   const globalClean = R.pipe(
     globalSuggestions,
@@ -19,13 +19,13 @@ export async function getSuggestions(
       track: it,
       suggestedBy: ['global'],
     })),
-  );
+  )
   const coMemberClean = R.pipe(
     coMemberBangers,
     R.filter((it) => it.track != null),
-  );
+  )
 
-  return R.pipe(R.concat(globalClean, coMemberClean), R.shuffle());
+  return R.pipe(R.concat(globalClean, coMemberClean), R.shuffle())
 }
 
-export { dismissSuggestion } from './suggestions-db';
+export { dismissSuggestion } from './suggestions-db'

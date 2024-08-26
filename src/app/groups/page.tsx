@@ -1,18 +1,18 @@
-import React, { ReactElement, Suspense } from 'react';
-import Link from 'next/link';
-import { Crosshair2Icon, GearIcon } from '@radix-ui/react-icons';
-import { Metadata } from 'next';
+import React, { ReactElement, Suspense } from 'react'
+import Link from 'next/link'
+import { Crosshair2Icon, GearIcon } from '@radix-ui/react-icons'
+import { Metadata } from 'next'
 
-import { getUser } from 'server/user/user-service';
-import { getUsersGroupsCached } from 'server/group/group-service';
+import { getUser } from 'server/user/user-service'
+import { getUsersGroupsCached } from 'server/group/group-service'
 
-import { SmallPage } from '@/components/layout/Layouts';
-import GroupAvatar from '@/components/avatar/GroupAvatar';
-import { Skeleton } from '@/components/ui/skeleton';
+import { SmallPage } from '@/components/layout/Layouts'
+import GroupAvatar from '@/components/avatar/GroupAvatar'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export const metadata: Metadata = {
   title: 'Karaoke Match - Groups',
-};
+}
 
 function Page(): ReactElement {
   return (
@@ -49,16 +49,16 @@ function Page(): ReactElement {
         </Link>
       </div>
     </SmallPage>
-  );
+  )
 }
 
 async function UserGroups() {
-  const user = await getUser();
+  const user = await getUser()
   if (!user) {
-    return <div>You must be logged in to view your groups</div>;
+    return <div>You must be logged in to view your groups</div>
   }
 
-  const groups = await getUsersGroupsCached(user.userId);
+  const groups = await getUsersGroupsCached(user.userId)
 
   return (
     <div className="flex flex-col gap-3 min-h-60">
@@ -66,18 +66,18 @@ async function UserGroups() {
         <GroupListItem key={group.id} group={group} />
       ))}
     </div>
-  );
+  )
 }
 
 function GroupListItem({
   group,
 }: {
   group: {
-    id: string;
-    name: string;
-    iconIndex: number;
-    memberCount: number;
-  };
+    id: string
+    name: string
+    iconIndex: number
+    memberCount: number
+  }
 }) {
   return (
     <div className="rounded flex justify-between">
@@ -105,7 +105,7 @@ function GroupListItem({
         <GearIcon className="h-6 w-6" />
       </Link>
     </div>
-  );
+  )
 }
 
 function GroupListItemSkeleton() {
@@ -119,7 +119,7 @@ function GroupListItemSkeleton() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default Page;
+export default Page

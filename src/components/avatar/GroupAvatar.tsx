@@ -1,24 +1,24 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement } from 'react'
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils'
 
-import sheet_png from './sheet.png';
+import sheet_png from './sheet.png'
 
 type Props = {
-  iconIndex: number;
-  size?: 'small' | 'normal';
-  className?: string;
-};
+  iconIndex: number
+  size?: 'small' | 'normal'
+  className?: string
+}
 
-const ROW_PADDING = 10.7;
-const COL_PADDING = 7.8;
-const ROW_SIZE = 48.2;
-const COL_SIZE = 48;
-const ROWS = 6;
+const ROW_PADDING = 10.7
+const COL_PADDING = 7.8
+const ROW_SIZE = 48.2
+const COL_SIZE = 48
+const ROWS = 6
 
 function GroupAvatar({ iconIndex, className, size = 'normal' }: Props): ReactElement {
-  const rowIndex = iconIndex % ROWS;
-  const colIndex = Math.floor(iconIndex / ROWS);
+  const rowIndex = iconIndex % ROWS
+  const colIndex = Math.floor(iconIndex / ROWS)
 
   return (
     <div
@@ -31,7 +31,7 @@ function GroupAvatar({ iconIndex, className, size = 'normal' }: Props): ReactEle
       }}
       aria-hidden
     />
-  );
+  )
 }
 
-export default GroupAvatar;
+export default GroupAvatar

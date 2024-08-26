@@ -1,18 +1,18 @@
-'use client';
+'use client'
 
-import React, { ReactElement } from 'react';
-import Link from 'next/link';
-import { EnterIcon, FileIcon } from '@radix-ui/react-icons';
-import { MoreVertical } from 'lucide-react';
+import React, { ReactElement } from 'react'
+import Link from 'next/link'
+import { EnterIcon, FileIcon } from '@radix-ui/react-icons'
+import { MoreVertical } from 'lucide-react'
 
 import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
-import { DropdownMenu } from '@/components/ui/dropdown-menu';
+} from '@/components/ui/dropdown-menu'
+import { Button } from '@/components/ui/button'
+import { DropdownMenu } from '@/components/ui/dropdown-menu'
 
 function BangersExtraActions(): ReactElement {
   return (
@@ -52,7 +52,7 @@ function BangersExtraActions(): ReactElement {
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
-  );
+  )
 }
 
-export default BangersExtraActions;
+export default BangersExtraActions

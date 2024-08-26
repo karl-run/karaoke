@@ -1,27 +1,27 @@
-import React, { ReactElement, Suspense } from 'react';
-import { notFound, redirect } from 'next/navigation';
-import { Metadata } from 'next';
+import React, { ReactElement, Suspense } from 'react'
+import { notFound, redirect } from 'next/navigation'
+import { Metadata } from 'next'
 
-import { getOtherUser, getUser, usersShareGroup } from 'server/user/user-service';
-import { getUserBangers, getUserBangersRecord } from 'server/bangers/bangers-service';
+import { getOtherUser, getUser, usersShareGroup } from 'server/user/user-service'
+import { getUserBangers, getUserBangersRecord } from 'server/bangers/bangers-service'
 
-import { FullPage, FullPageDescription } from '@/components/layout/Layouts';
-import { TrackGrid, TrackGridSkeleton } from '@/components/track/TrackGrid';
-import Track, { LazyTrack, TrackSkeleton } from '@/components/track/Track';
-import { Skeleton } from '@/components/ui/skeleton';
+import { FullPage, FullPageDescription } from '@/components/layout/Layouts'
+import { TrackGrid, TrackGridSkeleton } from '@/components/track/TrackGrid'
+import Track, { LazyTrack, TrackSkeleton } from '@/components/track/Track'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export const metadata: Metadata = {
   title: 'Karaoke Match - Friend',
-};
+}
 
 type Props = {
   params: {
-    userId: string;
-  };
+    userId: string
+  }
   searchParams: {
-    returnTo: string;
-  };
-};
+    returnTo: string
+  }
+}
 
 function Page({ params, searchParams }: Props): ReactElement {
   return (
@@ -43,29 +43,29 @@ function Page({ params, searchParams }: Props): ReactElement {
         <GroupMemberBangers userSafeId={params.userId} />
       </Suspense>
     </FullPage>
-  );
+  )
 }
 
 async function GroupMemberBangers({ userSafeId }: { userSafeId: string }) {
-  const [user, otherUser] = await Promise.all([getUser(), getOtherUser(userSafeId)]);
+  const [user, otherUser] = await Promise.all([getUser(), getOtherUser(userSafeId)])
   if (!user || !otherUser) {
-    notFound();
+    notFound()
   }
 
   if (user.userId === otherUser.userId) {
     // User looking ot their own bangers
-    redirect('/bangers');
+    redirect('/bangers')
   }
 
   if (!(await usersShareGroup(user.userId, otherUser.userId))) {
-    console.error('User does not share group with group member, sneaky!');
-    notFound();
+    console.error('User does not share group with group member, sneaky!')
+    notFound()
   }
 
   const [otherUserBangers, userCache] = await Promise.all([
     getUserBangers(otherUser.userId),
     getUserBangersRecord(user.userId),
-  ]);
+  ])
 
   return (
     <>
@@ -84,7 +84,7 @@ async function GroupMemberBangers({ userSafeId }: { userSafeId: string }) {
         )}
       </TrackGrid>
     </>
-  );
+  )
 }
 
 function GroupMemberBangersSkeleton() {
@@ -95,12 +95,12 @@ function GroupMemberBangersSkeleton() {
       </FullPageDescription>
       <TrackGridSkeleton />
     </>
-  );
+  )
 }
 
 function getRandomGoodWord() {
-  const goodWords = ['legend', 'champion', 'hero', 'master', 'genius'];
-  return goodWords[Math.floor(Math.random() * goodWords.length)];
+  const goodWords = ['legend', 'champion', 'hero', 'master', 'genius']
+  return goodWords[Math.floor(Math.random() * goodWords.length)]
 }
 
-export default Page;
+export default Page
