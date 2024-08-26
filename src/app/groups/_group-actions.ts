@@ -2,6 +2,7 @@
 
 import { redirect } from 'next/navigation';
 import { revalidatePath, revalidateTag } from 'next/cache';
+import { cookies } from 'next/headers';
 
 import { getUser } from 'server/user/user-service';
 import { createGroup, deleteGroup, getGroupById, joinGroup, leaveGroup, updateInviteLink } from 'server/group/group-db';
@@ -111,4 +112,9 @@ export async function invalidateInviteLinkAction(groupId: string): Promise<void>
   await updateInviteLink(groupId);
 
   revalidatePath(`/groups/${groupId}/details`);
+}
+
+export async function setReturnToGroupCookie(joinCode: string): Promise<void> {
+  console.info('User visited invite without being logged in, setting cookie');
+  cookies().set({ name: 'I have been invited', value: joinCode, httpOnly: true, path: '/' });
 }

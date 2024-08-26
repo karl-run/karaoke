@@ -16,6 +16,8 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { joinGroupAction } from '@/app/groups/_group-actions';
 import GroupAvatar from '@/components/avatar/GroupAvatar';
 
+import LazyJoinCookie from './lazy-join-cookie';
+
 type Props = {
   searchParams: {
     code: string;
@@ -159,6 +161,7 @@ async function JoinInvite({ code }: { code: string }): Promise<ReactElement> {
           </Link>{' '}
           to join this group.
         </AlertDescription>
+        <LazyJoinCookie joinCode={code} />
       </Alert>
     );
   }
