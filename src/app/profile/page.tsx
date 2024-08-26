@@ -6,7 +6,7 @@ import { Metadata } from 'next'
 
 import { getUserBangersCount } from 'server/bangers/bangers-service'
 import { getUserGroupCount } from 'server/group/group-db'
-import { getAllSessions } from 'server/session/session-db'
+import { getActiveSessions } from 'server/session/session-db'
 
 import { SmallPage } from '@/components/layout/Layouts'
 import DeleteUserButton from '@/components/delete-user/DeleteUserButton'
@@ -87,7 +87,7 @@ async function GroupCount({ className, userId }: { className?: string; userId: s
 }
 
 async function UserSessions({ userId, sessionId }: { userId: string; sessionId: string }): Promise<ReactElement> {
-  const allSessions = await getAllSessions(userId)
+  const allSessions = await getActiveSessions(userId)
   const sorted = R.pipe(
     allSessions,
     R.sortBy([(it) => it.sessionId === sessionId, 'desc'], [(it) => it.lastSeen, 'desc']),

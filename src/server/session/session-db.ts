@@ -1,5 +1,6 @@
-import { eq } from 'drizzle-orm'
+import { and, eq, gte } from 'drizzle-orm'
 import UAParser from 'ua-parser-js'
+import { subDays } from 'date-fns'
 
 import { db, sessions, users } from 'server/db'
 
@@ -56,8 +57,11 @@ export async function deleteSessionById(sessionId: string) {
   await db.delete(sessions).where(eq(sessions.id, sessionId))
 }
 
-export async function getAllSessions(userId: string) {
-  const result = await db.select().from(sessions).where(eq(sessions.user_id, userId))
+export async function getActiveSessions(userId: string) {
+  const result = await db
+    .select()
+    .from(sessions)
+    .where(and(eq(sessions.user_id, userId), gte(sessions.created_at, subDays(new Date(), 30))))
 
   return result.map((row) => ({
     sessionId: row.id,
