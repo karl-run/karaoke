@@ -1,8 +1,6 @@
 {
-  "version": "5",
+  "version": "6",
   "dialect": "sqlite",
-  "id": "a7aaa742-5dec-4058-963f-e4e2fe94f8f5",
-  "prevId": "e90819f6-78de-4b23-984d-48959d4c2afc",
   "tables": {
     "bangers": {
       "name": "bangers",
@@ -42,23 +40,16 @@
         "bangers_user_id_users_email_fk": {
           "name": "bangers_user_id_users_email_fk",
           "tableFrom": "bangers",
+          "columnsFrom": ["user_id"],
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "email"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "columnsTo": ["email"],
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {
         "bangers_song_id_user_id_pk": {
-          "columns": [
-            "song_id",
-            "user_id"
-          ],
+          "columns": ["song_id", "user_id"],
           "name": "bangers_song_id_user_id_pk"
         }
       },
@@ -131,15 +122,11 @@
         "sessions_user_id_users_email_fk": {
           "name": "sessions_user_id_users_email_fk",
           "tableFrom": "sessions",
+          "columnsFrom": ["user_id"],
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "email"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "columnsTo": ["email"],
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -210,9 +197,7 @@
       "indexes": {
         "user_group_join_key_unique": {
           "name": "user_group_join_key_unique",
-          "columns": [
-            "join_key"
-          ],
+          "columns": ["join_key"],
           "isUnique": true
         }
       },
@@ -251,36 +236,25 @@
         "user_to_group_user_id_users_email_fk": {
           "name": "user_to_group_user_id_users_email_fk",
           "tableFrom": "user_to_group",
+          "columnsFrom": ["user_id"],
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "email"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "columnsTo": ["email"],
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "user_to_group_group_id_user_group_id_fk": {
           "name": "user_to_group_group_id_user_group_id_fk",
           "tableFrom": "user_to_group",
+          "columnsFrom": ["group_id"],
           "tableTo": "user_group",
-          "columnsFrom": [
-            "group_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "columnsTo": ["id"],
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {
         "user_to_group_user_id_group_id_pk": {
-          "columns": [
-            "group_id",
-            "user_id"
-          ],
+          "columns": ["group_id", "user_id"],
           "name": "user_to_group_user_id_group_id_pk"
         }
       },
@@ -343,9 +317,7 @@
       "indexes": {
         "users_safeId_unique": {
           "name": "users_safeId_unique",
-          "columns": [
-            "safeId"
-          ],
+          "columns": ["safeId"],
           "isUnique": true
         }
       },
@@ -356,8 +328,9 @@
   },
   "enums": {},
   "_meta": {
-    "schemas": {},
     "tables": {},
     "columns": {}
-  }
+  },
+  "id": "a7aaa742-5dec-4058-963f-e4e2fe94f8f5",
+  "prevId": "e90819f6-78de-4b23-984d-48959d4c2afc"
 }

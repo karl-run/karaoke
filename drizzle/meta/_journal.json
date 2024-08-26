@@ -43,6 +43,13 @@
       "when": 1714323871077,
       "tag": "0005_colossal_vengeance",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1724688242788,
+      "tag": "0006_melted_hiroim",
+      "breakpoints": true
     }
   ]
 }

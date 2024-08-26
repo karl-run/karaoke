@@ -1,8 +1,6 @@
 {
-  "version": "5",
+  "version": "6",
   "dialect": "sqlite",
-  "id": "222f47c7-5d87-41fb-aa19-09d17890c7a7",
-  "prevId": "a7aaa742-5dec-4058-963f-e4e2fe94f8f5",
   "tables": {
     "bangers": {
       "name": "bangers",
@@ -42,11 +40,11 @@
         "bangers_user_id_users_email_fk": {
           "name": "bangers_user_id_users_email_fk",
           "tableFrom": "bangers",
-          "tableTo": "users",
           "columnsFrom": ["user_id"],
+          "tableTo": "users",
           "columnsTo": ["email"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {
@@ -147,11 +145,11 @@
         "sessions_user_id_users_email_fk": {
           "name": "sessions_user_id_users_email_fk",
           "tableFrom": "sessions",
-          "tableTo": "users",
           "columnsFrom": ["user_id"],
+          "tableTo": "users",
           "columnsTo": ["email"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -261,20 +259,20 @@
         "user_to_group_user_id_users_email_fk": {
           "name": "user_to_group_user_id_users_email_fk",
           "tableFrom": "user_to_group",
-          "tableTo": "users",
           "columnsFrom": ["user_id"],
+          "tableTo": "users",
           "columnsTo": ["email"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "user_to_group_group_id_user_group_id_fk": {
           "name": "user_to_group_group_id_user_group_id_fk",
           "tableFrom": "user_to_group",
-          "tableTo": "user_group",
           "columnsFrom": ["group_id"],
+          "tableTo": "user_group",
           "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {
@@ -353,8 +351,9 @@
   },
   "enums": {},
   "_meta": {
-    "schemas": {},
     "tables": {},
     "columns": {}
-  }
+  },
+  "id": "222f47c7-5d87-41fb-aa19-09d17890c7a7",
+  "prevId": "a7aaa742-5dec-4058-963f-e4e2fe94f8f5"
 }

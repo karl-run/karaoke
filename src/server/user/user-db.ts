@@ -52,6 +52,7 @@ export async function createUser(email: string, displayName: string, hash: strin
     name: displayName,
     loginHash: hash,
     loginSalt: salt,
+    joinedAt: new Date(),
     loginTimestamp: new Date(),
     safeId: generate16ByteHex(),
   })

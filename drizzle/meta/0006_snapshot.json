@@ -1,6 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
+  "id": "b1099423-ba98-43e1-83f0-dff6e74d385c",
+  "prevId": "d8144ee2-4f66-4768-92e6-7601fed4991c",
   "tables": {
     "bangers": {
       "name": "bangers",
@@ -18,6 +20,21 @@
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
+        },
+        "song_key": {
+          "name": "song_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "''"
+        },
+        "banged_at": {
+          "name": "banged_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
         }
       },
       "indexes": {},
@@ -25,11 +42,11 @@
         "bangers_user_id_users_email_fk": {
           "name": "bangers_user_id_users_email_fk",
           "tableFrom": "bangers",
-          "columnsFrom": ["user_id"],
           "tableTo": "users",
+          "columnsFrom": ["user_id"],
           "columnsTo": ["email"],
-          "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "no action",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {
@@ -38,6 +55,104 @@
           "name": "bangers_song_id_user_id_pk"
         }
       },
+      "uniqueConstraints": {}
+    },
+    "dismissed_bangers": {
+      "name": "dismissed_bangers",
+      "columns": {
+        "song_key": {
+          "name": "song_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "dismissed_at": {
+          "name": "dismissed_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "dismissed_bangers_user_id_users_email_fk": {
+          "name": "dismissed_bangers_user_id_users_email_fk",
+          "tableFrom": "dismissed_bangers",
+          "tableTo": "users",
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["email"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "dismissed_bangers_song_key_user_id_pk": {
+          "columns": ["song_key", "user_id"],
+          "name": "dismissed_bangers_song_key_user_id_pk"
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "global_bangers": {
+      "name": "global_bangers",
+      "columns": {
+        "song_key": {
+          "name": "song_key",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "added_at": {
+          "name": "added_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "region": {
+          "name": "region",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "normalized_song_cache": {
+      "name": "normalized_song_cache",
+      "columns": {
+        "song_key": {
+          "name": "song_key",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "data": {
+          "name": "data",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
     "sessions": {
@@ -84,11 +199,11 @@
         "sessions_user_id_users_email_fk": {
           "name": "sessions_user_id_users_email_fk",
           "tableFrom": "sessions",
-          "columnsFrom": ["user_id"],
           "tableTo": "users",
+          "columnsFrom": ["user_id"],
           "columnsTo": ["email"],
-          "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "no action",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -198,25 +313,25 @@
         "user_to_group_user_id_users_email_fk": {
           "name": "user_to_group_user_id_users_email_fk",
           "tableFrom": "user_to_group",
-          "columnsFrom": ["user_id"],
           "tableTo": "users",
+          "columnsFrom": ["user_id"],
           "columnsTo": ["email"],
-          "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "no action",
+          "onUpdate": "no action"
         },
         "user_to_group_group_id_user_group_id_fk": {
           "name": "user_to_group_group_id_user_group_id_fk",
           "tableFrom": "user_to_group",
-          "columnsFrom": ["group_id"],
           "tableTo": "user_group",
+          "columnsFrom": ["group_id"],
           "columnsTo": ["id"],
-          "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "no action",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {
         "user_to_group_user_id_group_id_pk": {
-          "columns": ["group_id", "user_id"],
+          "columns": ["user_id", "group_id"],
           "name": "user_to_group_user_id_group_id_pk"
         }
       },
@@ -246,6 +361,13 @@
           "notNull": true,
           "autoincrement": false
         },
+        "joined_at": {
+          "name": "joined_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "verified": {
           "name": "verified",
           "type": "integer",
@@ -270,7 +392,7 @@
         },
         "login_timestamp": {
           "name": "login_timestamp",
-          "type": "text",
+          "type": "integer",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -290,9 +412,11 @@
   },
   "enums": {},
   "_meta": {
+    "schemas": {},
     "tables": {},
     "columns": {}
   },
-  "id": "849abb40-3c98-4814-ac1a-397146fc2ebb",
-  "prevId": "00000000-0000-0000-0000-000000000000"
+  "internal": {
+    "indexes": {}
+  }
 }
