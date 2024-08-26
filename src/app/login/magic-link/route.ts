@@ -4,6 +4,7 @@ import { addDays, differenceInMinutes, isBefore, subMinutes } from 'date-fns'
 
 import { clearUserLoginState, getFullLoginUserByEmail } from 'server/user/user-db'
 import { createUserSession, setUserVerified } from 'server/session/session-db'
+import { isUserInGroup } from 'server/group/group-db'
 
 import { generate16ByteHex, hashWithSalt } from '@/utils/token'
 
@@ -48,6 +49,18 @@ export async function GET(request: NextRequest) {
 
   await clearUserLoginState(user.email)
 
+  const lastInviteLinkValue = cookies().get('I have been invited')
+  if (lastInviteLinkValue != null && !(await isUserInGroup(user.email, lastInviteLinkValue.value))) {
+    return toInviteLink(request, lastInviteLinkValue.value)
+  }
+
+  if (lastInviteLinkValue != null) {
+    cookies().delete({
+      name: 'I have been invited',
+      httpOnly: true,
+    })
+  }
+
   return backToRoot(request)
 }
 
@@ -73,6 +86,15 @@ function toLoginFail(request: NextRequest) {
   const url = request.nextUrl.clone()
   url.pathname = '/login/fail'
   url.searchParams.delete('token')
+
+  return NextResponse.redirect(url)
+}
+
+function toInviteLink(request: NextRequest, inviteCode: string) {
+  const url = request.nextUrl.clone()
+  url.pathname = '/groups/join'
+  url.searchParams.delete('token')
+  url.searchParams.set('code', inviteCode)
 
   return NextResponse.redirect(url)
 }
