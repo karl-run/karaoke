@@ -1,3 +1,5 @@
+import { mockify } from 'server/spotify/mockify'
+
 const SPOTIFY_BASE_URL = `https://api.spotify.com`
 
 export async function getSpotifyToken(): Promise<string> {
@@ -28,6 +30,10 @@ export async function getSpotifyToken(): Promise<string> {
 }
 
 export async function spotifyFetch<Response>(pathOrUrl: string): Promise<Response> {
+  if (process.env.NODE_ENV === 'development' && process.env.SPOTIFY_DEV_TOKEN == null) {
+    return mockify(pathOrUrl)
+  }
+
   const token = await getSpotifyToken()
 
   const path = pathOrUrl.replace(SPOTIFY_BASE_URL, '')
