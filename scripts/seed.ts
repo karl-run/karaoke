@@ -1,4 +1,4 @@
-import { disconnect, db, users, userGroup, userToGroup, bangers } from '../src/server/db'
+import { disconnect, db, users, userGroup, userToGroup, bangers, normalizedSongCache } from '../src/server/db'
 import westlife from '../src/server/spotify/mockify/search-example.json'
 import { trackToNormalizedId } from '../src/server/bangers/normalization'
 import { spotifyTrackToTrackResult } from '../src/server/spotify/mapper'
@@ -72,6 +72,14 @@ await db
   .onConflictDoNothing()
 
 // @ts-expect-error Bun
+await db.insert(normalizedSongCache).values(
+  westlife.tracks.items.map((it) => ({
+    songKey: trackToNormalizedId(spotifyTrackToTrackResult(it)),
+    data: spotifyTrackToTrackResult(it),
+  })),
+).onConflictDoNothing()
+
+// @ts-expect-error Bun
 await db.insert(bangers).values(
   westlife.tracks.items.slice(0, 13).map((it) => ({
     songId: it.id,
@@ -79,7 +87,7 @@ await db.insert(bangers).values(
     songKey: trackToNormalizedId(spotifyTrackToTrackResult(it)),
     bangedAt: new Date(),
   })),
-)
+).onConflictDoNothing()
 
 // @ts-expect-error Bun
 await db.insert(bangers).values(
@@ -89,7 +97,7 @@ await db.insert(bangers).values(
     songKey: trackToNormalizedId(spotifyTrackToTrackResult(it)),
     bangedAt: new Date(),
   })),
-)
+).onConflictDoNothing()
 
 console.info('Seeded database')
 
