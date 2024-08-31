@@ -31,19 +31,15 @@ export async function getSpotifyToken(): Promise<string> {
 
 export async function spotifyFetch<Response>(pathOrUrl: string): Promise<Response> {
   if (process.env.NODE_ENV === 'development' && process.env.SPOTIFY_DEV_TOKEN == null) {
+    console.warn('Using mockify in development mode because SPOTIFY_DEV_TOKEN is not set')
     return mockify(pathOrUrl)
   }
 
   const token = await getSpotifyToken()
-
   const path = pathOrUrl.replace(SPOTIFY_BASE_URL, '')
   const response = await fetch(`${SPOTIFY_BASE_URL}${path}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    next: {
-      revalidate: 3600,
-    },
+    headers: { Authorization: `Bearer ${token}` },
+    next: { revalidate: 3600 },
   })
 
   if (!response.ok) {
