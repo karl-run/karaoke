@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
 
   const sessionId = generate16ByteHex()
 
-  await createUserSession(sessionId, 'test@example.com', request.headers.get('user-agent') ?? 'unknown')
+  await createUserSession(sessionId, 'you@example.com', request.headers.get('user-agent') ?? 'unknown')
 
   cookies().set('session', sessionId, {
     httpOnly: true,
