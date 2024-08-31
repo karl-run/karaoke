@@ -21,6 +21,13 @@ Local development uses a libsql database in a docker container, so you'll need t
 docker compose up -d
 ```
 
+Set up the env file, if you want to use non-development spotify, you can set the `SPOTIFY_CLIENT_ID`
+and `SPOTIFY_CLIENT_SECRET` in the `.env.local` file. Otherwise you only need to copy it once.
+
+```
+cp .env.example .env.local
+```
+
 Push the database schema and seed the database.
 
 ```sh
