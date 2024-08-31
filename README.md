@@ -19,11 +19,14 @@ Set up sqlite database (dev.db), re-do this on any schema changes, remember to a
 happy with your DB schema changes.
 
 ```sh
-bun dev:prepare
+bun run dev:prepare
 ```
 
 Run nextjs dev server
 
 ```sh
-bun dev
+bun run dev
 ```
+
+With local sqlite as the database, only a single process can access the database at a time. If you want to inspect the
+database file in a sqlite client, you will need to stop the dev server first.

@@ -15,7 +15,6 @@ export interface SpotifyTracksPagination {
 export interface SpotifyTrack {
   album: SpotifyAlbum
   artists: SpotifyArtist[]
-  available_markets: string[]
   disc_number: number
   duration_ms: number
   explicit: boolean
@@ -35,7 +34,6 @@ export interface SpotifyTrack {
 export interface SpotifyAlbum {
   album_type: string
   artists: AlbumArtist[]
-  available_markets: string[]
   external_urls: SpotifyExternalUrls
   href: string
   id: string

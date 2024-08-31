@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "dev:prepare": "db:dev:init && db:dev:seed",
+    "dev:prepare": "bun run db:dev:init && bun run db:dev:seed",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
