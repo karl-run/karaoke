@@ -1,6 +1,5 @@
 import type { Config } from 'drizzle-kit'
 
-// eslint-disable-next-line no-console
 console.info('USING DRIZZLE DEV CONFIGURATION, CHANGES ARE TARGETING file:./dev.db')
 
 export default {
