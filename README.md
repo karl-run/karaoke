@@ -15,8 +15,13 @@ Install deps
 bun install
 ```
 
-Set up sqlite database (dev.db), re-do this on any schema changes, remember to also run `bun db:migrate` when you are
-happy with your DB schema changes.
+Local development uses a libsql database in a docker container, so you'll need to start the database first.
+
+```sh
+docker compose up -d
+```
+
+Push the database schema and seed the database.
 
 ```sh
 bun run dev:prepare
@@ -28,5 +33,5 @@ Run nextjs dev server
 bun run dev
 ```
 
-With local sqlite as the database, only a single process can access the database at a time. If you want to inspect the
-database file in a sqlite client, you will need to stop the dev server first.
+When doing database changes, you can push changes without generating migrations using `bun run db:dev:push`. More
+details in the drizzle docs [here](https://orm.drizzle.team/kit-docs/overview#prototyping-with-db-push).
