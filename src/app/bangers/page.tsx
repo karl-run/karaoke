@@ -20,7 +20,7 @@ function Page(): ReactElement {
     <FullPage title="My bangers" back="search" actions={<BangersExtraActions />}>
       <Suspense
         fallback={
-          <div className="container mx-auto p-4" >
+          <div className="container mx-auto p-4">
             <div className="grid grid-cols-1 md:grid-cols-[min-content_auto]">
               <SortBy />
 

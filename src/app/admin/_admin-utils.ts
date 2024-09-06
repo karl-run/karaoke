@@ -17,5 +17,5 @@ export async function getVerifiedAdmin() {
     notFound()
   }
 
-  return user;
+  return user
 }

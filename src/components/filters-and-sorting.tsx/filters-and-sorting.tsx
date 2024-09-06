@@ -1,7 +1,7 @@
-import { TrackResult } from "@/server/spotify/types"
+import { TrackResult } from '@/server/spotify/types'
 
-import { ArtistFilter } from "./artist-filter"
-import { SortBy } from "./sort-by"
+import { ArtistFilter } from './artist-filter'
+import { SortBy } from './sort-by'
 
 type Props = {
   bangs: [string, TrackResult | null][]

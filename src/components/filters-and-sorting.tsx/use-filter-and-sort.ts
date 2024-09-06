@@ -1,7 +1,7 @@
-import { useQueryState, parseAsArrayOf, parseAsString } from "nuqs"
-import { useMemo } from "react"
+import { useQueryState, parseAsArrayOf, parseAsString } from 'nuqs'
+import { useMemo } from 'react'
 
-import { TrackResult } from "@/server/spotify/types"
+import { TrackResult } from '@/server/spotify/types'
 
 export const useFilterAndSort = (bangs: [string, TrackResult | null][]) => {
   const [search] = useQueryState('sort')
@@ -10,7 +10,7 @@ export const useFilterAndSort = (bangs: [string, TrackResult | null][]) => {
   const filtered = useMemo(() => {
     if (filter == null || filter.length === 0) return bangs
 
-    return bangs.filter(([, track]) => track !== null && !filter.some(f => encodeURIComponent(track.artist) === f))
+    return bangs.filter(([, track]) => track !== null && !filter.some((f) => encodeURIComponent(track.artist) === f))
   }, [bangs, filter])
 
   const sorted = useMemo(() => {

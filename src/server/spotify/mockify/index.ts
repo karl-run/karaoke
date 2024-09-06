@@ -1,4 +1,4 @@
-import { mockSearch, mockTrackLookup } from 'server/spotify/mockify/search';
+import { mockSearch, mockTrackLookup } from 'server/spotify/mockify/search'
 
 export async function mockify(pathOrUrl: string): Promise<any> {
   const [path, query] = pathOrUrl.split('?')

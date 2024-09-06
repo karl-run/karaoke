@@ -31,24 +31,28 @@ function Page({ params, searchParams }: Props): ReactElement {
       back={
         searchParams.returnTo
           ? {
-            to: `/groups/${searchParams.returnTo}`,
-            text: 'Back to group',
-          }
+              to: `/groups/${searchParams.returnTo}`,
+              text: 'Back to group',
+            }
           : {
-            to: '/groups',
-            text: 'Back to groups',
-          }
+              to: '/groups',
+              text: 'Back to groups',
+            }
       }
     >
-      <Suspense fallback={<div className="container mx-auto p-4" >
-        <div className="grid grid-cols-1 md:grid-cols-[min-content_auto]">
-          <SortBy />
+      <Suspense
+        fallback={
+          <div className="container mx-auto p-4">
+            <div className="grid grid-cols-1 md:grid-cols-[min-content_auto]">
+              <SortBy />
 
-          <div>
-            <GroupMemberBangersSkeleton />
+              <div>
+                <GroupMemberBangersSkeleton />
+              </div>
+            </div>
           </div>
-        </div>
-      </div>}>
+        }
+      >
         <GroupMemberBangers userSafeId={params.userId} />
       </Suspense>
     </FullPage>
@@ -76,9 +80,7 @@ async function GroupMemberBangers({ userSafeId }: { userSafeId: string }) {
     getUserBangersRecord(user.userId),
   ])
 
-  return (
-    <GroupMemberBangersLoaded otherUserBangers={otherUserBangers} name={otherUser.name} userCache={userCache} />
-  )
+  return <GroupMemberBangersLoaded otherUserBangers={otherUserBangers} name={otherUser.name} userCache={userCache} />
 }
 
 function GroupMemberBangersSkeleton() {

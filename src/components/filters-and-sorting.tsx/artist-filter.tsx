@@ -1,12 +1,12 @@
 'use client'
 
 import { parseAsArrayOf, parseAsString, useQueryState } from 'nuqs'
-import { useMemo } from "react"
+import { useMemo } from 'react'
 
-import { Checkbox } from "@/components/ui/checkbox"
-import { TrackResult } from "@/server/spotify/types"
+import { Checkbox } from '@/components/ui/checkbox'
+import { TrackResult } from '@/server/spotify/types'
 
-import { Label } from "../ui/label"
+import { Label } from '../ui/label'
 
 type Props = {
   bangs: [string, TrackResult | null][]
@@ -31,18 +31,20 @@ export function ArtistFilter({ bangs }: Props) {
     <Label className="flex flex-col gap-2" role="group">
       Filter
       <div className="flex flex-col gap-1">
-        {artistsWithCount.map(([name, count]) => <Artist key={name} name={name} count={count} />)}
+        {artistsWithCount.map(([name, count]) => (
+          <Artist key={name} name={name} count={count} />
+        ))}
       </div>
     </Label>
   )
 }
 
-const Artist = ({ name, count }: { name: string, count: number }) => {
+const Artist = ({ name, count }: { name: string; count: number }) => {
   const [filter, setFilter] = useQueryState('filter', parseAsArrayOf(parseAsString))
 
   const uriComponent = encodeURIComponent(name)
   const checked = !filter?.includes(uriComponent)
-  const remove = () => setFilter((filter ?? []).filter(f => f !== uriComponent))
+  const remove = () => setFilter((filter ?? []).filter((f) => f !== uriComponent))
   const add = () => setFilter([...(filter ?? []), uriComponent])
 
   return (
@@ -51,4 +53,4 @@ const Artist = ({ name, count }: { name: string, count: number }) => {
       {name} ({count})
     </Label>
   )
-} 
+}

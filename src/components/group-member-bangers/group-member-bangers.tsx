@@ -1,14 +1,14 @@
 'use client'
 
-import { Suspense } from "react"
+import { Suspense } from 'react'
 
-import { TrackResult } from "@/server/spotify/types"
+import { TrackResult } from '@/server/spotify/types'
 
-import { FiltersAndSorting } from "../filters-and-sorting.tsx/filters-and-sorting"
+import { FiltersAndSorting } from '../filters-and-sorting.tsx/filters-and-sorting'
 import { useFilterAndSort } from '../filters-and-sorting.tsx/use-filter-and-sort'
-import { FullPageDescription } from "../layout/Layouts"
-import Track, { LazyTrack, TrackSkeleton } from "../track/Track"
-import { TrackGrid } from "../track/TrackGrid"
+import { FullPageDescription } from '../layout/Layouts'
+import Track, { LazyTrack, TrackSkeleton } from '../track/Track'
+import { TrackGrid } from '../track/TrackGrid'
 
 type Props = {
   otherUserBangers: [string, TrackResult | null][]
@@ -16,32 +16,32 @@ type Props = {
   userCache: Record<string, TrackResult | null>
 }
 
-
 export function GroupMemberBangersLoaded({ otherUserBangers, name, userCache }: Props) {
   const filtered = useFilterAndSort(otherUserBangers)
 
   return (
-    <div className="container mx-auto p-4" >
+    <div className="container mx-auto p-4">
       <div className="grid grid-cols-1 md:grid-cols-[min-content_auto]">
         <FiltersAndSorting bangs={otherUserBangers} />
 
         <div>
-        <FullPageDescription>
-        Showing { filtered.length} of the {otherUserBangers.length} bangers that belong to <span className="font-bold">{name}</span>!
-      </FullPageDescription>
-      <TrackGrid>
-        {filtered.map(([trackId, track]) =>
-          track != null ? (
-            <Track key={trackId} track={track} action={userCache[trackId] != null ? 'already-added' : 'addable'} />
-          ) : (
-            <Suspense key={trackId} fallback={<TrackSkeleton />}>
-              <LazyTrack trackId={trackId} action="addable" />
-            </Suspense>
-          ),
-        )}
-      </TrackGrid>
+          <FullPageDescription>
+            Showing {filtered.length} of the {otherUserBangers.length} bangers that belong to{' '}
+            <span className="font-bold">{name}</span>!
+          </FullPageDescription>
+          <TrackGrid>
+            {filtered.map(([trackId, track]) =>
+              track != null ? (
+                <Track key={trackId} track={track} action={userCache[trackId] != null ? 'already-added' : 'addable'} />
+              ) : (
+                <Suspense key={trackId} fallback={<TrackSkeleton />}>
+                  <LazyTrack trackId={trackId} action="addable" />
+                </Suspense>
+              ),
+            )}
+          </TrackGrid>
         </div>
-      </div >
-    </div >
+      </div>
+    </div>
   )
 }
