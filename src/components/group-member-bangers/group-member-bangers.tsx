@@ -3,11 +3,12 @@
 import { Suspense } from 'react'
 
 import { TrackResult } from '@/server/spotify/types'
+import { LazyTrack } from '@/components/track/LazyTrack';
 
 import { FiltersAndSorting } from '../filters-and-sorting.tsx/filters-and-sorting'
 import { useFilterAndSort } from '../filters-and-sorting.tsx/use-filter-and-sort'
 import { FullPageDescription } from '../layout/Layouts'
-import Track, { LazyTrack, TrackSkeleton } from '../track/Track'
+import Track, { TrackSkeleton } from '../track/Track'
 import { TrackGrid } from '../track/TrackGrid'
 
 type Props = {

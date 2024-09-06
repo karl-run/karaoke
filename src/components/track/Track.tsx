@@ -1,9 +1,10 @@
+'use client'
+
 import React, { ReactElement } from 'react'
 import Image from 'next/image'
 import { CheckIcon } from '@radix-ui/react-icons'
 
 import { TrackResult } from 'server/spotify/types'
-import { getTrack } from 'server/spotify/track'
 
 import PlaySong from '@/components/PlaySong'
 import AddTrack from '@/components/add-track/AddTrack'
@@ -13,12 +14,12 @@ import { cn } from '@/lib/utils'
 
 import styles from './Track.module.css'
 
-type Props = {
+export type TrackProps = {
   track: TrackResult
   action: 'addable' | 'removable' | 'already-added' | 'none'
 }
 
-function Track({ track, action }: Props): ReactElement {
+function Track({ track, action }: TrackProps): ReactElement {
   return (
     <div className={styles.trackGrid}>
       <Image
@@ -58,15 +59,6 @@ function Track({ track, action }: Props): ReactElement {
   )
 }
 
-export async function LazyTrack({
-  trackId,
-  action,
-}: { trackId: string } & Pick<Props, 'action'>): Promise<ReactElement> {
-  const track = await getTrack(trackId, true)
-
-  return <Track track={track} action={action} />
-}
-
 export function TrackSkeleton() {
   return (
     <div className={styles.trackGrid}>
@@ -80,6 +72,17 @@ export function TrackSkeleton() {
       <div className={styles.interactive}>
         <Skeleton className="h-full w-full" />
       </div>
+    </div>
+  )
+}
+
+export function MissingTrack() {
+  return (
+    <div className={styles.trackGrid}>
+      <Skeleton className={styles.image} />
+      <div className={styles.name}>Unknown track</div>
+      <div className={styles.artist}>This should not happen</div>
+      <div className={cn(styles.interactive, 'flex items-center justify-center')}>?</div>
     </div>
   )
 }

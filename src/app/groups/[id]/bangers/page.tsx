@@ -13,12 +13,13 @@ import { getGroupBangers } from 'server/bangers/bangers-db'
 
 import { FullPage, FullPageDescription, FullPageDetails } from '@/components/layout/Layouts'
 import { TrackGrid, TrackGridSkeleton } from '@/components/track/TrackGrid'
-import Track, { LazyTrack, TrackSkeleton } from '@/components/track/Track'
+import Track, { TrackSkeleton } from '@/components/track/Track'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import GroupAvatar from '@/components/avatar/GroupAvatar'
 import GroupMembers from '@/components/group-members/GroupMembers'
 import { Skeleton } from '@/components/ui/skeleton'
+import { LazyTrack } from '@/components/track/LazyTrack';
 
 export const metadata: Metadata = {
   title: 'Karaoke Match - Group Bangers',

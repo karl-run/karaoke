@@ -1,13 +1,11 @@
 'use client'
 
-import { Suspense } from 'react'
-
 import { TrackResult } from '@/server/spotify/types'
 
 import { FiltersAndSorting } from '../filters-and-sorting.tsx/filters-and-sorting'
 import { useFilterAndSort } from '../filters-and-sorting.tsx/use-filter-and-sort'
 import { FullPageDescription } from '../layout/Layouts'
-import Track, { LazyTrack, TrackSkeleton } from '../track/Track'
+import Track, { MissingTrack } from '../track/Track'
 import { TrackGrid } from '../track/TrackGrid'
 
 type Props = {
@@ -28,15 +26,7 @@ export function Bangers({ bangs }: Props) {
           </FullPageDescription>
           <TrackGrid>
             {filtered.map(([song_id, track]) => (
-              <div key={song_id}>
-                {track != null ? (
-                  <Track track={track} action="removable" />
-                ) : (
-                  <Suspense fallback={<TrackSkeleton />}>
-                    <LazyTrack trackId={song_id} action="removable" />
-                  </Suspense>
-                )}
-              </div>
+              <div key={song_id}>{track != null ? <Track track={track} action="removable" /> : <MissingTrack />}</div>
             ))}
           </TrackGrid>
         </div>
