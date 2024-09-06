@@ -1,7 +1,7 @@
 'use client'
 
 import { parseAsArrayOf, parseAsString, useQueryState } from 'nuqs'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 
 import { Checkbox } from '@/components/ui/checkbox'
 import { TrackResult } from '@/server/spotify/types'
@@ -15,6 +15,8 @@ type Props = {
 }
 
 export function ArtistFilter({ bangs }: Props) {
+  const [, setFilter] = useQueryState('filter', parseAsArrayOf(parseAsString))
+
   const artistsWithCount = useMemo(() => {
     const map = bangs.reduce((acc, [, track]) => {
       if (!track) return acc
@@ -29,6 +31,10 @@ export function ArtistFilter({ bangs }: Props) {
       .toSorted(([, aCount], [, bCount]) => bCount - aCount)
   }, [bangs])
 
+  const filterAll = useCallback(() => {
+    setFilter(artistsWithCount.map(([name]) => encodeURIComponent(name)))
+  }, [artistsWithCount, setFilter])
+
   return (
     <Sheet>
       <SheetTrigger>
@@ -38,8 +44,13 @@ export function ArtistFilter({ bangs }: Props) {
         <SheetHeader>
           Filter
         </SheetHeader>
-        <div className="flex flex-col gap-1">
 
+        <div className="flex flex-row gap-2 my-2">
+          <Button variant="outline" onClick={() => setFilter([])}>Reset</Button>
+          <Button variant="outline" onClick={filterAll}>Filter all</Button>
+        </div>
+
+        <div className="flex flex-col gap-1">
           {artistsWithCount.map(([name, count]) => (
             <Artist key={name} name={name} count={count} />
           ))}
