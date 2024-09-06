@@ -1,14 +1,15 @@
-import React, { ReactElement, Suspense } from 'react'
 import { Metadata } from 'next'
+import { ReactElement, Suspense } from 'react'
 
 import { getUser } from 'server/user/user-service'
 
-import { TrackGrid, TrackGridSkeleton } from '@/components/track/TrackGrid'
-import Track, { LazyTrack, TrackSkeleton } from '@/components/track/Track'
-import { FullPage, FullPageDescription } from '@/components/layout/Layouts'
-import { getUserBangersCached } from '@/server/bangers/bangers-service'
-import { Skeleton } from '@/components/ui/skeleton'
 import BangersExtraActions from '@/components/bangers/BangersExtraActions'
+import { Bangers } from '@/components/bangers/bangers'
+import { SortBy } from '@/components/filters-and-sorting.tsx/sort-by'
+import { FullPage, FullPageDescription } from '@/components/layout/Layouts'
+import { TrackGridSkeleton } from '@/components/track/TrackGrid'
+import { Skeleton } from '@/components/ui/skeleton'
+import { getUserBangersCached } from '@/server/bangers/bangers-service'
 
 export const metadata: Metadata = {
   title: 'Karaoke Match - Bangers',
@@ -19,12 +20,18 @@ function Page(): ReactElement {
     <FullPage title="My bangers" back="search" actions={<BangersExtraActions />}>
       <Suspense
         fallback={
-          <>
-            <FullPageDescription className="flex items-center gap-1">
-              You have <Skeleton className="h-4 w-6" /> bangers in your list!
-            </FullPageDescription>
-            <TrackGridSkeleton />
-          </>
+          <div className="container mx-auto p-4" >
+            <div className="grid grid-cols-1 md:grid-cols-[min-content_auto]">
+              <SortBy />
+
+              <div>
+                <FullPageDescription className="flex items-center gap-1">
+                  You have <Skeleton className="h-4 w-6" /> bangers in your list!
+                </FullPageDescription>
+                <TrackGridSkeleton />
+              </div>
+            </div>
+          </div>
         }
       >
         <BangersList />
@@ -53,24 +60,7 @@ async function BangersList(): Promise<ReactElement> {
     )
   }
 
-  return (
-    <>
-      <FullPageDescription>You have {bangs.length} bangers in your list!</FullPageDescription>
-      <TrackGrid>
-        {bangs.map(([song_id, track]) => (
-          <div key={song_id}>
-            {track != null ? (
-              <Track track={track} action="removable" />
-            ) : (
-              <Suspense fallback={<TrackSkeleton />}>
-                <LazyTrack trackId={song_id} action="removable" />
-              </Suspense>
-            )}
-          </div>
-        ))}
-      </TrackGrid>
-    </>
-  )
+  return <Bangers bangs={bangs} />
 }
 
 export default Page
