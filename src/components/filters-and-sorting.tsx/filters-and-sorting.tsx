@@ -9,7 +9,7 @@ type Props = {
 
 export function FiltersAndSorting({ bangs }: Props) {
   return (
-    <aside className="flex flex-col gap-4 w-270">
+    <aside className="flex md:flex-col gap-4 w-270 md:items-start items-end">
       <SortBy />
       <ArtistFilter bangs={bangs} />
     </aside>

@@ -14,6 +14,10 @@ export const useFilterAndSort = (bangs: [string, TrackResult | null][]) => {
   }, [bangs, filter])
 
   const sorted = useMemo(() => {
+    if (search === 'date-added') {
+      return filtered
+    }
+
     return filtered.toSorted((a, b) => {
       if (search === 'song-name') {
         const songA = a[1]?.name ?? ''
@@ -22,14 +26,10 @@ export const useFilterAndSort = (bangs: [string, TrackResult | null][]) => {
         return songA.localeCompare(songB)
       }
 
-      if (search === 'artist') {
-        const artistA = a[1]?.artist ?? ''
-        const artistB = b[1]?.artist ?? ''
+      const artistA = a[1]?.artist ?? ''
+      const artistB = b[1]?.artist ?? ''
 
-        return artistA.localeCompare(artistB)
-      }
-
-      return 0
+      return artistA.localeCompare(artistB)
     })
   }, [search, filtered])
 

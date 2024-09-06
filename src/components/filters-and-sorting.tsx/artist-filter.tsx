@@ -7,6 +7,8 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { TrackResult } from '@/server/spotify/types'
 
 import { Label } from '../ui/label'
+import { Sheet, SheetContent, SheetHeader, SheetTrigger } from '../ui/sheet'
+import { Button } from '../ui/button'
 
 type Props = {
   bangs: [string, TrackResult | null][]
@@ -28,14 +30,22 @@ export function ArtistFilter({ bangs }: Props) {
   }, [bangs])
 
   return (
-    <Label className="flex flex-col gap-2" role="group">
-      Filter
-      <div className="flex flex-col gap-1">
-        {artistsWithCount.map(([name, count]) => (
-          <Artist key={name} name={name} count={count} />
-        ))}
-      </div>
-    </Label>
+    <Sheet>
+      <SheetTrigger>
+        <Button variant="outline">Artist filter</Button>
+      </SheetTrigger>
+      <SheetContent side={"left"}>
+        <SheetHeader>
+          Filter
+        </SheetHeader>
+        <div className="flex flex-col gap-1">
+
+          {artistsWithCount.map(([name, count]) => (
+            <Artist key={name} name={name} count={count} />
+          ))}
+        </div>
+      </SheetContent>
+    </Sheet>
   )
 }
 
