@@ -1,14 +1,15 @@
-import React, { ReactElement, Suspense } from 'react'
-import { notFound, redirect } from 'next/navigation'
 import { Metadata } from 'next'
+import { notFound, redirect } from 'next/navigation'
+import { ReactElement, Suspense } from 'react'
 
-import { getOtherUser, getUser, usersShareGroup } from 'server/user/user-service'
 import { getUserBangers, getUserBangersRecord } from 'server/bangers/bangers-service'
+import { getOtherUser, getUser, usersShareGroup } from 'server/user/user-service'
 
+import { GroupMemberBangersLoaded } from '@/components/group-member-bangers/group-member-bangers'
 import { FullPage, FullPageDescription } from '@/components/layout/Layouts'
-import { TrackGrid, TrackGridSkeleton } from '@/components/track/TrackGrid'
-import Track, { LazyTrack, TrackSkeleton } from '@/components/track/Track'
+import { TrackGridSkeleton } from '@/components/track/TrackGrid'
 import { Skeleton } from '@/components/ui/skeleton'
+import { SortBy } from '@/components/filters-and-sorting.tsx/sort-by'
 
 export const metadata: Metadata = {
   title: 'Karaoke Match - Friend',
@@ -30,16 +31,24 @@ function Page({ params, searchParams }: Props): ReactElement {
       back={
         searchParams.returnTo
           ? {
-              to: `/groups/${searchParams.returnTo}`,
-              text: 'Back to group',
-            }
+            to: `/groups/${searchParams.returnTo}`,
+            text: 'Back to group',
+          }
           : {
-              to: '/groups',
-              text: 'Back to groups',
-            }
+            to: '/groups',
+            text: 'Back to groups',
+          }
       }
     >
-      <Suspense fallback={<GroupMemberBangersSkeleton />}>
+      <Suspense fallback={<div className="container mx-auto p-4" >
+        <div className="grid grid-cols-1 md:grid-cols-[min-content_auto]">
+          <SortBy />
+
+          <div>
+            <GroupMemberBangersSkeleton />
+          </div>
+        </div>
+      </div>}>
         <GroupMemberBangers userSafeId={params.userId} />
       </Suspense>
     </FullPage>
@@ -68,22 +77,7 @@ async function GroupMemberBangers({ userSafeId }: { userSafeId: string }) {
   ])
 
   return (
-    <>
-      <FullPageDescription>
-        <span className="font-bold">{otherUser.name}</span> has {otherUserBangers.length} bangers!
-      </FullPageDescription>
-      <TrackGrid>
-        {otherUserBangers.map(([trackId, track]) =>
-          track != null ? (
-            <Track key={trackId} track={track} action={userCache[trackId] != null ? 'already-added' : 'addable'} />
-          ) : (
-            <Suspense key={trackId} fallback={<TrackSkeleton />}>
-              <LazyTrack trackId={trackId} action="addable" />
-            </Suspense>
-          ),
-        )}
-      </TrackGrid>
-    </>
+    <GroupMemberBangersLoaded otherUserBangers={otherUserBangers} name={otherUser.name} userCache={userCache} />
   )
 }
 
