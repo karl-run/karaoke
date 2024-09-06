@@ -5,7 +5,6 @@ import { getUser } from 'server/user/user-service'
 
 import BangersExtraActions from '@/components/bangers/BangersExtraActions'
 import { Bangers } from '@/components/bangers/bangers'
-import { SortBy } from '@/components/filters-and-sorting.tsx/sort-by'
 import { FullPage, FullPageDescription } from '@/components/layout/Layouts'
 import { TrackGridSkeleton } from '@/components/track/TrackGrid'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -22,8 +21,6 @@ function Page(): ReactElement {
         fallback={
           <div className="container mx-auto p-4">
             <div className="grid grid-cols-1 md:grid-cols-[min-content_auto]">
-              <SortBy />
-
               <div>
                 <FullPageDescription className="flex items-center gap-1">
                   You have <Skeleton className="h-4 w-6" /> bangers in your list!
