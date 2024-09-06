@@ -13,13 +13,12 @@ import { getGroupBangers } from 'server/bangers/bangers-db'
 
 import { FullPage, FullPageDescription, FullPageDetails } from '@/components/layout/Layouts'
 import { TrackGrid, TrackGridSkeleton } from '@/components/track/TrackGrid'
-import Track, { TrackSkeleton } from '@/components/track/Track'
+import Track, { MissingTrack } from '@/components/track/Track'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import GroupAvatar from '@/components/avatar/GroupAvatar'
 import GroupMembers from '@/components/group-members/GroupMembers'
 import { Skeleton } from '@/components/ui/skeleton'
-import { LazyTrack } from '@/components/track/LazyTrack';
 
 export const metadata: Metadata = {
   title: 'Karaoke Match - Group Bangers',
@@ -123,13 +122,7 @@ async function GroupBangers({ id, ignored }: { id: string; ignored: string[] }) 
           {bangers.map((banger) => (
             <div key={banger.songId} className="relative">
               <div className="text-xs ml-1 mb-0.5 truncate">{banger.users.join(', ')}</div>
-              {banger.track != null ? (
-                <Track track={banger.track} action="none" />
-              ) : (
-                <Suspense fallback={<TrackSkeleton />}>
-                  <LazyTrack trackId={banger.songId} action="none" />
-                </Suspense>
-              )}
+              {banger.track != null ? <Track track={banger.track} action="none" /> : <MissingTrack />}
               <div className="absolute right-0 top-5 xs:top-6 xs:left-2 rounded-full w-6 h-6 flex items-center justify-center m-2">
                 {banger.userCount === biggestBangerCount && biggestBangerCount > 2 ? (
                   <>

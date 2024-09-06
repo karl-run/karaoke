@@ -1,14 +1,11 @@
 'use client'
 
-import { Suspense } from 'react'
-
 import { TrackResult } from '@/server/spotify/types'
-import { LazyTrack } from '@/components/track/LazyTrack';
 
 import { FiltersAndSorting } from '../filters-and-sorting.tsx/filters-and-sorting'
 import { useFilterAndSort } from '../filters-and-sorting.tsx/use-filter-and-sort'
 import { FullPageDescription } from '../layout/Layouts'
-import Track, { TrackSkeleton } from '../track/Track'
+import Track, { MissingTrack } from '../track/Track'
 import { TrackGrid } from '../track/TrackGrid'
 
 type Props = {
@@ -35,9 +32,7 @@ export function GroupMemberBangersLoaded({ otherUserBangers, name, userCache }: 
               track != null ? (
                 <Track key={trackId} track={track} action={userCache[trackId] != null ? 'already-added' : 'addable'} />
               ) : (
-                <Suspense key={trackId} fallback={<TrackSkeleton />}>
-                  <LazyTrack trackId={trackId} action="addable" />
-                </Suspense>
+                <MissingTrack key={trackId} />
               ),
             )}
           </TrackGrid>
