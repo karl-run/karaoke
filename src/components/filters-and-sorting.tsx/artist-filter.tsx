@@ -40,7 +40,7 @@ export function ArtistFilter({ bangs }: Props) {
       <SheetTrigger>
         <Button variant="outline">Artist filter</Button>
       </SheetTrigger>
-      <SheetContent side={"left"}>
+      <SheetContent side="left" className="flex flex-col">
         <SheetHeader>
           Filter
         </SheetHeader>
@@ -50,7 +50,7 @@ export function ArtistFilter({ bangs }: Props) {
           <Button variant="outline" onClick={filterAll}>Filter all</Button>
         </div>
 
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 overflow-scroll">
           {artistsWithCount.map(([name, count]) => (
             <Artist key={name} name={name} count={count} />
           ))}
