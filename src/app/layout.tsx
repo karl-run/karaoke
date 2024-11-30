@@ -6,8 +6,8 @@ import Script from 'next/script'
 
 import { Toaster } from '@/components/ui/sonner'
 import UserBar from '@/components/user-bar/UserBar'
-import { ThemeProvider } from '@/components/theme/theme-provider'
 import MobileBar from '@/components/user-bar/MobileBar'
+import { Providers } from '@/app/_providers'
 
 import Footer from './_footer'
 
@@ -38,7 +38,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+        <Providers>
           <div className="min-h-svh">
             <UserBar />
             <Suspense fallback={null}>
@@ -48,7 +48,7 @@ export default function RootLayout({
             <Toaster />
           </div>
           <Footer />
-        </ThemeProvider>
+        </Providers>
       </body>
       <Script
         strategy="afterInteractive"
