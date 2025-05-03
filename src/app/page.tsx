@@ -11,19 +11,21 @@ import { TrackGrid } from '@/components/track/TrackGrid'
 import { FullPage } from '@/components/layout/Layouts'
 
 interface Props {
-  searchParams: {
+  searchParams: Promise<{
     q: string
-  }
+  }>
 }
 
 export default async function Home({ searchParams }: Props) {
+  const { q } = await searchParams
+
   return (
-    <FullPage title={searchParams.q != null ? 'Find new songs' : undefined}>
-      {searchParams.q == null ? (
+    <FullPage title={q != null ? 'Find new songs' : undefined}>
+      {q == null ? (
         <Landing />
       ) : (
-        <Suspense key={searchParams.q} fallback={<TrackSearchSkeleton />}>
-          <TrackSearch query={searchParams.q} />
+        <Suspense key={q} fallback={<TrackSearchSkeleton />}>
+          <TrackSearch query={q} />
         </Suspense>
       )}
     </FullPage>

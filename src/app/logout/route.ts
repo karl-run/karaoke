@@ -7,7 +7,8 @@ import { clearUserSession } from 'server/session/session-db'
 export async function GET(request: NextRequest) {
   const user = await getUser()
 
-  cookies().delete({
+  const cookieStore = await cookies()
+  cookieStore.delete({
     name: 'session',
     httpOnly: true,
   })

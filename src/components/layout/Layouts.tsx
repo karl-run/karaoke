@@ -83,7 +83,6 @@ export function SmallPage({
               </Link>
             )}
             {back && typeof back !== 'string' && (
-              // @ts-expect-error TODO can this strong typing be used in custom components?
               <Link href={back.to} className="flex items-center gap-1 mb-4 max-w-fit">
                 <ArrowLeft className="h-4 w-4" />
                 {back.text}

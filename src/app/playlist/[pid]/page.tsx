@@ -14,16 +14,18 @@ export const metadata: Metadata = {
 }
 
 type Props = {
-  params: {
+  params: Promise<{
     pid: string
-  }
+  }>
 }
 
-function Page({ params }: Props): ReactElement {
+async function Page({ params }: Props): Promise<ReactElement> {
+  const { pid } = await params
+
   return (
     <FullPage title="Spotify playlist" back={{ text: 'Back to home', to: '/' }}>
       <Suspense fallback={<TrackGridSkeleton />}>
-        <Playlist playlistId={params.pid} />
+        <Playlist playlistId={pid} />
       </Suspense>
     </FullPage>
   )

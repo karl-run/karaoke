@@ -41,13 +41,15 @@ export function ArtistFilter({ bangs }: Props) {
         <Button variant="outline">Artist filter</Button>
       </SheetTrigger>
       <SheetContent side="left" className="flex flex-col">
-        <SheetHeader>
-          Filter
-        </SheetHeader>
+        <SheetHeader>Filter</SheetHeader>
 
         <div className="flex flex-row gap-2 my-2">
-          <Button variant="outline" onClick={() => setFilter([])}>Reset</Button>
-          <Button variant="outline" onClick={filterAll}>Filter all</Button>
+          <Button variant="outline" onClick={() => setFilter([])}>
+            Reset
+          </Button>
+          <Button variant="outline" onClick={filterAll}>
+            Filter all
+          </Button>
         </div>
 
         <div className="flex flex-col gap-1 overflow-scroll">

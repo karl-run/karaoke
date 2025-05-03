@@ -16,7 +16,8 @@ export async function deleteUserAction() {
 
   await deleteUserCascading(user.userId)
 
-  cookies().delete({
+  const cookieStore = await cookies()
+  cookieStore.delete({
     name: 'session',
     httpOnly: true,
   })

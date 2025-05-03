@@ -42,20 +42,21 @@ export async function GET(request: NextRequest) {
     await setUserVerified(user.email)
   }
 
-  cookies().set('session', sessionId, {
+  const cookieStore = await cookies()
+  cookieStore.set('session', sessionId, {
     httpOnly: true,
     expires: addDays(new Date(), 30),
   })
 
   await clearUserLoginState(user.email)
 
-  const lastInviteLinkValue = cookies().get('I have been invited')
+  const lastInviteLinkValue = cookieStore.get('I have been invited')
   if (lastInviteLinkValue != null && !(await isUserInGroup(user.email, lastInviteLinkValue.value))) {
     return toInviteLink(request, lastInviteLinkValue.value)
   }
 
   if (lastInviteLinkValue != null) {
-    cookies().delete({
+    cookieStore.delete({
       name: 'I have been invited',
       httpOnly: true,
     })

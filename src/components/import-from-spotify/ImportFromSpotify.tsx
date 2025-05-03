@@ -1,7 +1,6 @@
 'use client'
 
-import React, { ReactElement, useState, useTransition } from 'react'
-import { useFormState } from 'react-dom'
+import React, { ReactElement, useState, useTransition, useActionState } from 'react'
 import { CheckIcon, InfoCircledIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
 import { useQueryState } from 'nuqs'
@@ -27,7 +26,7 @@ function ImportFromSpotify({ validPlaylistSongCount }: Props): ReactElement {
   })
   const [url, setUrl] = useState(initialPid ?? '')
   const extractedUrl = getIdFromUrl(url)
-  const [state, formAction] = useFormState(importFromSpotifyAction, {})
+  const [state, formAction] = useActionState(importFromSpotifyAction, {})
   const disabled = transition || validPlaylistSongCount == null
 
   return (

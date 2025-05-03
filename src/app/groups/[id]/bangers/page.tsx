@@ -25,19 +25,22 @@ export const metadata: Metadata = {
 }
 
 type Props = {
-  params: {
+  params: Promise<{
     id: string
-  }
-  searchParams: {
+  }>
+  searchParams: Promise<{
     // List of safeId of users that should be ignored from bangers
     ignored?: string
-  }
+  }>
 }
 
 const SearchParamsArraySchema = z.array(z.string())
 
-function Page({ params: { id }, searchParams }: Props): ReactElement {
-  const parsedParams = SearchParamsArraySchema.safeParse(searchParams.ignored?.split(',') ?? [])
+async function Page({ searchParams, params }: Props): Promise<ReactElement> {
+  const ignored = (await searchParams).ignored
+  const id = (await params).id
+
+  const parsedParams = SearchParamsArraySchema.safeParse(ignored?.split(',') ?? [])
 
   return (
     <FullPage

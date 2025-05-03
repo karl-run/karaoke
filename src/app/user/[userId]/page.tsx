@@ -16,22 +16,25 @@ export const metadata: Metadata = {
 }
 
 type Props = {
-  params: {
+  params: Promise<{
     userId: string
-  }
-  searchParams: {
+  }>
+  searchParams: Promise<{
     returnTo: string
-  }
+  }>
 }
 
-function Page({ params, searchParams }: Props): ReactElement {
+async function Page({ params, searchParams }: Props): Promise<ReactElement> {
+  const { returnTo } = await searchParams
+  const { userId } = await params
+
   return (
     <FullPage
       title={`Bangers for this absolute ${getRandomGoodWord()}`}
       back={
-        searchParams.returnTo
+        returnTo
           ? {
-              to: `/groups/${searchParams.returnTo}`,
+              to: `/groups/${returnTo}`,
               text: 'Back to group',
             }
           : {
@@ -53,7 +56,7 @@ function Page({ params, searchParams }: Props): ReactElement {
           </div>
         }
       >
-        <GroupMemberBangers userSafeId={params.userId} />
+        <GroupMemberBangers userSafeId={userId} />
       </Suspense>
     </FullPage>
   )

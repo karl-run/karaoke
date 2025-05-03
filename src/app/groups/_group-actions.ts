@@ -116,5 +116,7 @@ export async function invalidateInviteLinkAction(groupId: string): Promise<void>
 
 export async function setReturnToGroupCookie(joinCode: string): Promise<void> {
   console.info('User visited invite without being logged in, setting cookie')
-  cookies().set({ name: 'I have been invited', value: joinCode, httpOnly: true, path: '/', maxAge: 86400 })
+
+  const cookieStore = await cookies()
+  cookieStore.set({ name: 'I have been invited', value: joinCode, httpOnly: true, path: '/', maxAge: 86400 })
 }

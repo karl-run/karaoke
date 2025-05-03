@@ -22,27 +22,28 @@ export const metadata: Metadata = {
 }
 
 type Props = {
-  params: {
+  params: Promise<{
     id: string
-  }
-  searchParams: unknown
+  }>
+  searchParams: Promise<Record<string, unknown>>
 }
 
-function Page({ params, searchParams }: Props): ReactElement {
+async function Page({ searchParams, params }: Props): Promise<ReactElement> {
   unstable_noStore()
 
-  const verifiedParams = WheelParamsSchema.parse(searchParams)
+  const { id } = await params
+  const verifiedParams = WheelParamsSchema.parse(await searchParams)
 
   return (
     <FullPage
       title="Which song will it be?"
       back={{
-        to: `/groups/${params.id}/wheel`,
+        to: `/groups/${id}/wheel`,
         text: 'Back to wheel type',
       }}
     >
       <Suspense fallback={<WheelSkeleton />}>
-        <WheelWithData groupId={params.id} params={verifiedParams} />
+        <WheelWithData groupId={id} params={verifiedParams} />
       </Suspense>
     </FullPage>
   )
