@@ -11,24 +11,26 @@ export const metadata: Metadata = {
 }
 
 type Props = {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
-function Page({ params }: Props): ReactElement {
+async function Page({ params }: Props): Promise<ReactElement> {
+  const { id } = await params
+
   return (
     <SmallPage
       title="Spin the wheel!"
       back={{
-        to: `/groups/${params.id}/bangers`,
+        to: `/groups/${id}/bangers`,
         text: 'Back to group bangers',
       }}
     >
       <div className="flex flex-col gap-3 w-full sm:max-w-60">
         <div>
           <Button asChild className="bg-blue-300 text-wrap h-20 text-lg w-full">
-            <Link href={`/groups/${params.id}/wheel/solo-deep-cut`}>
+            <Link href={`/groups/${id}/wheel/solo-deep-cut`}>
               Solo <span className="font-bold mx-1">deep cut</span>
             </Link>
           </Button>
@@ -36,7 +38,7 @@ function Page({ params }: Props): ReactElement {
         </div>
         <div className="opacity-30 pointer-events-none">
           <Button asChild className="bg-green-300 text-wrap h-20 text-lg w-full">
-            <Link href={`/groups/${params.id}/wheel/mega-banger` as any}>
+            <Link href={`/groups/${id}/wheel/mega-banger` as any}>
               Real <span className="font-bold mx-1">mega-banger</span>
             </Link>
           </Button>
@@ -44,7 +46,7 @@ function Page({ params }: Props): ReactElement {
         </div>
         <div className="opacity-30 pointer-events-none">
           <Button asChild className="bg-red-300 text-wrap h-20 text-lg w-full">
-            <Link href={`/groups/${params.id}/wheel/hit` as any}>
+            <Link href={`/groups/${id}/wheel/hit` as any}>
               A <span className="font-bold mx-1">HIT!</span>
             </Link>
           </Button>

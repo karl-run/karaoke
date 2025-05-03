@@ -14,22 +14,24 @@ export const metadata: Metadata = {
 }
 
 type Props = {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
-function Page({ params }: Props): ReactElement {
+async function Page({ params }: Props): Promise<ReactElement> {
+  const { id } = await params
+
   return (
     <SmallPage
       title="Who wants it the most?"
       back={{
-        to: `/groups/${params.id}/wheel`,
+        to: `/groups/${id}/wheel`,
         text: 'Back to wheel selection',
       }}
     >
       <Suspense>
-        <SoloDeepCut groupId={params.id} />
+        <SoloDeepCut groupId={id} />
       </Suspense>
     </SmallPage>
   )

@@ -19,13 +19,13 @@ import GroupAvatar from '@/components/avatar/GroupAvatar'
 import LazyJoinCookie from './lazy-join-cookie'
 
 type Props = {
-  searchParams: {
+  searchParams: Promise<{
     code: string
-  }
+  }>
 }
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-  const joinCode = searchParams.code
+  const { code: joinCode } = await searchParams
 
   if (joinCode == null) {
     return {
@@ -49,8 +49,8 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   }
 }
 
-function Page({ searchParams }: Props): ReactElement {
-  const code = searchParams.code ?? null
+async function Page({ searchParams }: Props): Promise<ReactElement> {
+  const { code } = await searchParams
 
   return (
     <SmallPage

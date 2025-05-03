@@ -4,10 +4,12 @@ import { getActiveSession } from 'server/session/session-db'
 
 export { getSessionById } from 'server/session/session-db'
 
-export function getSession() {
-  return getActiveSession(getSessionId())
+export async function getSession() {
+  return getActiveSession(await getSessionId())
 }
 
-function getSessionId() {
-  return cookies().get('session')?.value ?? null
+async function getSessionId() {
+  const cookieStore = await cookies()
+
+  return cookieStore.get('session')?.value ?? null
 }

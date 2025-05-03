@@ -16,12 +16,14 @@ export const metadata: Metadata = {
 }
 
 type Props = {
-  searchParams: {
+  searchParams: Promise<{
     pid?: string
-  }
+  }>
 }
 
-function Page({ searchParams }: Props): ReactElement {
+async function Page({ searchParams }: Props): Promise<ReactElement> {
+  const pid = (await searchParams).pid
+
   return (
     <SmallPage
       title="Import from Spotify"
@@ -37,7 +39,7 @@ function Page({ searchParams }: Props): ReactElement {
           </div>
         }
       >
-        <SpotifyImporter pid={searchParams.pid} />
+        <SpotifyImporter pid={pid} />
       </Suspense>
     </SmallPage>
   )

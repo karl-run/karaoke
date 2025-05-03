@@ -16,7 +16,8 @@ export async function GET(request: NextRequest) {
 
   await createUserSession(sessionId, 'you@example.com', request.headers.get('user-agent') ?? 'unknown')
 
-  cookies().set('session', sessionId, {
+  const cookieStore = await cookies()
+  cookieStore.set('session', sessionId, {
     httpOnly: true,
     expires: addDays(new Date(), 30),
   })

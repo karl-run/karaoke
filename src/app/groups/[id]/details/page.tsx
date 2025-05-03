@@ -23,12 +23,14 @@ export const metadata: Metadata = {
 }
 
 type Props = {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
-function Page({ params: { id } }: Props): ReactElement {
+async function Page(props: Props): Promise<ReactElement> {
+  const { id } = await props.params
+
   return (
     <SmallPage
       title="Details"
