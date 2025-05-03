@@ -36,7 +36,7 @@
     "@use-gesture/react": "^10.3.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-    "date-fns": "^3.6.0",
+    "date-fns": "^4.1.0",
     "drizzle-orm": "^0.33.0",
     "lucide-react": "^0.439.0",
     "next": "14.2.8",
@@ -52,7 +52,7 @@
     "sonner": "^1.7.0",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
-    "ua-parser-js": "^1.0.38",
+    "ua-parser-js": "^2.0.3",
     "zod": "^3.24.3"
   },
   "devDependencies": {

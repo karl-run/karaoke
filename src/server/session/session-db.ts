@@ -1,5 +1,5 @@
 import { and, eq, gte } from 'drizzle-orm'
-import UAParser from 'ua-parser-js'
+import { UAParser } from 'ua-parser-js'
 import { subDays } from 'date-fns'
 
 import { db, sessions, users } from 'server/db'
