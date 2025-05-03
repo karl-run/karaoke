@@ -1,6 +1,4 @@
 import React, { Suspense } from 'react'
-import Link from 'next/link'
-import { GalleryHorizontalEnd } from 'lucide-react'
 
 import { searchTracks } from 'server/spotify/track'
 import { TrackResult } from 'server/spotify/types'
@@ -11,8 +9,6 @@ import Landing from '@/components/landing/Landing'
 import Track, { TrackSkeleton } from '@/components/track/Track'
 import { TrackGrid } from '@/components/track/TrackGrid'
 import { FullPage } from '@/components/layout/Layouts'
-import { Button } from '@/components/ui/button'
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 
 interface Props {
   searchParams: {
@@ -50,20 +46,6 @@ async function TrackSearch({ query }: { query: string }) {
             <div className="text-xl opacity-70 text-center">Start typing to search for new bangers...</div>
           </div>
         </div>
-        <Card className="max-w-prose m-4">
-          <CardHeader>
-            <CardTitle>Or explore songs</CardTitle>
-            <CardDescription>Find songs popular amongst your friends, or songs popular globally</CardDescription>
-          </CardHeader>
-          <CardFooter className="flex justify-center">
-            <Button size="lg" asChild className="grow-0">
-              <Link href="/explore">
-                Start exploring
-                <GalleryHorizontalEnd className="ml-2" />
-              </Link>
-            </Button>
-          </CardFooter>
-        </Card>
       </div>
     )
 
