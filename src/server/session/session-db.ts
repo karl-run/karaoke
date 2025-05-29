@@ -61,7 +61,7 @@ export async function getActiveSessions(userId: string) {
   const result = await db
     .select()
     .from(sessions)
-    .where(and(eq(sessions.user_id, userId), gte(sessions.created_at, subDays(new Date(), 30))))
+    .where(and(eq(sessions.user_id, userId), gte(sessions.created_at, subDays(new Date(), 365))))
 
   return result.map((row) => ({
     sessionId: row.id,

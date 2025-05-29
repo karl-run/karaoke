@@ -52,7 +52,7 @@ async function Page(): Promise<ReactElement> {
       </div>
       <h2 className="text-lg mb-4 mt-8">Your logins</h2>
       <p className="mb-4">
-        You will be automatically logged out of any device after 30 days. You can manually log out any device from the
+        You will be automatically logged out of any device after 365 days. You can manually log out any device from the
         list below.
       </p>
       <Suspense
