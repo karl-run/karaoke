@@ -16,23 +16,81 @@ export type Scalars = {
   Float: { input: number; output: number }
 }
 
-export type Query = {
-  __typename?: 'Query'
-  hello?: Maybe<Scalars['String']['output']>
+export type Image = {
+  __typename?: 'Image'
+  height: Scalars['Int']['output']
+  url: Scalars['String']['output']
+  width: Scalars['Int']['output']
 }
 
-export type TestQueryVariables = Exact<{ [key: string]: never }>
+export type Query = {
+  __typename?: 'Query'
+  bangers?: Maybe<Array<Maybe<Track>>>
+}
 
-export type TestQuery = { __typename?: 'Query'; hello?: string | null }
+export type Track = {
+  __typename?: 'Track'
+  artist: Scalars['String']['output']
+  id: Scalars['ID']['output']
+  image?: Maybe<Image>
+  name: Scalars['String']['output']
+  preview_url?: Maybe<Scalars['String']['output']>
+  spotify_url: Scalars['String']['output']
+}
 
-export const TestDocument = {
+export type AllUserBangersQueryVariables = Exact<{ [key: string]: never }>
+
+export type AllUserBangersQuery = {
+  __typename?: 'Query'
+  bangers?: Array<{
+    __typename?: 'Track'
+    id: string
+    name: string
+    artist: string
+    preview_url?: string | null
+    spotify_url: string
+    image?: { __typename?: 'Image'; url: string; height: number; width: number } | null
+  } | null> | null
+}
+
+export const AllUserBangersDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'Test' },
-      selectionSet: { kind: 'SelectionSet', selections: [{ kind: 'Field', name: { kind: 'Name', value: 'hello' } }] },
+      name: { kind: 'Name', value: 'AllUserBangers' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'bangers' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'artist' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'preview_url' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'spotify_url' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'image' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'height' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'width' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
     },
   ],
-} as unknown as DocumentNode<TestQuery, TestQueryVariables>
+} as unknown as DocumentNode<AllUserBangersQuery, AllUserBangersQueryVariables>

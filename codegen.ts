@@ -19,6 +19,7 @@ const config: CodegenConfig = {
       plugins: ['typescript', 'typescript-resolvers', eslintIgnorePlugin],
       config: {
         useIndexSignature: true,
+        contextType: './context#GqlContext',
       },
     },
   },

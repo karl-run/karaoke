@@ -1,5 +1,6 @@
 /* eslint-disable */
 import { GraphQLResolveInfo } from 'graphql'
+import { GqlContext } from './context'
 export type Maybe<T> = T | null
 export type InputMaybe<T> = Maybe<T>
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] }
@@ -16,9 +17,26 @@ export type Scalars = {
   Float: { input: number; output: number }
 }
 
+export type Image = {
+  __typename?: 'Image'
+  height: Scalars['Int']['output']
+  url: Scalars['String']['output']
+  width: Scalars['Int']['output']
+}
+
 export type Query = {
   __typename?: 'Query'
-  hello?: Maybe<Scalars['String']['output']>
+  bangers?: Maybe<Array<Maybe<Track>>>
+}
+
+export type Track = {
+  __typename?: 'Track'
+  artist: Scalars['String']['output']
+  id: Scalars['ID']['output']
+  image?: Maybe<Image>
+  name: Scalars['String']['output']
+  preview_url?: Maybe<Scalars['String']['output']>
+  spotify_url: Scalars['String']['output']
 }
 
 export type WithIndex<TObject> = TObject & Record<string, any>
@@ -97,24 +115,57 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>
+  ID: ResolverTypeWrapper<Scalars['ID']['output']>
+  Image: ResolverTypeWrapper<Image>
+  Int: ResolverTypeWrapper<Scalars['Int']['output']>
   Query: ResolverTypeWrapper<{}>
   String: ResolverTypeWrapper<Scalars['String']['output']>
+  Track: ResolverTypeWrapper<Track>
 }>
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean']['output']
+  ID: Scalars['ID']['output']
+  Image: Image
+  Int: Scalars['Int']['output']
   Query: {}
   String: Scalars['String']['output']
+  Track: Track
+}>
+
+export type ImageResolvers<
+  ContextType = GqlContext,
+  ParentType extends ResolversParentTypes['Image'] = ResolversParentTypes['Image'],
+> = ResolversObject<{
+  height?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  width?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }>
 
 export type QueryResolvers<
-  ContextType = any,
+  ContextType = GqlContext,
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query'],
 > = ResolversObject<{
-  hello?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
+  bangers?: Resolver<Maybe<Array<Maybe<ResolversTypes['Track']>>>, ParentType, ContextType>
 }>
 
-export type Resolvers<ContextType = any> = ResolversObject<{
+export type TrackResolvers<
+  ContextType = GqlContext,
+  ParentType extends ResolversParentTypes['Track'] = ResolversParentTypes['Track'],
+> = ResolversObject<{
+  artist?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
+  image?: Resolver<Maybe<ResolversTypes['Image']>, ParentType, ContextType>
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  preview_url?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
+  spotify_url?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
+}>
+
+export type Resolvers<ContextType = GqlContext> = ResolversObject<{
+  Image?: ImageResolvers<ContextType>
   Query?: QueryResolvers<ContextType>
+  Track?: TrackResolvers<ContextType>
 }>
