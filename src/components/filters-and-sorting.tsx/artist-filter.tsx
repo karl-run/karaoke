@@ -38,7 +38,7 @@ export function ArtistFilter({ bangs }: Props) {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline">Artist filter</Button>
+        <Button variant="outline">Filter</Button>
       </SheetTrigger>
       <SheetContent side="left" className="flex flex-col">
         <SheetHeader>Filter</SheetHeader>
