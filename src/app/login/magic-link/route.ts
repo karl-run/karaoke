@@ -45,7 +45,7 @@ export async function GET(request: NextRequest) {
   const cookieStore = await cookies()
   cookieStore.set('session', sessionId, {
     httpOnly: true,
-    expires: addDays(new Date(), 30),
+    expires: addDays(new Date(), 365), // 1 year
   })
 
   await clearUserLoginState(user.email)
