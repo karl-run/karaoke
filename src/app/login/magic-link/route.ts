@@ -46,6 +46,7 @@ export async function GET(request: NextRequest) {
   cookieStore.set('session', sessionId, {
     httpOnly: true,
     expires: addDays(new Date(), 365), // 1 year
+    domain: '.karaoke.karl.run',
   })
 
   await clearUserLoginState(user.email)
