@@ -1,14 +1,18 @@
 query AllUserBangers {
   bangers {
-    id
-    name
-    artist
-    preview_url
-    spotify_url
-    image {
-      url
-      height
-      width
-    }
+    ...Track
+  }
+}
+
+fragment Track on Track {
+  id
+  name
+  artist
+  preview_url
+  spotify_url
+  image {
+    url
+    height
+    width
   }
 }

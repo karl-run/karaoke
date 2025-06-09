@@ -4,21 +4,21 @@ import { parseAsArrayOf, parseAsString, useQueryState } from 'nuqs'
 import { useCallback, useMemo } from 'react'
 
 import { Checkbox } from '@/components/ui/checkbox'
-import { TrackResult } from '@/server/spotify/types'
+import { TrackFragment } from '@/graphql/graphql-operations'
 
 import { Label } from '../ui/label'
 import { Sheet, SheetContent, SheetHeader, SheetTrigger } from '../ui/sheet'
 import { Button } from '../ui/button'
 
 type Props = {
-  bangs: [string, TrackResult | null][]
+  bangs: (TrackFragment | null)[]
 }
 
 export function ArtistFilter({ bangs }: Props) {
   const [, setFilter] = useQueryState('filter', parseAsArrayOf(parseAsString))
 
   const artistsWithCount = useMemo(() => {
-    const map = bangs.reduce((acc, [, track]) => {
+    const map = bangs.reduce((acc, track) => {
       if (!track) return acc
 
       const existingCount = acc.get(track.artist) ?? 0

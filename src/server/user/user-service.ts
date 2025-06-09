@@ -29,7 +29,7 @@ export async function getOtherUser(safeId: string) {
   return {
     name: user.name,
     userId: user.email,
-    safeId: user.email,
+    safeId: user.safeId,
   }
 }
 

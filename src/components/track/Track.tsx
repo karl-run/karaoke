@@ -11,11 +11,12 @@ import AddTrack from '@/components/add-track/AddTrack'
 import RemoveTrack from '@/components/RemoveTrack'
 import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
+import { TrackFragment } from '@/graphql/graphql-operations'
 
 import styles from './Track.module.css'
 
 export type TrackProps = {
-  track: TrackResult
+  track: TrackResult | TrackFragment
   action: 'addable' | 'removable' | 'already-added' | 'none'
 }
 

@@ -23,16 +23,28 @@ export type Image = {
   width: Scalars['Int']['output']
 }
 
+export type OtherUser = {
+  __typename?: 'OtherUser'
+  bangers?: Maybe<Array<Maybe<Track>>>
+  name: Scalars['String']['output']
+  safeId: Scalars['String']['output']
+}
+
 export type Query = {
   __typename?: 'Query'
   bangers?: Maybe<Array<Maybe<Track>>>
+  otherUser?: Maybe<OtherUser>
+}
+
+export type QueryOtherUserArgs = {
+  safeId: Scalars['String']['input']
 }
 
 export type Track = {
   __typename?: 'Track'
   artist: Scalars['String']['output']
   id: Scalars['ID']['output']
-  image?: Maybe<Image>
+  image: Image
   name: Scalars['String']['output']
   preview_url?: Maybe<Scalars['String']['output']>
   spotify_url: Scalars['String']['output']
@@ -49,10 +61,73 @@ export type AllUserBangersQuery = {
     artist: string
     preview_url?: string | null
     spotify_url: string
-    image?: { __typename?: 'Image'; url: string; height: number; width: number } | null
+    image: { __typename?: 'Image'; url: string; height: number; width: number }
   } | null> | null
 }
 
+export type TrackFragment = {
+  __typename?: 'Track'
+  id: string
+  name: string
+  artist: string
+  preview_url?: string | null
+  spotify_url: string
+  image: { __typename?: 'Image'; url: string; height: number; width: number }
+}
+
+export type OtherUserBangersQueryVariables = Exact<{
+  safeId: Scalars['String']['input']
+}>
+
+export type OtherUserBangersQuery = {
+  __typename?: 'Query'
+  otherUser?: {
+    __typename?: 'OtherUser'
+    name: string
+    bangers?: Array<{
+      __typename?: 'Track'
+      id: string
+      name: string
+      artist: string
+      preview_url?: string | null
+      spotify_url: string
+      image: { __typename?: 'Image'; url: string; height: number; width: number }
+    } | null> | null
+  } | null
+}
+
+export const TrackFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'Track' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Track' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'artist' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'preview_url' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'spotify_url' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'image' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'height' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'width' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<TrackFragment, unknown>
 export const AllUserBangersDocument = {
   kind: 'Document',
   definitions: [
@@ -68,24 +143,33 @@ export const AllUserBangersDocument = {
             name: { kind: 'Name', value: 'bangers' },
             selectionSet: {
               kind: 'SelectionSet',
+              selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Track' } }],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'Track' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Track' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'artist' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'preview_url' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'spotify_url' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'image' },
+            selectionSet: {
+              kind: 'SelectionSet',
               selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'artist' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'preview_url' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'spotify_url' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'image' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'height' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'width' } },
-                    ],
-                  },
-                },
+                { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'height' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'width' } },
               ],
             },
           },
@@ -94,3 +178,77 @@ export const AllUserBangersDocument = {
     },
   ],
 } as unknown as DocumentNode<AllUserBangersQuery, AllUserBangersQueryVariables>
+export const OtherUserBangersDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'OtherUserBangers' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'safeId' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'otherUser' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'safeId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'safeId' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'bangers' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Track' } }],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'Track' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Track' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'artist' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'preview_url' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'spotify_url' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'image' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'height' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'width' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<OtherUserBangersQuery, OtherUserBangersQueryVariables>

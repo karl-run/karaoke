@@ -78,6 +78,9 @@ export interface Image {
   width: number
 }
 
+/**
+ * @Deprecated Use `TrackFragment` from GraphQL instead.
+ */
 export type TrackResult = {
   id: string
   name: string

@@ -1,10 +1,10 @@
-import { TrackResult } from '@/server/spotify/types'
+import { TrackFragment } from '@/graphql/graphql-operations'
 
 import { ArtistFilter } from './artist-filter'
 import { SortBy } from './sort-by'
 
 type Props = {
-  bangs: [string, TrackResult | null][]
+  bangs: (TrackFragment | null)[]
 }
 
 export function FiltersAndSorting({ bangs }: Props) {

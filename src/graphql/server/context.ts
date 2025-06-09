@@ -1,7 +1,9 @@
+export type ContextUser = {
+  name: string
+  userId: string
+  sessionId: string
+}
+
 export type GqlContext = {
-  user: {
-    name: string
-    userId: string
-    sessionId: string
-  }
+  user: ContextUser | null
 }

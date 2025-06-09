@@ -8,6 +8,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: 
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> }
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never }
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never }
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> }
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string }
@@ -24,16 +25,28 @@ export type Image = {
   width: Scalars['Int']['output']
 }
 
+export type OtherUser = {
+  __typename?: 'OtherUser'
+  bangers?: Maybe<Array<Maybe<Track>>>
+  name: Scalars['String']['output']
+  safeId: Scalars['String']['output']
+}
+
 export type Query = {
   __typename?: 'Query'
   bangers?: Maybe<Array<Maybe<Track>>>
+  otherUser?: Maybe<OtherUser>
+}
+
+export type QueryOtherUserArgs = {
+  safeId: Scalars['String']['input']
 }
 
 export type Track = {
   __typename?: 'Track'
   artist: Scalars['String']['output']
   id: Scalars['ID']['output']
-  image?: Maybe<Image>
+  image: Image
   name: Scalars['String']['output']
   preview_url?: Maybe<Scalars['String']['output']>
   spotify_url: Scalars['String']['output']
@@ -118,6 +131,7 @@ export type ResolversTypes = ResolversObject<{
   ID: ResolverTypeWrapper<Scalars['ID']['output']>
   Image: ResolverTypeWrapper<Image>
   Int: ResolverTypeWrapper<Scalars['Int']['output']>
+  OtherUser: ResolverTypeWrapper<OtherUser>
   Query: ResolverTypeWrapper<{}>
   String: ResolverTypeWrapper<Scalars['String']['output']>
   Track: ResolverTypeWrapper<Track>
@@ -129,6 +143,7 @@ export type ResolversParentTypes = ResolversObject<{
   ID: Scalars['ID']['output']
   Image: Image
   Int: Scalars['Int']['output']
+  OtherUser: OtherUser
   Query: {}
   String: Scalars['String']['output']
   Track: Track
@@ -144,11 +159,27 @@ export type ImageResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }>
 
+export type OtherUserResolvers<
+  ContextType = GqlContext,
+  ParentType extends ResolversParentTypes['OtherUser'] = ResolversParentTypes['OtherUser'],
+> = ResolversObject<{
+  bangers?: Resolver<Maybe<Array<Maybe<ResolversTypes['Track']>>>, ParentType, ContextType>
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  safeId?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
+}>
+
 export type QueryResolvers<
   ContextType = GqlContext,
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query'],
 > = ResolversObject<{
   bangers?: Resolver<Maybe<Array<Maybe<ResolversTypes['Track']>>>, ParentType, ContextType>
+  otherUser?: Resolver<
+    Maybe<ResolversTypes['OtherUser']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryOtherUserArgs, 'safeId'>
+  >
 }>
 
 export type TrackResolvers<
@@ -157,7 +188,7 @@ export type TrackResolvers<
 > = ResolversObject<{
   artist?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
-  image?: Resolver<Maybe<ResolversTypes['Image']>, ParentType, ContextType>
+  image?: Resolver<ResolversTypes['Image'], ParentType, ContextType>
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   preview_url?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   spotify_url?: Resolver<ResolversTypes['String'], ParentType, ContextType>
@@ -166,6 +197,7 @@ export type TrackResolvers<
 
 export type Resolvers<ContextType = GqlContext> = ResolversObject<{
   Image?: ImageResolvers<ContextType>
+  OtherUser?: OtherUserResolvers<ContextType>
   Query?: QueryResolvers<ContextType>
   Track?: TrackResolvers<ContextType>
 }>

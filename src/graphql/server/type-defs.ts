@@ -11,14 +11,24 @@ export const bangersTypeDefs = /* GraphQL */ `
     artist: String!
     spotify_url: String!
     preview_url: String
-    image: Image
+    image: Image!
+  }
+`
+
+export const otherUserTypeDefs = /* GraphQL */ `
+  type OtherUser {
+    safeId: String!
+    name: String!
+    bangers: [Track]
   }
 `
 
 export const typeDefs = /* GraphQL */ `
   type Query {
     bangers: [Track]
+    otherUser(safeId: String!): OtherUser
   }
 
   ${bangersTypeDefs}
+  ${otherUserTypeDefs}
 `

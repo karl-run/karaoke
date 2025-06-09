@@ -1,0 +1,8 @@
+query OtherUserBangers($safeId: String!) {
+  otherUser(safeId: $safeId) {
+    name
+    bangers {
+      ...Track
+    }
+  }
+}
