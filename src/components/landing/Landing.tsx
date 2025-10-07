@@ -1,13 +1,11 @@
-import React, { ReactElement, Suspense } from 'react'
-import { MagnifyingGlassIcon, PersonIcon } from '@radix-ui/react-icons'
-import Link from 'next/link'
-import Image from 'next/image'
-
-import { getUser } from 'server/user/user-service'
-
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { Link } from '@tanstack/react-router'
+import { Image } from '@unpic/react'
+import { Search, UserRoundIcon } from 'lucide-react'
+import { type ReactElement, Suspense } from 'react'
+import { getUser } from 'server/user/user-service.ts'
 import GroupAvatar from '@/components/avatar/GroupAvatar'
-
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import example from './example.webp'
 
 function Landing(): ReactElement {
@@ -34,7 +32,7 @@ function Landing(): ReactElement {
         <Card>
           <CardHeader>
             <CardTitle className="flex gap-3">
-              <MagnifyingGlassIcon className="h-6 w-6" />
+              <Search className="h-6 w-6" />
               Search songs
             </CardTitle>
           </CardHeader>
@@ -51,18 +49,18 @@ function Landing(): ReactElement {
         <Card>
           <CardHeader>
             <CardTitle className="flex gap-3">
-              <PersonIcon className="h-6 w-6" />
+              <UserRoundIcon className="h-6 w-6" />
               Join groups
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p>Be a part of multiple groups, your bangers will apply across all groups.</p>
             <div className="flex gap-2 mt-2">
-              <Link className="underline" href="/groups/join">
+              <Link className="underline" to="/groups/join">
                 Join group
               </Link>
               <p>or</p>
-              <Link className="underline" href="/groups/create">
+              <Link className="underline" to="/groups/create">
                 create group
               </Link>
             </div>
@@ -76,9 +74,14 @@ function Landing(): ReactElement {
   )
 }
 
-async function LogInNowCard() {
-  const user = await getUser()
-  if (user != null) {
+function LogInNowCard() {
+  const user = useSuspenseQuery({
+    queryKey: ['user'],
+    queryFn: getUser,
+    retry: 3,
+  })
+
+  if (user.data != null) {
     return (
       <Card className="col-span-1 sm:col-span-2 lg:col-span-1">
         <CardHeader>
@@ -89,12 +92,22 @@ async function LogInNowCard() {
         </CardHeader>
         <CardContent>
           <p>You are signed in and ready to go!</p>
+          <button
+            type="button"
+            className="cursor-pointer"
+            onClick={() => {
+              console.log('refitti')
+              return user.refetch()
+            }}
+          >
+            Refitte
+          </button>
           <div className="flex flex-col sm:flex-row lg:flex-col gap-2 mt-2">
-            <Link className="underline" href="/groups">
+            <Link className="underline" to="/groups">
               Go to your groups
             </Link>
             <p>or</p>
-            <Link className="underline" href="/bangers">
+            <Link className="underline" to="/bangers">
               take a look at your bangers list.
             </Link>
           </div>
@@ -112,11 +125,11 @@ async function LogInNowCard() {
       <CardContent>
         <p>Log in now to start matching your favourite tracks</p>
         <div className="flex gap-2 mt-2">
-          <Link className="underline" href="/login">
+          <Link className="underline" to="/login">
             Log in
           </Link>
           <p>or</p>
-          <Link className="underline" href="/register">
+          <Link className="underline" to="/register">
             Sign up
           </Link>
         </div>

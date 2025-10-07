@@ -1,37 +1,38 @@
-import React, { ReactElement, Suspense } from 'react'
-import Link from 'next/link'
-
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
+import { Link } from '@tanstack/react-router'
+import { type ReactElement, Suspense } from 'react'
 import { getUser } from 'server/user/user-service'
-
-import { cn } from '@/lib/utils'
-import SearchBar from '@/components/SearchBar'
-import { Skeleton } from '@/components/ui/skeleton'
+import GroupAvatar from '@/components/avatar/GroupAvatar'
 import UserDropdownAvatar from '@/components/UserDropdownAvatar'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
-import GroupAvatar from '@/components/avatar/GroupAvatar'
-
+/*import SearchBar from '@/components/SearchBar'*/
+import { Skeleton } from '@/components/ui/skeleton'
+import { cn } from '@/lib/utils'
 import styles from './UserBar.module.css'
 
 function UserBar(): ReactElement {
   return (
     <div className={cn(styles.gridContainer, 'container')}>
       <div className={styles.logo}>
-        <Link href="/" aria-label="Home">
+        <Link to="/" aria-label="Home">
           <GroupAvatar iconIndex={Math.floor(Math.random() * 36)} />
         </Link>
       </div>
       <div className={styles.search}>
-        <Suspense fallback={null}>
-          <SearchBar />
-        </Suspense>
+        {/*<Suspense fallback={null}>
+					<div className={cn("transition-[max-height] p-3 max-h-16")}>
+						<SearchBar />
+						TODO search bar
+					</div>
+				</Suspense>*/}
       </div>
       <div className={styles.userDetails}>
         <Button asChild size="sm" variant="outline" className="hidden sm:flex">
-          <Link href="/groups">Groups</Link>
+          <Link to="/groups">Groups</Link>
         </Button>
         <Button asChild size="sm" variant="outline" className="hidden sm:flex">
-          <Link href="/bangers">Bangers</Link>
+          <Link to="/bangers">Bangers</Link>
         </Button>
         <Suspense fallback={<UserDetailsSkeleton />}>
           <UserDetails />
@@ -41,8 +42,11 @@ function UserBar(): ReactElement {
   )
 }
 
-async function UserDetails() {
-  const user = await getUser()
+function UserDetails() {
+  const { data: user } = useSuspenseQuery({
+    queryKey: ['user'],
+    queryFn: getUser,
+  })
 
   if (!user) return <NotLoggedIn />
 
@@ -74,10 +78,10 @@ function UserDetailsSkeleton() {
 function NotLoggedIn() {
   return (
     <div className="flex gap-2 xs:gap-6 flex-col-reverse xs:flex-row items-center justify-between sm:justify-end h-full p-3">
-      <Link className="underline shrink-0" href="/login">
+      <Link className="underline shrink-0" to="/login">
         Log in
       </Link>
-      <Link className="underline shrink-0" href="/register">
+      <Link className="underline shrink-0" to="/register">
         Register
       </Link>
     </div>

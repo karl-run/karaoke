@@ -1,8 +1,7 @@
-import { and, eq, gte } from 'drizzle-orm'
-import { UAParser } from 'ua-parser-js'
 import { subDays } from 'date-fns'
-
-import { db, sessions, users } from 'server/db'
+import { and, eq, gte } from 'drizzle-orm'
+import { getDb, sessions, users } from 'server/db'
+import { UAParser } from 'ua-parser-js'
 
 type UserSession = {
   id: string
@@ -15,7 +14,7 @@ type UserSession = {
 export async function createUserSession(id: string, email: string, ua: string) {
   const now = new Date()
 
-  await db.insert(sessions).values({
+  await getDb().insert(sessions).values({
     id,
     user_id: email,
     ua,
@@ -26,6 +25,8 @@ export async function createUserSession(id: string, email: string, ua: string) {
 
 export async function getActiveSession(sessionId: string | null): Promise<UserSession | null> {
   if (sessionId == null) return null
+
+  const db = getDb()
 
   const session = await db.transaction(async (tx) => {
     const result = await tx.select().from(sessions).where(eq(sessions.id, sessionId))
@@ -48,17 +49,17 @@ export async function getActiveSession(sessionId: string | null): Promise<UserSe
 }
 
 export async function getSessionById(sessionId: string) {
-  return db.query.sessions.findFirst({
+  return getDb().query.sessions.findFirst({
     where: (sessions, { eq }) => eq(sessions.id, sessionId),
   })
 }
 
 export async function deleteSessionById(sessionId: string) {
-  await db.delete(sessions).where(eq(sessions.id, sessionId))
+  await getDb().delete(sessions).where(eq(sessions.id, sessionId))
 }
 
 export async function getActiveSessions(userId: string) {
-  const result = await db
+  const result = await getDb()
     .select()
     .from(sessions)
     .where(and(eq(sessions.user_id, userId), gte(sessions.created_at, subDays(new Date(), 365))))
@@ -71,9 +72,9 @@ export async function getActiveSessions(userId: string) {
 }
 
 export async function clearUserSession(sessionId: string) {
-  await db.delete(sessions).where(eq(sessions.id, sessionId))
+  await getDb().delete(sessions).where(eq(sessions.id, sessionId))
 }
 
 export async function setUserVerified(email: string) {
-  await db.update(users).set({ verified: true }).where(eq(users.email, email))
+  await getDb().update(users).set({ verified: true }).where(eq(users.email, email))
 }

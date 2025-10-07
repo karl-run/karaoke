@@ -1,7 +1,9 @@
+import { createServerFn } from '@tanstack/react-start'
 import { getSession } from 'server/session/session-service'
 import { getFullLoginUserByEmail, getUserBySafeId } from 'server/user/user-db'
+import * as z from 'zod'
 
-export async function getUser() {
+export const getUser = createServerFn().handler(async () => {
   const activeSession = await getSession()
   if (activeSession == null) {
     return null
@@ -18,19 +20,21 @@ export async function getUser() {
     userId: user.email,
     sessionId: activeSession.id,
   }
-}
+})
 
-export async function getOtherUser(safeId: string) {
-  const user = await getUserBySafeId(safeId)
-  if (user == null) {
-    return null
-  }
+export const getOtherUser = createServerFn()
+  .inputValidator(z.string())
+  .handler(async ({ data: safeId }) => {
+    const user = await getUserBySafeId(safeId)
+    if (user == null) {
+      return null
+    }
 
-  return {
-    name: user.name,
-    userId: user.email,
-    safeId: user.email,
-  }
-}
+    return {
+      name: user.name,
+      userId: user.email,
+      safeId: user.email,
+    }
+  })
 
 export { usersShareGroup } from 'server/user/user-db'

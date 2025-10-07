@@ -1,6 +1,6 @@
-import React, { ReactElement } from 'react'
-import Link from 'next/link'
-
+import { Link } from '@tanstack/react-router'
+import type { ReactElement } from 'react'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,7 +9,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 
 import ThemeToggler from './theme/ThemeToggler'
 
@@ -29,20 +28,20 @@ function UserDropdownAvatar({ name, id }: Props): ReactElement {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Your</DropdownMenuLabel>
         <DropdownMenuItem>
-          <Link href="/bangers">Bangers</Link>
+          <Link to="/bangers">Bangers</Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Link href="/groups">Groups</Link>
+          <Link to="/groups">Groups</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <ThemeToggler />
         <DropdownMenuSeparator />
         <DropdownMenuLabel>User</DropdownMenuLabel>
         <DropdownMenuItem>
-          <Link href="/profile">Profile</Link>
+          <Link to="/profile">Profile</Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Link href="/logout" prefetch={false}>
+          <Link to="/logout" prefetch={false}>
             Log out
           </Link>
         </DropdownMenuItem>
@@ -51,12 +50,12 @@ function UserDropdownAvatar({ name, id }: Props): ReactElement {
             <DropdownMenuSeparator />
             <DropdownMenuLabel>Secret</DropdownMenuLabel>
             <DropdownMenuItem>
-              <Link href="/admin" prefetch={false}>
+              <Link to="/admin" prefetch={false}>
                 Admin stats
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <Link href="/admin/global" prefetch={false}>
+              <Link to="/admin/global" prefetch={false}>
                 Global bangers
               </Link>
             </DropdownMenuItem>

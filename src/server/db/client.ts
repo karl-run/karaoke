@@ -1,12 +1,12 @@
 import { createClient } from '@libsql/client'
 import { drizzle } from 'drizzle-orm/libsql'
-import { nextleton } from 'nextleton'
+import { lazyNextleton } from 'nextleton'
 
 import { raise } from '@/utils/ts'
 
 import * as schema from './schema'
 
-export const client = nextleton('db', () => {
+export const getClient = lazyNextleton('db', () => {
   const client =
     process.env.NODE_ENV !== 'production'
       ? createClient({
@@ -20,13 +20,13 @@ export const client = nextleton('db', () => {
   return client
 })
 
-export const db = nextleton('drizzle', () =>
-  drizzle(client, {
+export const getDb = lazyNextleton('drizzle', () =>
+  drizzle(getClient(), {
     schema,
     logger: process.env.NODE_ENV === 'development',
   }),
 )
 
 export function disconnect() {
-  client.close()
+  getClient().close()
 }
