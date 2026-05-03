@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "karaoke-legacy",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-05-02",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS",
+  },
+  "routes": [
+    {
+      "pattern": "karaoke.karl.run",
+      "custom_domain": true,
+    },
+  ],
+}

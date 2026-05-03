@@ -3,8 +3,6 @@
 import { ImageResponse } from 'next/og'
 import { CSSProperties } from 'react'
 
-export const runtime = 'edge'
-
 const canvasWidth = 1200
 const canvasHeight = 630
 const imgWidth = 128

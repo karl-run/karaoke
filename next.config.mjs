@@ -16,6 +16,7 @@ const nextConfig = {
       },
     ],
   },
+  serverExternalPackages: ['@libsql/isomorphic-ws'],
 }
 
 export default nextConfig

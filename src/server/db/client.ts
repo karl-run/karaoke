@@ -1,5 +1,5 @@
-import { createClient } from '@libsql/client'
-import { drizzle } from 'drizzle-orm/libsql'
+import { createClient } from '@libsql/client/web'
+import { drizzle } from 'drizzle-orm/libsql/web'
 import { nextleton } from 'nextleton'
 
 import { raise } from '@/utils/ts'
