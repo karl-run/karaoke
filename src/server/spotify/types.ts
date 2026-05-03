@@ -73,8 +73,8 @@ export interface SpotifyExternalIds {
 }
 
 export interface Image {
-  height: number
   url: string
+  height: number
   width: number
 }
 

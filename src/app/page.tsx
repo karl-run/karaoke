@@ -1,6 +1,5 @@
 import React, { Suspense } from 'react'
 
-import { searchTracks } from 'server/spotify/track'
 import { TrackResult } from 'server/spotify/types'
 import { getUser } from 'server/user/user-service'
 import { getUserBangersRecord } from 'server/bangers/bangers-service'
@@ -9,6 +8,7 @@ import Landing from '@/components/landing/Landing'
 import Track, { TrackSkeleton } from '@/components/track/Track'
 import { TrackGrid } from '@/components/track/TrackGrid'
 import { FullPage } from '@/components/layout/Layouts'
+import { searchTracks } from 'server/last.fm/search'
 
 interface Props {
   searchParams: Promise<{
