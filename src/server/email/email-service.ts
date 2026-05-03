@@ -13,7 +13,7 @@ export async function sendLoginLink(email: string, token: string) {
   const loginUrl = `https://karaoke.karl.run/login/magic-link?token=${comboToken}`
 
   const resend = await getResend().emails.send({
-    from: 'login@badstu.karl.run',
+    from: 'login@mail.karl.run',
     to: email,
     subject: 'Login to Karaoke Match',
     html: `
